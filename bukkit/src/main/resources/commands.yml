@@ -154,3 +154,28 @@ enchant_admin:
   permission: sparrow.command.admin.enchant
   usage:
     - /sparrowadmin enchant
+
+fly_player:
+  enable: false
+  permission: sparrow.command.player.fly
+  usage:
+    - /fly
+    - /sparrow fly
+
+fly_admin:
+  enable: true
+  permission: sparrow.command.admin.fly
+  usage:
+    - /sparrowadmin fly
+
+actionbar_admin:
+  enable: true
+  permission: sparrow.command.admin.actionbar
+  usage:
+    - /sparrowadmin actionbar
+
+toast_admin:
+  enable: true
+  permission: sparrow.command.admin.toast
+  usage:
+    - /sparrowadmin toast

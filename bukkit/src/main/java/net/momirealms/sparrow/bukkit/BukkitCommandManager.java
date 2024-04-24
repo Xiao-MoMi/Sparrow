@@ -1,11 +1,12 @@
-package net.momirealms.sparrow.bukkit.command;
+package net.momirealms.sparrow.bukkit;
 
 import com.google.common.base.Preconditions;
 import com.mojang.brigadier.arguments.ArgumentType;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.leangen.geantyref.TypeToken;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.CommandConfig;
+import net.momirealms.sparrow.bukkit.command.CommandFeature;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import org.bukkit.World;
@@ -21,7 +22,7 @@ import org.incendo.cloud.paper.parser.KeyedWorldParser;
 
 import java.util.List;
 
-public class SparrowBukkitCommand {
+public class BukkitCommandManager {
 
     private final List<CommandFeature> FEATURES = List.of(
             new WorkbenchPlayerCommand(),
@@ -47,13 +48,17 @@ public class SparrowBukkitCommand {
             new LoomAdminCommand(),
             new WorldAdminCommand(),
             new SudoAdminCommand(),
-            new EnchantAdminCommand()
+            new FlyPlayerCommand(),
+            new FlyAdminCommand(),
+            new ActionBarAdminCommand(),
+            new EnchantAdminCommand(),
+            new ToastAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;
     private final PaperCommandManager<CommandSender> manager;
 
-    public SparrowBukkitCommand(SparrowBukkitPlugin plugin) {
+    public BukkitCommandManager(SparrowBukkitPlugin plugin) {
         this.plugin = plugin;
         this.manager = new PaperCommandManager<>(
                 plugin.getLoader(),

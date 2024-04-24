@@ -23,15 +23,18 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         // load dependencies
         this.dependencyManager = createDependencyManager();
         this.dependencyManager.loadDependencies(getGlobalDependencies());
+        this.setupPackets();
     }
 
     public void enable() {
         this.setupConfigManager();
         this.setupSenderFactory();
-        this.setupCommand();
+        this.setupCommands();
+        this.initPackets();
     }
 
     public void disable() {
+        this.terminatePackets();
     }
 
     protected DependencyManager createDependencyManager() {
@@ -44,13 +47,14 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.CLOUD_CORE,
                 Dependency.CLOUD_BRIGADIER,
                 Dependency.CLOUD_SERVICES,
+                Dependency.PACKET_EVENT_API,
                 Dependency.BOOSTED_YAML
         );
     }
 
     protected abstract void setupSenderFactory();
 
-    protected abstract void setupCommand();
+    protected abstract void setupCommands();
 
     private void setupConfigManager() {
         this.configManager = new ConfigManagerImpl(this);
@@ -59,4 +63,10 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     public ConfigManager getConfigManager() {
         return configManager;
     }
+
+    protected abstract void setupPackets();
+
+    protected abstract void initPackets();
+
+    protected abstract void terminatePackets();
 }

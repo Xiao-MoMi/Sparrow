@@ -93,6 +93,18 @@ public enum Dependency {
             "item-nbt-api",
             Relocation.of("nbtapi", "de{}tr7zw{}changeme{}nbtapi")
     ),
+    PACKET_EVENT_API(
+            "com{}github{}retrooper{}packetevents",
+            "api",
+            "2.2.1",
+            "codemc",
+            "packetevents-api",
+            Relocation.of("packetevents", "com{}github{}retrooper{}packetevents"),
+            Relocation.of("packetevents", "io{}github{}retrooper{}packetevents"),
+            Relocation.of("adventure", "net{}kyori{}adventure"),
+            Relocation.of("option", "net{}kyori{}option"),
+            Relocation.of("examination", "net{}kyori{}examination")
+    ),
     PACKET_EVENT_SPIGOT(
             "com{}github{}retrooper{}packetevents",
             "spigot",
@@ -101,9 +113,9 @@ public enum Dependency {
             "packetevents-spigot",
             Relocation.of("packetevents", "com{}github{}retrooper{}packetevents"),
             Relocation.of("packetevents", "io{}github{}retrooper{}packetevents"),
-            Relocation.of("packetevents.libs.adventure", "net{}kyori{}adventure"),
-            Relocation.of("packetevents.libs.option", "net{}kyori{}option"),
-            Relocation.of("packetevents.libs.examination", "net{}kyori{}examination")
+            Relocation.of("adventure", "net{}kyori{}adventure"),
+            Relocation.of("option", "net{}kyori{}option"),
+            Relocation.of("examination", "net{}kyori{}examination")
     ),
     CLOUD_CORE(
             "org{}incendo",
@@ -175,7 +187,8 @@ public enum Dependency {
     private final String groupId;
     private final String version;
     private String artifactId;
-    private String artifact;
+    private String artifactSuffix;
+    private String customArtifactName;
 
     private static final String MAVEN_FORMAT = "%s/%s/%s/%s-%s.jar";
 
@@ -185,15 +198,16 @@ public enum Dependency {
 
     Dependency(String groupId, String artifactId, String version, String repo, String artifact, Relocation... relocations) {
         this.artifactId = artifactId;
+        this.artifactSuffix = "";
         this.groupId = groupId;
         this.version = version;
         this.relocations = new ArrayList<>(Arrays.stream(relocations).toList());
         this.repo = repo;
-        this.artifact = artifact;
+        this.customArtifactName = artifact;
     }
 
-    public Dependency setArtifact(String artifact) {
-        this.artifact = artifact;
+    public Dependency setCustomArtifactName(String customArtifactName) {
+        this.customArtifactName = customArtifactName;
         return this;
     }
 
@@ -202,16 +216,20 @@ public enum Dependency {
         return this;
     }
 
+    public Dependency setArtifactSuffix(String artifactSuffix) {
+        this.artifactSuffix = artifactSuffix;
+        return this;
+    }
+
     private static String rewriteEscaping(String s) {
         return s.replace("{}", ".");
     }
 
     public String getFileName(String classifier) {
-        String name = artifact.toLowerCase(Locale.ROOT).replace('_', '-');
+        String name = customArtifactName.toLowerCase(Locale.ROOT).replace('_', '-');
         String extra = classifier == null || classifier.isEmpty()
                 ? ""
                 : "-" + classifier;
-
         return name + "-" + this.version + extra + ".jar";
     }
 
@@ -221,7 +239,7 @@ public enum Dependency {
                 rewriteEscaping(artifactId),
                 version,
                 rewriteEscaping(artifactId),
-                version
+                version + artifactSuffix
         );
     }
 
