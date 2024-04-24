@@ -95,7 +95,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
-                                    .sendMessage(Component.translatable("commands.enchant.success.single", getFullName(enchantment, level), targets.iterator().next().name()));
+                                    .sendMessage(Component.translatable("commands.enchant.success.single", getFullName(enchantment, level), Component.text(targets.iterator().next().getName())));
                     } else {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()

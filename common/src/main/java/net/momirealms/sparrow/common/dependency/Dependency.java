@@ -91,7 +91,19 @@ public enum Dependency {
             "2.12.3",
             "codemc",
             "item-nbt-api",
-            Relocation.of("changeme", "de{}tr7zw{}changeme")
+            Relocation.of("nbtapi", "de{}tr7zw{}changeme{}nbtapi")
+    ),
+    PACKET_EVENT_SPIGOT(
+            "com{}github{}retrooper{}packetevents",
+            "spigot",
+            "2.2.1",
+            "codemc",
+            "packetevents-spigot",
+            Relocation.of("packetevents", "com{}github{}retrooper{}packetevents"),
+            Relocation.of("packetevents", "io{}github{}retrooper{}packetevents"),
+            Relocation.of("packetevents.libs.adventure", "net{}kyori{}adventure"),
+            Relocation.of("packetevents.libs.option", "net{}kyori{}option"),
+            Relocation.of("packetevents.libs.examination", "net{}kyori{}examination")
     ),
     CLOUD_CORE(
             "org{}incendo",

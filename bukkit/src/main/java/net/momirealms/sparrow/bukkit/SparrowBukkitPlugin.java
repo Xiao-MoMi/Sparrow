@@ -30,6 +30,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     protected Set<Dependency> getGlobalDependencies() {
         Set<Dependency> dependencies = super.getGlobalDependencies();
         dependencies.add(Dependency.NBT_API);
+        dependencies.add(Dependency.PACKET_EVENT_SPIGOT);
         dependencies.add(Dependency.CLOUD_BUKKIT);
         dependencies.add(Dependency.CLOUD_PAPER);
         dependencies.add(Dependency.INVENTORY_ACCESS);

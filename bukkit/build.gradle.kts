@@ -8,6 +8,7 @@ repositories {
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.xenondevs.xyz/releases/")
     maven("https://libraries.minecraft.net/")
+    maven("https://repo.codemc.io/repository/maven-public/")
 }
 
 dependencies {
@@ -18,6 +19,8 @@ dependencies {
     compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
     compileOnly("xyz.xenondevs.invui:inventory-access:1.28")
     compileOnly("com.mojang:brigadier:1.0.18")
+    compileOnly("com.github.retrooper.packetevents:spigot:2.2.1")
+    compileOnly("de.tr7zw:item-nbt-api:2.12.3")
 }
 
 tasks {
@@ -27,6 +30,8 @@ tasks {
         relocate ("org.incendo", "net.momirealms.sparrow.libraries")
         relocate ("dev.dejvokep", "net.momirealms.sparrow.libraries")
         relocate ("xyz.xenondevs", "net.momirealms.sparrow.libraries")
+        relocate ("de.tr7zw.changeme", "net.momirealms.sparrow.libraries")
+        relocate ("com.github.retrooper", "net.momirealms.sparrow.libraries")
     }
 }
 
