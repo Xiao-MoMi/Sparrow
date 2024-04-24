@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 
 public class HealPlayerCommand extends AbstractCommand {
+
     @Override
     public String getFeatureID() {
         return "heal_player";

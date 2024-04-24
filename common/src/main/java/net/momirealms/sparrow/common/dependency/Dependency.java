@@ -140,13 +140,30 @@ public enum Dependency {
             "maven",
             "boosted-yaml",
             Relocation.of("boostedyaml", "dev{}dejvokep{}boostedyaml")
+    ),
+    INVENTORY_ACCESS(
+            "xyz{}xenondevs{}invui",
+            "inventory-access",
+            "1.28",
+            "xenondevs",
+            "inventory-access",
+            Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
+    ),
+    INVENTORY_ACCESS_NMS(
+            "xyz{}xenondevs{}invui",
+            "?",
+            "1.28",
+            "xenondevs",
+            "?",
+            Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
     );
 
-    private final String mavenRepoPath;
-    private final String version;
     private final List<Relocation> relocations;
     private final String repo;
-    private final String artifact;
+    private final String groupId;
+    private final String version;
+    private String artifactId;
+    private String artifact;
 
     private static final String MAVEN_FORMAT = "%s/%s/%s/%s-%s.jar";
 
@@ -155,17 +172,22 @@ public enum Dependency {
     }
 
     Dependency(String groupId, String artifactId, String version, String repo, String artifact, Relocation... relocations) {
-        this.mavenRepoPath = String.format(MAVEN_FORMAT,
-                rewriteEscaping(groupId).replace(".", "/"),
-                rewriteEscaping(artifactId),
-                version,
-                rewriteEscaping(artifactId),
-                version
-        );
+        this.artifactId = artifactId;
+        this.groupId = groupId;
         this.version = version;
         this.relocations = new ArrayList<>(Arrays.stream(relocations).toList());
         this.repo = repo;
         this.artifact = artifact;
+    }
+
+    public Dependency setArtifact(String artifact) {
+        this.artifact = artifact;
+        return this;
+    }
+
+    public Dependency setArtifactID(String artifactId) {
+        this.artifactId = artifactId;
+        return this;
     }
 
     private static String rewriteEscaping(String s) {
@@ -182,7 +204,13 @@ public enum Dependency {
     }
 
     String getMavenRepoPath() {
-        return this.mavenRepoPath;
+        return String.format(MAVEN_FORMAT,
+                rewriteEscaping(groupId).replace(".", "/"),
+                rewriteEscaping(artifactId),
+                version,
+                rewriteEscaping(artifactId),
+                version
+        );
     }
 
     public List<Relocation> getRelocations() {

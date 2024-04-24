@@ -1,18 +1,22 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.bukkit.component.ShadedAdventureComponentWrapper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
-import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
+import xyz.xenondevs.inventoryaccess.InventoryAccess;
+import xyz.xenondevs.inventoryaccess.abstraction.util.InventoryUtils;
+import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 
-public class WorkbenchAdminCommand extends AbstractCommand {
+public class EnderChestAdminCommand extends AbstractCommand {
 
     @Override
     public String getFeatureID() {
-        return "workbench_admin";
+        return "enderchest_admin";
     }
 
     @Override
@@ -22,7 +26,7 @@ public class WorkbenchAdminCommand extends AbstractCommand {
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     for (Player player : selector.values()) {
-                        player.openWorkbench(null, true);
+                        InventoryAccess.getInventoryUtils().openCustomInventory(player, player.getEnderChest(), new ShadedAdventureComponentWrapper(Component.translatable("container.enderchest")));
                     }
                 });
     }

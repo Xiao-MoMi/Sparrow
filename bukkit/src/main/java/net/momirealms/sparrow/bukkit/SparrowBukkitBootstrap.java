@@ -35,6 +35,7 @@ import net.momirealms.sparrow.common.plugin.logging.JavaPluginLogger;
 import net.momirealms.sparrow.common.plugin.logging.PluginLogger;
 import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 import net.momirealms.sparrow.loader.LoaderBootstrap;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -198,7 +199,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
 
     @Override
     public String getServerVersion() {
-        return getServer().getVersion() + " - " + getServer().getBukkitVersion();
+        return Bukkit.getServer().getBukkitVersion().split("-")[0];
     }
 
     @Override

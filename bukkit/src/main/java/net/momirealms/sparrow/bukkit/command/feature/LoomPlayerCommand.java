@@ -5,17 +5,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 
-public class WorkbenchPlayerCommand extends AbstractCommand {
+public class LoomPlayerCommand extends AbstractCommand {
 
     @Override
     public String getFeatureID() {
-        return "workbench_player";
+        return "loom_player";
     }
 
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .handler(commandContext -> commandContext.sender().openWorkbench(null, true));
+                .handler(commandContext -> commandContext.sender().openLoom(null, true));
     }
 }

@@ -5,14 +5,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
-import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 
-public class WorkbenchAdminCommand extends AbstractCommand {
+public class GrindStoneAdminCommand extends AbstractCommand {
 
     @Override
     public String getFeatureID() {
-        return "workbench_admin";
+        return "grindstone_admin";
     }
 
     @Override
@@ -22,7 +21,7 @@ public class WorkbenchAdminCommand extends AbstractCommand {
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     for (Player player : selector.values()) {
-                        player.openWorkbench(null, true);
+                        player.openGrindstone(null, true);
                     }
                 });
     }

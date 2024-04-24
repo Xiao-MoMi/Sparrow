@@ -38,3 +38,101 @@ heal_admin:
   permission: sparrow.command.admin.heal
   usage:
     - /sparrowadmin heal
+
+suicide_player:
+  enable: false
+  permission: sparrow.command.player.suicide
+  usage:
+    - /sparrow suicide
+    - /suicide
+
+anvil_player:
+  enable: false
+  permission: sparrow.command.player.anvil
+  usage:
+    - /anvil
+    - /sparrow anvil
+
+anvil_admin:
+  enable: true
+  permission: sparrow.command.admin.anvil
+  usage:
+    - /sparrowadmin anvil
+
+enderchest_player:
+  enable: false
+  permission: sparrow.command.player.enderchest
+  usage:
+    - /enderchest
+    - /sparrow enderchest
+
+enderchest_admin:
+  enable: true
+  permission: sparrow.command.admin.enderchest
+  usage:
+    - /sparrowadmin enderchest
+
+stonecutter_player:
+  enable: false
+  permission: sparrow.command.player.stonecutter
+  usage:
+    - /stonecutter
+    - /sparrow stonecutter
+
+stonecutter_admin:
+  enable: true
+  permission: sparrow.command.admin.stonecutter
+  usage:
+    - /sparrowadmin stonecutter
+
+smithingtable_player:
+  enable: false
+  permission: sparrow.command.player.smithingtable
+  usage:
+    - /smithingtable
+    - /sparrow smithingtable
+
+smithingtable_admin:
+  enable: true
+  permission: sparrow.command.admin.smithingtable
+  usage:
+    - /sparrowadmin smithingtable
+
+loom_player:
+  enable: false
+  permission: sparrow.command.player.loom
+  usage:
+    - /loom
+    - /sparrow loom
+
+loom_admin:
+  enable: true
+  permission: sparrow.command.admin.loom
+  usage:
+    - /sparrowadmin loom
+
+cartographytable_player:
+  enable: false
+  permission: sparrow.command.player.cartographytable
+  usage:
+    - /cartographytable
+    - /sparrow cartographytable
+
+cartographytable_admin:
+  enable: true
+  permission: sparrow.command.admin.cartographytable
+  usage:
+    - /sparrowadmin cartographytable
+
+grindstone_player:
+  enable: false
+  permission: sparrow.command.player.grindstone
+  usage:
+    - /grindstone
+    - /sparrow grindstone
+
+grindstone_admin:
+  enable: true
+  permission: sparrow.command.admin.grindstone
+  usage:
+    - /sparrowadmin grindstone

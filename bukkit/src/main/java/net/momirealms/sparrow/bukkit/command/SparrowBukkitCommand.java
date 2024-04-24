@@ -4,12 +4,7 @@ import com.google.common.base.Preconditions;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.feature.HatAdminCommand;
-import net.momirealms.sparrow.bukkit.command.feature.HatPlayerCommand;
-import net.momirealms.sparrow.bukkit.command.feature.HealAdminCommand;
-import net.momirealms.sparrow.bukkit.command.feature.HealPlayerCommand;
-import net.momirealms.sparrow.bukkit.command.feature.WorkbenchAdminCommand;
-import net.momirealms.sparrow.bukkit.command.feature.WorkbenchPlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.*;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
@@ -21,13 +16,27 @@ import java.util.List;
 public class SparrowBukkitCommand {
 
     private final List<CommandFeature> FEATURES = List.of(
-        new WorkbenchPlayerCommand(),
-        new WorkbenchAdminCommand(),
-        new HatPlayerCommand(),
-        new HatAdminCommand(),
-        new WorkbenchAdminCommand(),
-        new HealPlayerCommand(),
-        new HealAdminCommand()
+            new WorkbenchPlayerCommand(),
+            new WorkbenchAdminCommand(),
+            new HatPlayerCommand(),
+            new HatAdminCommand(),
+            new HealPlayerCommand(),
+            new HealAdminCommand(),
+            new SuicidePlayerCommand(),
+            new AnvilPlayerCommand(),
+            new AnvilAdminCommand(),
+            new EnderChestPlayerCommand(),
+            new EnderChestAdminCommand(),
+            new GrindStonePlayerCommand(),
+            new GrindStoneAdminCommand(),
+            new SmithingTablePlayerCommand(),
+            new SmithingTableAdminCommand(),
+            new StoneCutterPlayerCommand(),
+            new StoneCutterAdminCommand(),
+            new CartographyTablePlayerCommand(),
+            new CartographyTableAdminCommand(),
+            new LoomPlayerCommand(),
+            new LoomAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

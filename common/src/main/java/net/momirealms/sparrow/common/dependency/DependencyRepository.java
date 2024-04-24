@@ -65,9 +65,9 @@ public enum DependencyRepository {
      */
     CODE_MC("codemc", "https://repo.codemc.io/repository/maven-public/"),
     /**
-     * Sonatype
+     * Xenondevs
      */
-    SONATYPE("sonatype", "https://oss.sonatype.org/service/local/repositories/releases/content/");
+    XENONDEVS("xenondevs", "https://repo.xenondevs.xyz/releases/");
 
     private final String url;
     private final String id;

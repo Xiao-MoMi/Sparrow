@@ -9,6 +9,7 @@ import org.incendo.cloud.bukkit.data.Selector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 
 public class HealAdminCommand extends AbstractCommand {
+
     @Override
     public String getFeatureID() {
         return "heal_admin";
