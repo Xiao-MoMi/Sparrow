@@ -1,15 +1,23 @@
 package net.momirealms.sparrow.bukkit.command;
 
 import com.google.common.base.Preconditions;
+import com.mojang.brigadier.arguments.ArgumentType;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
+import io.leangen.geantyref.TypeToken;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.feature.*;
+import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
 import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.bukkit.internal.BukkitBrigadierMapper;
+import org.incendo.cloud.bukkit.internal.CraftBukkitReflection;
+import org.incendo.cloud.bukkit.internal.RegistryReflection;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.parser.KeyedWorldParser;
 
 import java.util.List;
 
@@ -38,7 +46,8 @@ public class SparrowBukkitCommand {
             new LoomPlayerCommand(),
             new LoomAdminCommand(),
             new WorldAdminCommand(),
-            new SudoAdminCommand()
+            new SudoAdminCommand(),
+            new EnchantAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;
@@ -51,11 +60,30 @@ public class SparrowBukkitCommand {
                 ExecutionCoordinator.simpleCoordinator(),
                 SenderMapper.identity()
         );
+        this.manager.parserRegistry().registerParser(CustomEnchantmentParser.enchantmentParser());
         if (this.manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
             this.manager.registerBrigadier();
+            this.manager.brigadierManager().setNativeNumberSuggestions(true);
+            BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(this.manager, this.manager.brigadierManager());
+            switch (plugin.getBootstrap().getServerVersion()) {
+                case "1.17.1", "1.18.1", "1.18.2", "1.19.1", "1.19.2" -> mapper.mapSimpleNMS(new TypeToken<CustomEnchantmentParser<CommandSender>>() {}, "item_enchantment");
+                default -> mapper.mapNMS(
+                        new TypeToken<CustomEnchantmentParser<CommandSender>>() {},
+                        "resource_key",
+                        type -> (ArgumentType<?>) type.getDeclaredConstructors()[0].newInstance(
+                                RegistryReflection.registryKey(RegistryReflection.registryByName("enchantment"))
+                        ),
+                        true
+                );
+            }
+            final Class<?> keyed = CraftBukkitReflection.findClass("org.bukkit.Keyed");
+            if (keyed != null && keyed.isAssignableFrom(World.class)) {
+                mapper.mapSimpleNMS(new TypeToken<KeyedWorldParser<CommandSender>>() {}, "resource_location", true);
+            }
         } else if (this.manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
             this.manager.registerAsynchronousCompletions();
         }
+
         this.registerCommandFeatures();
     }
 

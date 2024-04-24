@@ -1,4 +1,4 @@
-config-version: "2"
+config-version: "1"
 
 workbench_player:
   enable: false
@@ -148,3 +148,9 @@ sudo_admin:
   permission: sparrow.command.admin.sudo
   usage:
     - /sparrowadmin sudo
+
+enchant_admin:
+  enable: true
+  permission: sparrow.command.admin.enchant
+  usage:
+    - /sparrowadmin enchant

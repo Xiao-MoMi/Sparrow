@@ -7,6 +7,7 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
     maven("https://repo.xenondevs.xyz/releases/")
+    maven("https://libraries.minecraft.net/")
 }
 
 dependencies {
@@ -16,6 +17,7 @@ dependencies {
     compileOnly("org.incendo:cloud-paper:2.0.0-beta.5")
     compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
     compileOnly("xyz.xenondevs.invui:inventory-access:1.28")
+    compileOnly("com.mojang:brigadier:1.0.18")
 }
 
 tasks {
