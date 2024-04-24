@@ -1,14 +1,27 @@
-config-version: "1"
+config-version: "2"
 
 workbench_player:
   enable: false
   permission: sparrow.command.player.workbench
   usage:
-    - /sparrow workbench
     - /workbench
+    - /sparrow workbench
 
 workbench_admin:
   enable: true
   permission: sparrow.command.admin.workbench
   usage:
     - /sparrowadmin workbench
+
+hat_player:
+  enable: false
+  permission: sparrow.command.player.workbench
+  usage:
+    - /hat
+    - /sparrow hat
+
+hat_admin:
+  enable: true
+  permission: sparrow.command.admin.workbench
+  usage:
+    - /sparrowadmin hat
