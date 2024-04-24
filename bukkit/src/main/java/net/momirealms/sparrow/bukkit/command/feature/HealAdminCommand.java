@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.bukkit.util.EntityUtil;
+import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.incendo.cloud.Command;
@@ -21,7 +21,7 @@ public class HealAdminCommand extends AbstractCommand {
                 .handler(commandContext -> {
                     Selector<Entity> selector = commandContext.get("entity");
                     for (Entity entity : selector.values()) {
-                        EntityUtil.heal(entity);
+                        EntityUtils.heal(entity);
                     }
                 });
     }

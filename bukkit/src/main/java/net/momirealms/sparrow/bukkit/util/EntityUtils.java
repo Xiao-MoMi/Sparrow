@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static java.util.Objects.requireNonNull;
 
-public class EntityUtil {
+public class EntityUtils {
     /**
      * Heals the entity to full health.
      * If the entity is dead, they will be resurrected.
