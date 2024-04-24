@@ -6,6 +6,7 @@ import net.momirealms.sparrow.bukkit.component.ShadedAdventureComponentWrapper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
 import xyz.xenondevs.inventoryaccess.InventoryAccess;
 
 public class EnderChestPlayerCommand extends AbstractCommand {
@@ -16,7 +17,7 @@ public class EnderChestPlayerCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> {

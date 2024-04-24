@@ -4,7 +4,6 @@ import net.momirealms.sparrow.bukkit.command.SparrowBukkitCommand;
 import net.momirealms.sparrow.common.config.ConfigManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;

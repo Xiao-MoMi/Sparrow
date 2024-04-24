@@ -6,11 +6,10 @@ import net.momirealms.sparrow.bukkit.component.ShadedAdventureComponentWrapper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import xyz.xenondevs.inventoryaccess.InventoryAccess;
-import xyz.xenondevs.inventoryaccess.abstraction.util.InventoryUtils;
-import xyz.xenondevs.inventoryaccess.component.AdventureComponentWrapper;
 
 public class EnderChestAdminCommand extends AbstractCommand {
 
@@ -20,7 +19,7 @@ public class EnderChestAdminCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .handler(commandContext -> {

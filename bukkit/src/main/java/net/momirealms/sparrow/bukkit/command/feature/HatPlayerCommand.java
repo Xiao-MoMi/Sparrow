@@ -7,7 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
-import org.incendo.cloud.bukkit.parser.PlayerParser;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
 
 @SuppressWarnings("DuplicatedCode")
 public class HatPlayerCommand extends AbstractCommand {
@@ -18,7 +18,7 @@ public class HatPlayerCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> {

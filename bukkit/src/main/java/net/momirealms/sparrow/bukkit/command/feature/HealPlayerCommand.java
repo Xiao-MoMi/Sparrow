@@ -5,6 +5,7 @@ import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
+import org.incendo.cloud.bukkit.BukkitCommandManager;
 
 public class HealPlayerCommand extends AbstractCommand {
 
@@ -14,7 +15,7 @@ public class HealPlayerCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> EntityUtils.heal(commandContext.sender()));

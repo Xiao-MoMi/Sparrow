@@ -10,9 +10,9 @@ public abstract class AbstractCommand implements CommandFeature {
     @Override
     public void registerFeature(SparrowBukkitPlugin plugin, BukkitCommandManager<CommandSender> manager, CommandConfig commandConfig) {
         for (Command.Builder<CommandSender> builder : commandConfig.builders(manager)) {
-            manager.command(assembleCommand(builder));
+            manager.command(assembleCommand(manager, builder));
         }
     }
 
-    public abstract Command.Builder<? extends CommandSender> assembleCommand(Command.Builder<CommandSender> builder);
+    public abstract Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder);
 }

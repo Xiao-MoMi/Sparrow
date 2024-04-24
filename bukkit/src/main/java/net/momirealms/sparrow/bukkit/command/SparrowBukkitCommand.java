@@ -36,7 +36,9 @@ public class SparrowBukkitCommand {
             new CartographyTablePlayerCommand(),
             new CartographyTableAdminCommand(),
             new LoomPlayerCommand(),
-            new LoomAdminCommand()
+            new LoomAdminCommand(),
+            new WorldAdminCommand(),
+            new SudoAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

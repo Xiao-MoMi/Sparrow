@@ -144,7 +144,7 @@ public enum Dependency {
     INVENTORY_ACCESS(
             "xyz{}xenondevs{}invui",
             "inventory-access",
-            "1.28",
+            "1.29",
             "xenondevs",
             "inventory-access",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
@@ -152,7 +152,7 @@ public enum Dependency {
     INVENTORY_ACCESS_NMS(
             "xyz{}xenondevs{}invui",
             "?",
-            "1.28",
+            "1.29",
             "xenondevs",
             "?",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")

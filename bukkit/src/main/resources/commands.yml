@@ -136,3 +136,15 @@ grindstone_admin:
   permission: sparrow.command.admin.grindstone
   usage:
     - /sparrowadmin grindstone
+
+world_admin:
+  enable: true
+  permission: sparrow.command.admin.world
+  usage:
+    - /sparrowadmin world
+
+sudo_admin:
+  enable: true
+  permission: sparrow.command.admin.sudo
+  usage:
+    - /sparrowadmin sudo
