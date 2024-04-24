@@ -1,0 +1,14 @@
+config-version: "1"
+
+workbench_player:
+  enable: false
+  permission: sparrow.command.player.workbench
+  usage:
+    - /sparrow workbench
+    - /workbench
+
+workbench_admin:
+  enable: true
+  permission: sparrow.command.admin.workbench
+  usage:
+    - /sparrowadmin workbench

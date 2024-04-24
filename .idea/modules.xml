@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bukkit-loader/Sparrow.bukkit-loader.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bukkit-loader/Sparrow.bukkit-loader.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bukkit/Sparrow.bukkit.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bukkit/Sparrow.bukkit.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bukkit/Sparrow.bukkit.test.iml" filepath="$PROJECT_DIR$/.idea/modules/bukkit/Sparrow.bukkit.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/Sparrow.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/Sparrow.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/Sparrow.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/Sparrow.common.test.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,5 @@
+name: Sparrow
+version: ${version}
+author: XiaoMoMi
+main: net.momirealms.sparrow.bukkit.loader.BukkitLoaderPlugin
+api-version: 1.18
