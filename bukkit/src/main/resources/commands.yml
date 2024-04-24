@@ -25,3 +25,16 @@ hat_admin:
   permission: sparrow.command.admin.workbench
   usage:
     - /sparrowadmin hat
+
+heal_player:
+  enable: false
+  permission: sparrow.command.player.heal
+  usage:
+    - /sparrow heal
+    - /heal
+
+heal_admin:
+  enable: true
+  permission: sparrow.command.admin.heal
+  usage:
+    - /sparrowadmin heal

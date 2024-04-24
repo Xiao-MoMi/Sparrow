@@ -6,6 +6,8 @@ import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.feature.HatAdminCommand;
 import net.momirealms.sparrow.bukkit.command.feature.HatPlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.HealAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.HealPlayerCommand;
 import net.momirealms.sparrow.bukkit.command.feature.WorkbenchAdminCommand;
 import net.momirealms.sparrow.bukkit.command.feature.WorkbenchPlayerCommand;
 import org.bukkit.command.CommandSender;
@@ -22,7 +24,10 @@ public class SparrowBukkitCommand {
         new WorkbenchPlayerCommand(),
         new WorkbenchAdminCommand(),
         new HatPlayerCommand(),
-        new HatAdminCommand()
+        new HatAdminCommand(),
+        new WorkbenchAdminCommand(),
+        new HealPlayerCommand(),
+        new HealAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;
