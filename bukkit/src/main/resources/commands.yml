@@ -228,3 +228,4 @@ patrol_admin:
   usage:
     - /sparrow patrol
     - /spa patrol
+    - /patrol
