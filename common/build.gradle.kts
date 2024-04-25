@@ -1,7 +1,3 @@
-repositories {
-    maven("https://repo.codemc.io/repository/maven-public/")
-}
-
 dependencies {
     api(project(":loader"))
     compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
@@ -10,7 +6,4 @@ dependencies {
     compileOnly("org.slf4j:slf4j-api:2.0.13")
     compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
     compileOnly("com.google.code.gson:gson:2.10.1")
-    compileOnly("com.github.retrooper.packetevents:api:2.2.1") {
-        exclude(module = "adventure-api'")
-    }
 }
