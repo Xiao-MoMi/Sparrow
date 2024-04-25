@@ -1,8 +1,8 @@
 package net.momirealms.sparrow.bukkit.feature.patrol;
 
-import net.momirealms.sparrow.bukkit.feature.user.BukkitPatrolManager;
-import net.momirealms.sparrow.bukkit.feature.user.BukkitUser;
-import net.momirealms.sparrow.bukkit.feature.user.BukkitUserManager;
+import net.momirealms.sparrow.bukkit.user.BukkitPatrolManager;
+import net.momirealms.sparrow.bukkit.user.BukkitUser;
+import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;

@@ -1,6 +1,6 @@
-package net.momirealms.sparrow.bukkit.feature.user;
+package net.momirealms.sparrow.bukkit.user;
 
-import net.momirealms.sparrow.common.feature.user.UserManager;
+import net.momirealms.sparrow.common.user.UserManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;

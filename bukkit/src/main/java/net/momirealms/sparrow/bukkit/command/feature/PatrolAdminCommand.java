@@ -2,10 +2,10 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.bukkit.feature.user.BukkitPatrolManager;
+import net.momirealms.sparrow.bukkit.user.BukkitPatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
-import net.momirealms.sparrow.bukkit.feature.user.BukkitUser;
+import net.momirealms.sparrow.bukkit.user.BukkitUser;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;

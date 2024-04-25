@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.feature.user;
+package net.momirealms.sparrow.common.user;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
