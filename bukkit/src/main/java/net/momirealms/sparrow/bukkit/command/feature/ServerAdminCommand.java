@@ -7,33 +7,33 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
-import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
-import org.incendo.cloud.parser.standard.FloatParser;
+import org.incendo.cloud.bukkit.parser.PlayerParser;
+import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.util.TypeUtils;
 
-public class FlySpeedAdminCommand extends AbstractCommand {
+public class ServerAdminCommand extends AbstractCommand {
 
     @Override
     public String getFeatureID() {
-        return "flyspeed_admin";
+        return "server_admin";
     }
 
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("speed", FloatParser.floatParser(-1, 1))
-                .optional("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required("server", StringParser.stringParser())
+                .optional("player", PlayerParser.playerParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
+                    String server = commandContext.get("server");
                     MultiplePlayerSelector selector = commandContext.getOrDefault("player", null);
-                    float speed = commandContext.get("speed");
                     if (selector != null) {
                         for (Player player : selector.values()) {
-                            player.setFlySpeed(speed);
+                            SparrowBukkitPlugin.getInstance().getBungeeManager().connectServer(player, server);
                         }
                     } else {
                         if (commandContext.sender() instanceof Player player) {
-                            player.setFlySpeed(speed);
+                            SparrowBukkitPlugin.getInstance().getBungeeManager().connectServer(player, server);
                         } else {
                             SparrowBukkitPlugin.getInstance().getBootstrap().getPluginLogger().severe(
                                     String.format("%s is not allowed to execute that command. Must be of type %s", commandContext.sender().getClass().getSimpleName(), TypeUtils.simpleName(Player.class))

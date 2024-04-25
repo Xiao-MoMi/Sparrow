@@ -64,7 +64,10 @@ public class BukkitCommands {
             new FeedPlayerCommand(),
             new TitleAdminCommand(),
             new PatrolAdminCommand(),
-            new BroadcastAdminCommand()
+            new BroadcastAdminCommand(),
+            new ServerAdminCommand(),
+            new ColorAdminCommand(),
+            new ModelDataAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

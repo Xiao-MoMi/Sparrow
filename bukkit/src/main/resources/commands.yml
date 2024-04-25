@@ -237,3 +237,26 @@ broadcast_admin:
     - /sparrow broadcast
     - /spa broadcast
     - /broadcast
+
+server_admin:
+  enable: true
+  permission: sparrow.command.admin.server
+  usage:
+    - /sparrow server
+    - /spa server
+
+color_admin:
+  enable: true
+  permission: sparrow.command.admin.color
+  usage:
+    - /sparrow color
+    - /spa color
+    - /color
+
+modeldata_admin:
+  enable: true
+  permission: sparrow.command.admin.modeldata
+  usage:
+    - /sparrow modeldata
+    - /spa modeldata
+    - /modeldata

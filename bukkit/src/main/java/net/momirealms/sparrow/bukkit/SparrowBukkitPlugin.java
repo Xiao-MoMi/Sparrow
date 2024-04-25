@@ -1,6 +1,5 @@
 package net.momirealms.sparrow.bukkit;
 
-import net.momirealms.sparrow.common.config.ConfigManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,13 +11,14 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private static SparrowBukkitPlugin plugin;
     private final SparrowBukkitBootstrap bootstrap;
     private BukkitSenderFactory senderFactory;
-    private ConfigManager configManager;
     private BukkitCommands bukkitCommands;
     private CoreNMSBridge coreNMSBridge;
+    private final BukkitBungeeManager bungeeManager;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
-        this.bootstrap = bootstrap;
         plugin = this;
+        this.bootstrap = bootstrap;
+        this.bungeeManager = new BukkitBungeeManager(this);
     }
 
     @Override
@@ -47,6 +47,8 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     public void disable() {
         this.bukkitCommands.unregisterCommandFeatures();
+        this.bungeeManager.disable();
+        super.disable();
     }
 
     @Override
@@ -74,6 +76,10 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     public CoreNMSBridge getCoreNMSBridge() {
         return coreNMSBridge;
+    }
+
+    public BukkitBungeeManager getBungeeManager() {
+        return bungeeManager;
     }
 
     private String getInventoryAccessArtifact() {

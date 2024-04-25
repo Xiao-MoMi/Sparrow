@@ -88,7 +88,7 @@ public enum Dependency {
     SPARROW_HEART(
             "com.github.Xiao-MoMi",
             "Sparrow-Heart",
-            "0.2",
+            "0.3",
             "jitpack",
             "sparrow-heart"
     ),
@@ -139,6 +139,17 @@ public enum Dependency {
             "maven",
             "cloud-paper",
             Relocation.of("cloud", "org{}incendo{}cloud")
+    ),
+    CLOUD_MINECRAFT_EXTRAS(
+            "org{}incendo",
+            "cloud-minecraft-extras",
+            "2.0.0-beta.5",
+            "maven",
+            "cloud-minecraft-extras",
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("adventure", "net{}kyori{}adventure"),
+            Relocation.of("option", "net{}kyori{}option"),
+            Relocation.of("examination", "net{}kyori{}examination")
     ),
     BOOSTED_YAML(
             "dev{}dejvokep",

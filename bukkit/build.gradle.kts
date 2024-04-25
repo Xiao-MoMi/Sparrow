@@ -17,11 +17,12 @@ dependencies {
     compileOnly("dev.folia:folia-api:1.20.4-R0.1-SNAPSHOT")
     compileOnly("net.kyori:adventure-platform-bukkit:4.3.2")
     compileOnly("org.incendo:cloud-paper:2.0.0-beta.5")
+    compileOnly("org.incendo:cloud-minecraft-extras:2.0.0-beta.5")
     compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
     compileOnly("xyz.xenondevs.invui:inventory-access:1.28")
     compileOnly("com.mojang:brigadier:1.0.18")
     compileOnly("de.tr7zw:item-nbt-api:2.12.3")
-    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:0.2")
+    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:0.3")
 }
 
 tasks.withType<JavaCompile> {
@@ -37,8 +38,6 @@ tasks {
         relocate ("dev.dejvokep", "net.momirealms.sparrow.libraries")
         relocate ("xyz.xenondevs", "net.momirealms.sparrow.libraries")
         relocate ("de.tr7zw.changeme", "net.momirealms.sparrow.libraries")
-        relocate ("com.github.retrooper", "net.momirealms.sparrow.libraries")
-        relocate ("io.github.retrooper", "net.momirealms.sparrow.libraries")
     }
 }
 

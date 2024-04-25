@@ -44,6 +44,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.CLOUD_CORE,
                 Dependency.CLOUD_BRIGADIER,
                 Dependency.CLOUD_SERVICES,
+                Dependency.CLOUD_MINECRAFT_EXTRAS,
                 Dependency.BOOSTED_YAML
         );
     }
