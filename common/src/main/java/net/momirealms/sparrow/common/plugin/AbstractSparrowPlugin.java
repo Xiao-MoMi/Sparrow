@@ -25,6 +25,8 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.dependencyManager.loadDependencies(getGlobalDependencies());
     }
 
+    public abstract void reload();
+
     public void enable() {
         this.setupConfigManager();
         this.setupSenderFactory();

@@ -1,4 +1,14 @@
+#
+# For safety reasons, editing this file requires a restart to apply
+#
 config-version: "1"
+
+reload_admin:
+  enable: true
+  permission: sparrow.command.admin.reload
+  usage:
+    - /sparrow reload
+    - /spa reload
 
 workbench_player:
   enable: false

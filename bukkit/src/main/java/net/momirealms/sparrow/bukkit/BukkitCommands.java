@@ -21,6 +21,7 @@ import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.paper.parser.KeyedWorldParser;
+import org.incendo.cloud.setting.ManagerSetting;
 
 import java.util.HashSet;
 import java.util.List;
@@ -67,7 +68,8 @@ public class BukkitCommands {
             new BroadcastAdminCommand(),
             new ServerAdminCommand(),
             new ColorAdminCommand(),
-            new ModelDataAdminCommand()
+            new ModelDataAdminCommand(),
+            new ReloadAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;
@@ -80,6 +82,7 @@ public class BukkitCommands {
                 ExecutionCoordinator.simpleCoordinator(),
                 SenderMapper.identity()
         );
+        this.manager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, true);
         this.manager.parserRegistry().registerParser(CustomEnchantmentParser.enchantmentParser());
         if (this.manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
             this.manager.registerBrigadier();
@@ -109,6 +112,7 @@ public class BukkitCommands {
         for (CommandComponent<? extends CommandSender> command : registeredCommandComponents) {
             this.manager.commandRegistrationHandler().unregisterRootCommand((CommandComponent<CommandSender>) command);
         }
+        this.registeredCommandComponents.clear();
         FEATURES.forEach(commandFeature -> {
             if (commandFeature instanceof AbstractCommand command) {
                 command.unregisterRelatedFunctions();

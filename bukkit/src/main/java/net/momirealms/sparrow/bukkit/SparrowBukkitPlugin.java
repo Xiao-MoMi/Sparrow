@@ -39,6 +39,11 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     }
 
     @Override
+    public void reload() {
+
+    }
+
+    @Override
     public void enable() {
         this.coreNMSBridge = new CoreNMSBridge();
         super.enable();
