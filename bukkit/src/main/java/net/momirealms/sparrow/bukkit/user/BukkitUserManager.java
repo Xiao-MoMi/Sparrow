@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class BukkitUserManager implements UserManager<BukkitUser> {
+public class BukkitUserManager implements UserManager<BukkitOnlineUser> {
+
     private static BukkitUserManager instance;
-    private final Map<UUID, BukkitUser> users = new HashMap<>();
+    private final Map<UUID, BukkitOnlineUser> users = new HashMap<>();
 
     private BukkitUserManager() {}
 
@@ -20,7 +21,7 @@ public class BukkitUserManager implements UserManager<BukkitUser> {
         return instance;
     }
 
-    public @NotNull BukkitUser getUser(UUID uniqueId) {
-        return users.computeIfAbsent(uniqueId, BukkitUser::new);
+    public @NotNull BukkitOnlineUser getUser(UUID uniqueId) {
+        return users.computeIfAbsent(uniqueId, BukkitOnlineUser::new);
     }
 }

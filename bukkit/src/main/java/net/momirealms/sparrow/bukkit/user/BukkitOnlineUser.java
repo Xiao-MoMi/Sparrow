@@ -1,37 +1,29 @@
 package net.momirealms.sparrow.bukkit.user;
 
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
-import net.momirealms.sparrow.common.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public class BukkitUser implements User<Player>, Patrolable {
-    private final UUID uniqueId;
+public class BukkitOnlineUser extends BukkitOfflineUser implements Patrolable {
+
     private long lastPatrolTime;
 
-    BukkitUser(UUID uniqueId) {
-        this.uniqueId = uniqueId;
+    BukkitOnlineUser(UUID uniqueId) {
+        super(uniqueId);
     }
 
     @Nullable
     @Override
     public Player getPlayer() {
-        return Bukkit.getPlayer(uniqueId);
+        return Bukkit.getPlayer(getUniqueId());
     }
 
     @Override
     public boolean isOnline() {
         return getPlayer() != null;
-    }
-
-    @NotNull
-    @Override
-    public UUID getUniqueId() {
-        return uniqueId;
     }
 
     @Override

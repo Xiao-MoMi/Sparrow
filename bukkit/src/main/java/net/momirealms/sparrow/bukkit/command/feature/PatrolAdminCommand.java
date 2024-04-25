@@ -1,25 +1,51 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
+import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.bukkit.user.BukkitPatrolManager;
+import net.momirealms.sparrow.bukkit.feature.patrol.BukkitPatrolManager;
+import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
+import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
-import net.momirealms.sparrow.bukkit.user.BukkitUser;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
-import org.incendo.cloud.bukkit.data.Selector;
+import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.UUID;
 
 public class PatrolAdminCommand extends AbstractCommand {
+
+    private static final String BYPASS = "sparrow.bypass.patrol";
+    private final PatrolListener listener;
+
+    public PatrolAdminCommand() {
+        this.listener = new PatrolListener();
+    }
+
+    @Override
+    public void registerRelatedFunctions() {
+        Bukkit.getPluginManager().registerEvents(listener, SparrowBukkitPlugin.getInstance().getLoader());
+    }
+
+    @Override
+    public void unregisterRelatedFunctions() {
+        HandlerList.unregisterAll(listener);
+    }
+
     @Override
     public String getFeatureID() {
         return "patrol_admin";
@@ -28,33 +54,57 @@ public class PatrolAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .optional("players", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .senderType(Player.class)
+                .required("players", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .handler(commandContext -> {
-                    Optional<Selector<Player>> selector = commandContext.optional("players");
-                    Collection<Player> players = selector.map(Selector::values).orElseGet(() -> {
-                        if (commandContext.sender() instanceof Player) {
-                            return Set.of((Player) commandContext.sender());
-                        }
-                        return Set.of();
-                    });
-                    if (players.isEmpty()) {
-                        commandContext.sender().sendMessage(Component.translatable("commands.patrol.failed.no_players_found"));
+                    MultiplePlayerSelector selector = commandContext.get("players");
+                    final Player patrollingPlayer = commandContext.sender();
+                    final HashSet<UUID> playersToCheck = new HashSet<>(
+                            selector.values().stream()
+                                    .filter(player -> !player.hasPermission(BYPASS) && player != patrollingPlayer)
+                                    .map(Entity::getUniqueId)
+                                    .toList()
+                    );
+                    if (playersToCheck.isEmpty()) {
+                        SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(patrollingPlayer)
+                                        .sendMessage(Component.text("No player found"));
                         return;
                     }
 
                     PatrolManager patrolManager = BukkitPatrolManager.getInstance();
-                    for (Player player : players) {
-                        @NotNull Patrolable target = patrolManager.getNextPatrolable(patrolable -> patrolable.getUniqueId().equals(player.getUniqueId()));
-
-                        if (target instanceof BukkitUser targetUser) {
-                            @Nullable Player targetPlayer = targetUser.getPlayer();
-                            if (targetPlayer == null) {
-                                commandContext.sender().sendMessage(Component.translatable("commands.patrol.failed.no_patrol_users"));
-                                continue;
-                            }
-                            player.teleport(targetPlayer);
-                        }
+                    @Nullable Patrolable target = patrolManager.selectNextPatrolable(patrolable -> playersToCheck.contains(patrolable.getUniqueId()));
+                    if (target == null) {
+                        SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(patrollingPlayer)
+                                .sendMessage(Component.text("No player found"));
+                        return;
                     }
+
+                    if (!(target instanceof BukkitOnlineUser targetUser)) {
+                        throw new RuntimeException("The player to be patrolled is not an online user");
+                    }
+
+                    patrolManager.finishPatrol(target);
+                    patrollingPlayer.teleport(Objects.requireNonNull(targetUser.getPlayer()));
                 });
+    }
+
+    public static class PatrolListener implements Listener {
+
+        private final BukkitUserManager userManager = BukkitUserManager.getInstance();
+        private final BukkitPatrolManager patrolManager = BukkitPatrolManager.getInstance();
+
+        @EventHandler
+        private void onPlayerJoin(PlayerJoinEvent event) {
+            BukkitOnlineUser user = userManager.getUser(event.getPlayer().getUniqueId());
+
+            patrolManager.addPatrolable(user);
+        }
+
+        @EventHandler
+        private void onPlayerQuit(PlayerQuitEvent event) {
+            BukkitOnlineUser user = userManager.getUser(event.getPlayer().getUniqueId());
+
+            patrolManager.removePatrolable(user);
+        }
     }
 }

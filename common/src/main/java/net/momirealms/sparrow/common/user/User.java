@@ -1,7 +1,6 @@
 package net.momirealms.sparrow.common.user;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -10,7 +9,7 @@ import java.util.UUID;
  * @param <T> The type of the user.
  */
 public interface User<T> {
-    @Nullable
+
     T getPlayer();
 
     boolean isOnline();

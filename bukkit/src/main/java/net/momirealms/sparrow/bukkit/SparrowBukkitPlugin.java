@@ -13,7 +13,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private final SparrowBukkitBootstrap bootstrap;
     private BukkitSenderFactory senderFactory;
     private ConfigManager configManager;
-    private BukkitCommandManager bukkitCommandManager;
+    private BukkitCommands bukkitCommands;
     private CoreNMSBridge coreNMSBridge;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
@@ -39,18 +39,25 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     }
 
     @Override
+    public void enable() {
+        this.coreNMSBridge = new CoreNMSBridge();
+        super.enable();
+    }
+
+    @Override
+    public void disable() {
+        this.bukkitCommands.unregisterCommandFeatures();
+    }
+
+    @Override
     protected void setupSenderFactory() {
         this.senderFactory = new BukkitSenderFactory(this);
     }
 
     @Override
     protected void setupCommands() {
-        this.bukkitCommandManager = new BukkitCommandManager(this);
-    }
-
-    @Override
-    protected void setupCore() {
-        this.coreNMSBridge = new CoreNMSBridge();
+        this.bukkitCommands = new BukkitCommands(this);
+        this.bukkitCommands.registerCommandFeatures();
     }
 
     public JavaPlugin getLoader() {

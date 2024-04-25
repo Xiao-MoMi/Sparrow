@@ -26,7 +26,6 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     }
 
     public void enable() {
-        this.setupCore();
         this.setupConfigManager();
         this.setupSenderFactory();
         this.setupCommands();
@@ -60,6 +59,4 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     public ConfigManager getConfigManager() {
         return configManager;
     }
-
-    protected abstract void setupCore();
 }

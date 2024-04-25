@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.leangen.geantyref.TypeToken;
+import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.command.CommandConfig;
 import net.momirealms.sparrow.bukkit.command.CommandFeature;
 import net.momirealms.sparrow.bukkit.command.feature.*;
@@ -16,13 +17,17 @@ import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.bukkit.internal.BukkitBrigadierMapper;
 import org.incendo.cloud.bukkit.internal.CraftBukkitReflection;
 import org.incendo.cloud.bukkit.internal.RegistryReflection;
+import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.execution.ExecutionCoordinator;
 import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.paper.parser.KeyedWorldParser;
 
+import java.util.HashSet;
 import java.util.List;
 
-public class BukkitCommandManager {
+public class BukkitCommands {
+
+    private final HashSet<CommandComponent<? extends CommandSender>> registeredCommandComponents = new HashSet<>();
 
     private final List<CommandFeature> FEATURES = List.of(
             new WorkbenchPlayerCommand(),
@@ -64,7 +69,7 @@ public class BukkitCommandManager {
     private final SparrowBukkitPlugin plugin;
     private final PaperCommandManager<CommandSender> manager;
 
-    public BukkitCommandManager(SparrowBukkitPlugin plugin) {
+    public BukkitCommands(SparrowBukkitPlugin plugin) {
         this.plugin = plugin;
         this.manager = new PaperCommandManager<>(
                 plugin.getLoader(),
@@ -94,13 +99,22 @@ public class BukkitCommandManager {
         } else if (this.manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
             this.manager.registerAsynchronousCompletions();
         }
-
-        this.registerCommandFeatures();
     }
 
-    private void registerCommandFeatures() {
+    public void unregisterCommandFeatures() {
+        for (CommandComponent<? extends CommandSender> command : registeredCommandComponents) {
+            this.manager.commandRegistrationHandler().unregisterRootCommand((CommandComponent<CommandSender>) command);
+        }
+        FEATURES.forEach(commandFeature -> {
+            if (commandFeature instanceof AbstractCommand command) {
+                command.unregisterRelatedFunctions();
+            }
+        });
+    }
+
+    public void registerCommandFeatures() {
         YamlDocument document = plugin.getConfigManager().loadConfig("commands.yml");
-        FEATURES.forEach(feature -> feature.registerFeature(this.plugin, this.manager,
+        FEATURES.forEach(feature -> feature.registerFeature(this, this.manager,
                 Preconditions.checkNotNull(getCommandConfigFromDocument(document, feature.getFeatureID()), feature.getFeatureID() + " doesn't exist in commands.yml")));
     }
 
@@ -112,5 +126,9 @@ public class BukkitCommandManager {
                 section.getStringList("usage"),
                 section.getString("permission")
         );
+    }
+
+    public void addCommandComponent(CommandComponent<? extends CommandSender> command) {
+        registeredCommandComponents.add(command);
     }
 }
