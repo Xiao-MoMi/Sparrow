@@ -84,7 +84,6 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
     private final CountDownLatch enableLatch = new CountDownLatch(1);
     private boolean serverStarting = true;
     private boolean serverStopping = false;
-    private boolean canSendBundlePacket;
 
     public SparrowBukkitBootstrap(JavaPlugin loader) {
         this.loader = loader;
@@ -106,11 +105,6 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
                 } :
                 (r, l) -> this.getServer().getScheduler().scheduleSyncDelayedTask(this.getLoader(), r)
         );
-
-        switch (getServerVersion()) {
-            case "1.17", "1.17.1", "1.18", "1.18.1", "1.18.2", "1.19", "1.19.1", "1.19.2", "1.19.3" -> canSendBundlePacket = false;
-            default -> canSendBundlePacket = true;
-        }
     }
 
     @Override
@@ -270,9 +264,5 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
             return plugin.getName();
         }
         return null;
-    }
-
-    public boolean canSendBundlePacket() {
-        return canSendBundlePacket;
     }
 }

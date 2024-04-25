@@ -85,6 +85,13 @@ public enum Dependency {
             Relocation.of("option", "net{}kyori{}option"),
             Relocation.of("examination", "net{}kyori{}examination")
     ),
+    SPARROW_HEART(
+            "com.github.Xiao-MoMi",
+            "Sparrow-Heart",
+            "0.2",
+            "jitpack",
+            "sparrow-heart"
+    ),
     NBT_API(
             "de{}tr7zw",
             "item-nbt-api",

@@ -14,6 +14,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private BukkitSenderFactory senderFactory;
     private ConfigManager configManager;
     private BukkitCommandManager bukkitCommandManager;
+    private CoreNMSBridge coreNMSBridge;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -31,6 +32,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         dependencies.add(Dependency.NBT_API);
         dependencies.add(Dependency.CLOUD_BUKKIT);
         dependencies.add(Dependency.CLOUD_PAPER);
+        dependencies.add(Dependency.SPARROW_HEART);
         dependencies.add(Dependency.INVENTORY_ACCESS);
         dependencies.add(Dependency.INVENTORY_ACCESS_NMS.setArtifactID(getInventoryAccessArtifact()).setCustomArtifactName(getInventoryAccessArtifact()));
         return dependencies;
@@ -46,6 +48,11 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         this.bukkitCommandManager = new BukkitCommandManager(this);
     }
 
+    @Override
+    protected void setupCore() {
+        this.coreNMSBridge = new CoreNMSBridge();
+    }
+
     public JavaPlugin getLoader() {
         return this.bootstrap.getLoader();
     }
@@ -56,6 +63,10 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     public static SparrowBukkitPlugin getInstance() {
         return plugin;
+    }
+
+    public CoreNMSBridge getCoreNMSBridge() {
+        return coreNMSBridge;
     }
 
     private String getInventoryAccessArtifact() {

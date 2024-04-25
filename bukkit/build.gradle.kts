@@ -9,6 +9,7 @@ repositories {
     maven("https://repo.xenondevs.xyz/releases/")
     maven("https://libraries.minecraft.net/")
     maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://jitpack.io/")
 }
 
 dependencies {
@@ -20,6 +21,7 @@ dependencies {
     compileOnly("xyz.xenondevs.invui:inventory-access:1.28")
     compileOnly("com.mojang:brigadier:1.0.18")
     compileOnly("de.tr7zw:item-nbt-api:2.12.3")
+    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:0.2")
 }
 
 tasks.withType<JavaCompile> {
