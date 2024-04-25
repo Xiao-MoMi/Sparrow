@@ -28,7 +28,7 @@ public class EntityUtils {
             livingEntity.setHealth(requireNonNull(livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
             if (livingEntity instanceof Player player) {
                 player.setFoodLevel(20);
-                player.setSaturation(20);
+                player.setSaturation(10f);
             }
         }
     }

@@ -5,45 +5,44 @@ workbench_player:
   permission: sparrow.command.player.workbench
   usage:
     - /workbench
-    - /sparrow workbench
 
 workbench_admin:
   enable: true
   permission: sparrow.command.admin.workbench
   usage:
-    - /sparrowadmin workbench
+    - /sparrow workbench
+    - /spa workbench
 
 hat_player:
   enable: false
   permission: sparrow.command.player.workbench
   usage:
     - /hat
-    - /sparrow hat
 
 hat_admin:
   enable: true
   permission: sparrow.command.admin.workbench
   usage:
-    - /sparrowadmin hat
+    - /sparrow hat
+    - /spa hat
 
 heal_player:
   enable: false
   permission: sparrow.command.player.heal
   usage:
-    - /sparrow heal
     - /heal
 
 heal_admin:
   enable: true
   permission: sparrow.command.admin.heal
   usage:
-    - /sparrowadmin heal
+    - /sparrow heal
+    - /spa heal
 
 suicide_player:
   enable: false
   permission: sparrow.command.player.suicide
   usage:
-    - /sparrow suicide
     - /suicide
 
 anvil_player:
@@ -51,131 +50,174 @@ anvil_player:
   permission: sparrow.command.player.anvil
   usage:
     - /anvil
-    - /sparrow anvil
 
 anvil_admin:
   enable: true
   permission: sparrow.command.admin.anvil
   usage:
-    - /sparrowadmin anvil
+    - /sparrow anvil
+    - /spa anvil
 
 enderchest_player:
   enable: false
   permission: sparrow.command.player.enderchest
   usage:
     - /enderchest
-    - /sparrow enderchest
 
 enderchest_admin:
   enable: true
   permission: sparrow.command.admin.enderchest
   usage:
-    - /sparrowadmin enderchest
+    - /sparrow enderchest
+    - /spa enderchest
 
 stonecutter_player:
   enable: false
   permission: sparrow.command.player.stonecutter
   usage:
     - /stonecutter
-    - /sparrow stonecutter
 
 stonecutter_admin:
   enable: true
   permission: sparrow.command.admin.stonecutter
   usage:
-    - /sparrowadmin stonecutter
+    - /sparrow stonecutter
+    - /spa stonecutter
 
 smithingtable_player:
   enable: false
   permission: sparrow.command.player.smithingtable
   usage:
     - /smithingtable
-    - /sparrow smithingtable
 
 smithingtable_admin:
   enable: true
   permission: sparrow.command.admin.smithingtable
   usage:
-    - /sparrowadmin smithingtable
+    - /sparrow smithingtable
+    - /spa smithingtable
 
 loom_player:
   enable: false
   permission: sparrow.command.player.loom
   usage:
     - /loom
-    - /sparrow loom
 
 loom_admin:
   enable: true
   permission: sparrow.command.admin.loom
   usage:
-    - /sparrowadmin loom
+    - /sparrow loom
+    - /spa loom
 
 cartographytable_player:
   enable: false
   permission: sparrow.command.player.cartographytable
   usage:
     - /cartographytable
-    - /sparrow cartographytable
 
 cartographytable_admin:
   enable: true
   permission: sparrow.command.admin.cartographytable
   usage:
-    - /sparrowadmin cartographytable
+    - /sparrow cartographytable
+    - /spa cartographytable
 
 grindstone_player:
   enable: false
   permission: sparrow.command.player.grindstone
   usage:
     - /grindstone
-    - /sparrow grindstone
 
 grindstone_admin:
   enable: true
   permission: sparrow.command.admin.grindstone
   usage:
-    - /sparrowadmin grindstone
+    - /sparrow grindstone
+    - /spa grindstone
 
 world_admin:
   enable: true
   permission: sparrow.command.admin.world
   usage:
-    - /sparrowadmin world
+    - /sparrow world
+    - /spa world
+    - /world
 
 sudo_admin:
   enable: true
   permission: sparrow.command.admin.sudo
   usage:
-    - /sparrowadmin sudo
+    - /sparrow sudo
+    - /spa sudo
+    - /sudo
 
 enchant_admin:
   enable: true
   permission: sparrow.command.admin.enchant
   usage:
-    - /sparrowadmin enchant
+    - /sparrow enchant
+    - /spa enchant
 
 fly_player:
   enable: false
   permission: sparrow.command.player.fly
   usage:
     - /fly
-    - /sparrow fly
 
 fly_admin:
   enable: true
   permission: sparrow.command.admin.fly
   usage:
-    - /sparrowadmin fly
+    - /sparrow fly
+    - /spa fly
 
 actionbar_admin:
   enable: true
   permission: sparrow.command.admin.actionbar
   usage:
-    - /sparrowadmin actionbar
+    - /sparrow actionbar
+    - /spa actionbar
+    - /actionbar
 
 toast_admin:
   enable: true
   permission: sparrow.command.admin.toast
   usage:
-    - /sparrowadmin toast
+    - /sparrow toast
+    - /spa toast
+    - /toast
+
+flyspeed_admin:
+  enable: true
+  permission: sparrow.command.admin.flyspeed
+  usage:
+    - /sparrow flyspeed
+    - /spa flyspeed
+
+walkspeed_admin:
+  enable: true
+  permission: sparrow.command.admin.walkspeed
+  usage:
+    - /sparrow walkspeed
+    - /spa walkspeed
+
+feed_player:
+  enable: false
+  permission: sparrow.command.player.feed
+  usage:
+    - /feed
+
+feed_admin:
+  enable: true
+  permission: sparrow.command.admin.feed
+  usage:
+    - /sparrow feed
+    - /spa feed
+
+title_admin:
+  enable: true
+  permission: sparrow.command.admin.title
+  usage:
+    - /sparrow title
+    - /spa title

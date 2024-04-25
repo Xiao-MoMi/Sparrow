@@ -52,7 +52,12 @@ public class BukkitCommandManager {
             new FlyAdminCommand(),
             new ActionBarAdminCommand(),
             new EnchantAdminCommand(),
-            new ToastAdminCommand()
+            new ToastAdminCommand(),
+            new FlySpeedAdminCommand(),
+            new WalkSpeedAdminCommand(),
+            new FeedAdminCommand(),
+            new FeedPlayerCommand(),
+            new TitleAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

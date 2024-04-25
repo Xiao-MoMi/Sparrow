@@ -93,30 +93,6 @@ public enum Dependency {
             "item-nbt-api",
             Relocation.of("nbtapi", "de{}tr7zw{}changeme{}nbtapi")
     ),
-    PACKET_EVENT_API(
-            "com{}github{}retrooper{}packetevents",
-            "api",
-            "2.2.1",
-            "codemc",
-            "packetevents-api",
-            Relocation.of("packetevents", "com{}github{}retrooper{}packetevents"),
-            Relocation.of("packetevents", "io{}github{}retrooper{}packetevents"),
-            Relocation.of("adventure", "net{}kyori{}adventure"),
-            Relocation.of("option", "net{}kyori{}option"),
-            Relocation.of("examination", "net{}kyori{}examination")
-    ),
-    PACKET_EVENT_SPIGOT(
-            "com{}github{}retrooper{}packetevents",
-            "spigot",
-            "2.2.1",
-            "codemc",
-            "packetevents-spigot",
-            Relocation.of("packetevents", "com{}github{}retrooper{}packetevents"),
-            Relocation.of("packetevents", "io{}github{}retrooper{}packetevents"),
-            Relocation.of("adventure", "net{}kyori{}adventure"),
-            Relocation.of("option", "net{}kyori{}option"),
-            Relocation.of("examination", "net{}kyori{}examination")
-    ),
     CLOUD_CORE(
             "org{}incendo",
             "cloud-core",

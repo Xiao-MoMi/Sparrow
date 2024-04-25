@@ -1,7 +1,5 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.BukkitPacketManager;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.Command;
@@ -24,15 +22,15 @@ public class ToastAdminCommand extends AbstractCommand {
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
-                .required("type", EnumParser.enumParser(Type.class))
+                .required("frame", EnumParser.enumParser(Type.class))
                 .required("item", ItemStackParser.itemStackParser())
                 .required("message", StringParser.greedyFlagYieldingStringParser())
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     ProtoItemStack itemStack = commandContext.get("item");
                     itemStack.createItemStack(1, true);
-                    BukkitPacketManager packetManager = SparrowBukkitPlugin.getInstance().getBukkitPacketManager();
-                    // todo 需要写一个新的API
+                    String message = commandContext.get("message");
+
                 });
     }
 

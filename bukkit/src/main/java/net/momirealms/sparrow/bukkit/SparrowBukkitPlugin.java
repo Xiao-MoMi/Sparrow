@@ -14,7 +14,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private BukkitSenderFactory senderFactory;
     private ConfigManager configManager;
     private BukkitCommandManager bukkitCommandManager;
-    private BukkitPacketManager bukkitPacketManager;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -30,7 +29,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     protected Set<Dependency> getGlobalDependencies() {
         Set<Dependency> dependencies = super.getGlobalDependencies();
         dependencies.add(Dependency.NBT_API);
-        dependencies.add(Dependency.PACKET_EVENT_SPIGOT.setArtifactSuffix("-default"));
         dependencies.add(Dependency.CLOUD_BUKKIT);
         dependencies.add(Dependency.CLOUD_PAPER);
         dependencies.add(Dependency.INVENTORY_ACCESS);
@@ -46,25 +44,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     protected void setupCommands() {
         this.bukkitCommandManager = new BukkitCommandManager(this);
-    }
-
-    @Override
-    protected void setupPackets() {
-        this.bukkitPacketManager = new BukkitPacketManager(this);
-    }
-
-    @Override
-    protected void initPackets() {
-        this.bukkitPacketManager.init();
-    }
-
-    @Override
-    protected void terminatePackets() {
-        this.bukkitPacketManager.terminate();
-    }
-
-    public BukkitPacketManager getBukkitPacketManager() {
-        return bukkitPacketManager;
     }
 
     public JavaPlugin getLoader() {
