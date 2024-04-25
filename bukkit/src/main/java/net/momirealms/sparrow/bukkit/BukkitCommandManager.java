@@ -57,7 +57,8 @@ public class BukkitCommandManager {
             new WalkSpeedAdminCommand(),
             new FeedAdminCommand(),
             new FeedPlayerCommand(),
-            new TitleAdminCommand()
+            new TitleAdminCommand(),
+            new PatrolAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

@@ -221,3 +221,10 @@ title_admin:
   usage:
     - /sparrow title
     - /spa title
+
+patrol_admin:
+  enable: true
+  permission: sparrow.command.admin.patrol
+  usage:
+    - /sparrow patrol
+    - /spa patrol
