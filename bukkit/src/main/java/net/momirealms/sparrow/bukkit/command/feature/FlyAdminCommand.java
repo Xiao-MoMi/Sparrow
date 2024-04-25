@@ -21,6 +21,7 @@ public class FlyAdminCommand extends AbstractCommand {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("fly", BooleanParser.booleanParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     boolean fly = commandContext.get("fly");

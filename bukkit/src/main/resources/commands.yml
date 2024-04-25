@@ -229,3 +229,11 @@ patrol_admin:
     - /sparrow patrol
     - /spa patrol
     - /patrol
+
+broadcast_admin:
+  enable: true
+  permission: sparrow.command.admin.broadcast
+  usage:
+    - /sparrow broadcast
+    - /spa broadcast
+    - /broadcast

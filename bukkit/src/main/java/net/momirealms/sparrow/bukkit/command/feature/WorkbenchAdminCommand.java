@@ -20,6 +20,7 @@ public class WorkbenchAdminCommand extends AbstractCommand {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     for (Player player : selector.values()) {

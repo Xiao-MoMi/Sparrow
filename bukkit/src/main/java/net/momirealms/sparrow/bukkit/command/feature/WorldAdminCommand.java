@@ -26,6 +26,7 @@ public class WorldAdminCommand extends AbstractCommand {
         return builder
                 .required("world", WorldParser.worldParser())
                 .optional("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     World world = commandContext.get("world");
                     MultipleEntitySelector selector = commandContext.getOrDefault("entity", null);

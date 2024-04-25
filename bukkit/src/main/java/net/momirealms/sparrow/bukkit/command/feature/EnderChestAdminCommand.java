@@ -22,6 +22,7 @@ public class EnderChestAdminCommand extends AbstractCommand {
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     for (Player player : selector.values()) {

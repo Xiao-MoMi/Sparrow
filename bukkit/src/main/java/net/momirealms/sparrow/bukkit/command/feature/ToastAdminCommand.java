@@ -4,6 +4,7 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.helper.AdventureHelper;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,18 +31,22 @@ public class ToastAdminCommand extends AbstractCommand {
                 .required("type", EnumParser.enumParser(AdvancementType.class))
                 .required("item", ItemStackParser.itemStackParser())
                 .required("message", StringParser.greedyFlagYieldingStringParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .flag(manager.flagBuilder("legacy-color").withAliases("l"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
+                    boolean legacy = commandContext.flags().hasFlag("legacy-color");
                     ProtoItemStack itemStack = commandContext.get("item");
                     ItemStack bukkitStack = itemStack.createItemStack(1, true);
                     String message = commandContext.get("message");
-                    String json = GsonComponentSerializer.gson().serialize(MiniMessage.miniMessage().deserialize(message));
                     AdvancementType type = commandContext.get("type");
                     for (Player player : selector.values()) {
                         SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendToast(
                                 player,
                                 bukkitStack,
-                                json,
+                                AdventureHelper.componentToJson(
+                                        AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(message) : message)
+                                ),
                                 type.name()
                         );
                     }

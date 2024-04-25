@@ -22,6 +22,7 @@ public class HatAdminCommand extends AbstractCommand {
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", PlayerParser.playerParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     final Player player = commandContext.get("player");
                     ItemStack itemInHand = player.getInventory().getItemInMainHand();

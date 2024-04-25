@@ -21,6 +21,7 @@ public class FlySpeedAdminCommand extends AbstractCommand {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("speed", FloatParser.floatParser(-1, 1))
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     float speed = commandContext.get("speed");

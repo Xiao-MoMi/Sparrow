@@ -20,6 +20,7 @@ public class HealAdminCommand extends AbstractCommand {
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     Selector<Entity> selector = commandContext.get("entity");
                     for (Entity entity : selector.values()) {
