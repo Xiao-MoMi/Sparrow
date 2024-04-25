@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.bukkit.patrol;
+package net.momirealms.sparrow.common.feature.patrol;
 
 import java.util.UUID;
 

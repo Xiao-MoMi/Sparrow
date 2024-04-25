@@ -1,6 +1,7 @@
-package net.momirealms.sparrow.bukkit.user;
+package net.momirealms.sparrow.bukkit.feature.user;
 
-import net.momirealms.sparrow.bukkit.patrol.Patrolable;
+import net.momirealms.sparrow.common.feature.patrol.Patrolable;
+import net.momirealms.sparrow.common.feature.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

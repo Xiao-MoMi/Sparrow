@@ -1,13 +1,13 @@
-package net.momirealms.sparrow.bukkit.user;
+package net.momirealms.sparrow.bukkit.feature.user;
 
+import net.momirealms.sparrow.common.feature.user.UserManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-// TODO: This is a placeholder class for the UserManager. This class will be used to manage all the users on the server.
-public class BukkitUserManager {
+public class BukkitUserManager implements UserManager<BukkitUser> {
     private static BukkitUserManager instance;
     private final Map<UUID, BukkitUser> users = new HashMap<>();
 
