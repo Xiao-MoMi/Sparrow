@@ -12,14 +12,17 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
+import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class EnchantAdminCommand extends AbstractCommand {
 
@@ -34,6 +37,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                 .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
                 .required("enchantment", CustomEnchantmentParser.enchantmentParser())
                 .optional("level", IntegerParser.integerParser(1))
+                .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .flag(manager.flagBuilder("ignore-level"))
                 .flag(manager.flagBuilder("ignore-conflict"))
@@ -42,6 +46,8 @@ public class EnchantAdminCommand extends AbstractCommand {
                     Enchantment enchantment = commandContext.get("enchantment");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     int level = commandContext.getOrDefault("level", 1);
+                    Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
+                    EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
@@ -77,7 +83,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                         if (entity instanceof LivingEntity livingEntity) {
                             EntityEquipment entityEquipment = livingEntity.getEquipment();
                             if (entityEquipment != null) {
-                                ItemStack itemStack = entityEquipment.getItemInMainHand();
+                                ItemStack itemStack = entityEquipment.getItem(slot);
                                 if (!itemStack.isEmpty()) {
                                     if ((!enchantment.canEnchantItem(itemStack) && !ignoreIncompatible) || (hasConflicts(enchantment, itemStack) && !ignoreConflict)) {
                                         if (targets.size() != 1) continue;
@@ -93,7 +99,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                         return;
                                     }
                                     itemStack.addUnsafeEnchantment(enchantment, level);
-                                    entityEquipment.setItemInMainHand(itemStack);
+                                    entityEquipment.setItem(slot, itemStack);
                                     ++i;
                                     continue;
                                 }

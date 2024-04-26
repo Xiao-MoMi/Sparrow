@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ColorableArmorMeta;
 import org.incendo.cloud.Command;
@@ -18,6 +19,9 @@ import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
+import org.incendo.cloud.parser.standard.EnumParser;
+
+import java.util.Optional;
 
 public class DyeAdminCommand extends AbstractCommand {
 
@@ -31,10 +35,13 @@ public class DyeAdminCommand extends AbstractCommand {
         return builder
                 .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
                 .required("color", TextColorParser.textColorParser())
+                .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     TextColor textColor = commandContext.get("color");
                     boolean silent = commandContext.flags().hasFlag("silent");
+                    Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
+                    EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     MultipleEntitySelector selector = commandContext.get("entity");
                     var entities = selector.values();
                     if (entities.size() == 0) {
@@ -56,7 +63,7 @@ public class DyeAdminCommand extends AbstractCommand {
                         if (entity instanceof LivingEntity livingEntity) {
                             EntityEquipment entityEquipment = livingEntity.getEquipment();
                             if (entityEquipment != null) {
-                                ItemStack itemStack = entityEquipment.getItemInMainHand();
+                                ItemStack itemStack = entityEquipment.getItem(slot);
                                 if (!itemStack.isEmpty()) {
                                     if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
                                         if (entities.size() != 1) continue;
@@ -73,7 +80,7 @@ public class DyeAdminCommand extends AbstractCommand {
                                     }
                                     meta.setColor(color);
                                     itemStack.setItemMeta(meta);
-                                    entityEquipment.setItemInMainHand(itemStack);
+                                    entityEquipment.setItem(slot, itemStack);
                                     ++i;
                                     continue;
                                 }

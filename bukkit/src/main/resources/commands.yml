@@ -1,8 +1,11 @@
 #
-# For safety reasons, editing this file requires a restart to apply
+# Don't change this
 #
 config-version: "1"
 
+#
+# For safety reasons, editing this file requires a restart to apply
+#
 reload_admin:
   enable: true
   permission: sparrow.command.admin.reload
