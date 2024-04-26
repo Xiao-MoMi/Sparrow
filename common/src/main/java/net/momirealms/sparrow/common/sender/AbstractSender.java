@@ -26,7 +26,6 @@
 package net.momirealms.sparrow.common.sender;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Tristate;
 

@@ -26,18 +26,31 @@ public class AnvilAdminCommand extends AbstractCommand {
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
-                    for (Player player : selector.values()) {
+                    var players = selector.values();
+                    boolean silent = commandContext.flags().hasFlag("silent");
+                    if (players.size() == 0) {
+                        if (!silent)
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        return;
+                    }
+                    for (Player player : players) {
                         player.openAnvil(null, true);
                     }
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     if (!silent) {
-                        if (selector.values().size() == 1) {
+                        if (players.size() == 1) {
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_ANVIL_SUCCESS_SINGLE
-                                                            .arguments(Component.text(selector.values().iterator().next().getName()))
+                                                            .arguments(Component.text(players.iterator().next().getName()))
                                                             .build()
                                             ),
                                             true
@@ -48,7 +61,7 @@ public class AnvilAdminCommand extends AbstractCommand {
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_ANVIL_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(selector.values().size()))
+                                                            .arguments(Component.text(players.size()))
                                                             .build()
                                             ),
                                             true

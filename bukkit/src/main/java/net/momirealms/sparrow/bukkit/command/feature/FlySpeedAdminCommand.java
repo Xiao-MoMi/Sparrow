@@ -1,7 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -9,7 +12,6 @@ import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.FloatParser;
-import org.incendo.cloud.util.TypeUtils;
 
 public class FlySpeedAdminCommand extends AbstractCommand {
 
@@ -21,23 +23,52 @@ public class FlySpeedAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("speed", FloatParser.floatParser(-1, 1))
-                .optional("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.getOrDefault("player", null);
+                    MultiplePlayerSelector selector = commandContext.get("player");
                     float speed = commandContext.get("speed");
-                    if (selector != null) {
-                        for (Player player : selector.values()) {
-                            player.setFlySpeed(speed);
-                        }
-                    } else {
-                        if (commandContext.sender() instanceof Player player) {
-                            player.setFlySpeed(speed);
+                    boolean silent = commandContext.flags().hasFlag("silent");
+                    var players = selector.values();
+                    if (players.size() == 0) {
+                        if (!silent)
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        return;
+                    }
+                    for (Player player : players) {
+                        player.setFlySpeed(speed);
+                    }
+                    if (!silent) {
+                        if (players.size() == 1) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_FLY_SPEED_SUCCESS_SINGLE
+                                                            .arguments(Component.text(players.iterator().next().getName()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
                         } else {
-                            SparrowBukkitPlugin.getInstance().getBootstrap().getPluginLogger().severe(
-                                    String.format("%s is not allowed to execute that command. Must be of type %s", commandContext.sender().getClass().getSimpleName(), TypeUtils.simpleName(Player.class))
-                            );
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_FLY_SPEED_SUCCESS_MULTIPLE
+                                                            .arguments(Component.text(players.size()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
                         }
                     }
                 });

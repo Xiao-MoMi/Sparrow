@@ -11,7 +11,7 @@ reload_admin:
     - /spa reload
 
 workbench_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.workbench
   usage:
     - /workbench
@@ -24,20 +24,20 @@ workbench_admin:
     - /spa workbench
 
 hat_player:
-  enable: false
-  permission: sparrow.command.player.workbench
+  enable: true
+  permission: sparrow.command.player.hat
   usage:
     - /hat
 
 hat_admin:
   enable: true
-  permission: sparrow.command.admin.workbench
+  permission: sparrow.command.admin.hat
   usage:
     - /sparrow hat
     - /spa hat
 
 heal_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.heal
   usage:
     - /heal
@@ -50,13 +50,13 @@ heal_admin:
     - /spa heal
 
 suicide_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.suicide
   usage:
     - /suicide
 
 anvil_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.anvil
   usage:
     - /anvil
@@ -69,7 +69,7 @@ anvil_admin:
     - /spa anvil
 
 enderchest_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.enderchest
   usage:
     - /enderchest
@@ -82,7 +82,7 @@ enderchest_admin:
     - /spa enderchest
 
 stonecutter_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.stonecutter
   usage:
     - /stonecutter
@@ -95,7 +95,7 @@ stonecutter_admin:
     - /spa stonecutter
 
 smithingtable_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.smithingtable
   usage:
     - /smithingtable
@@ -108,7 +108,7 @@ smithingtable_admin:
     - /spa smithingtable
 
 loom_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.loom
   usage:
     - /loom
@@ -121,7 +121,7 @@ loom_admin:
     - /spa loom
 
 cartographytable_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.cartographytable
   usage:
     - /cartographytable
@@ -134,7 +134,7 @@ cartographytable_admin:
     - /spa cartographytable
 
 grindstone_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.grindstone
   usage:
     - /grindstone
@@ -146,13 +146,18 @@ grindstone_admin:
     - /sparrow grindstone
     - /spa grindstone
 
+world_player:
+  enable: true
+  permission: sparrow.command.player.world
+  usage:
+    - /world
+
 world_admin:
   enable: true
   permission: sparrow.command.admin.world
   usage:
     - /sparrow world
     - /spa world
-    - /world
 
 sudo_admin:
   enable: true
@@ -170,7 +175,7 @@ enchant_admin:
     - /spa enchant
 
 fly_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.fly
   usage:
     - /fly
@@ -198,12 +203,24 @@ toast_admin:
     - /spa toast
     - /toast
 
+flyspeed_player:
+  enable: true
+  permission: sparrow.command.player.flyspeed
+  usage:
+    - /flyspeed
+
 flyspeed_admin:
   enable: true
   permission: sparrow.command.admin.flyspeed
   usage:
     - /sparrow flyspeed
     - /spa flyspeed
+
+walkspeed_player:
+  enable: true
+  permission: sparrow.command.player.walkspeed
+  usage:
+    - /walkspeed
 
 walkspeed_admin:
   enable: true
@@ -213,7 +230,7 @@ walkspeed_admin:
     - /spa walkspeed
 
 feed_player:
-  enable: false
+  enable: true
   permission: sparrow.command.player.feed
   usage:
     - /feed
@@ -248,12 +265,31 @@ broadcast_admin:
     - /spa broadcast
     - /broadcast
 
+server_player:
+  enable: false
+  permission: sparrow.command.player.server
+  usage:
+    - /server
+
 server_admin:
   enable: true
   permission: sparrow.command.admin.server
   usage:
     - /sparrow server
     - /spa server
+
+dye_player:
+  enable: true
+  permission: sparrow.command.player.dye
+  usage:
+    - /dye
+
+dye_admin:
+  enable: true
+  permission: sparrow.command.admin.dye
+  usage:
+    - /sparrow dye
+    - /spa dye
 
 color_admin:
   enable: true

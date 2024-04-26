@@ -33,8 +33,6 @@ public class BukkitCommands {
     private final List<CommandFeature> FEATURES = List.of(
             new WorkbenchPlayerCommand(),
             new WorkbenchAdminCommand(),
-            new HatPlayerCommand(),
-            new HatAdminCommand(),
             new HealPlayerCommand(),
             new HealAdminCommand(),
             new SuicidePlayerCommand(),
@@ -53,6 +51,7 @@ public class BukkitCommands {
             new LoomPlayerCommand(),
             new LoomAdminCommand(),
             new WorldAdminCommand(),
+            new WorldPlayerCommand(),
             new SudoAdminCommand(),
             new FlyPlayerCommand(),
             new FlyAdminCommand(),
@@ -60,16 +59,20 @@ public class BukkitCommands {
             new EnchantAdminCommand(),
             new ToastAdminCommand(),
             new FlySpeedAdminCommand(),
+            new FlySpeedPlayerCommand(),
             new WalkSpeedAdminCommand(),
+            new WalkSpeedPlayerCommand(),
             new FeedAdminCommand(),
             new FeedPlayerCommand(),
             new TitleAdminCommand(),
             new PatrolAdminCommand(),
             new BroadcastAdminCommand(),
             new ServerAdminCommand(),
+            new ServerPlayerCommand(),
             new ColorAdminCommand(),
-            new ModelDataAdminCommand(),
-            new ReloadAdminCommand()
+            new ReloadAdminCommand(),
+            new DyePlayerCommand(),
+            new DyeAdminCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

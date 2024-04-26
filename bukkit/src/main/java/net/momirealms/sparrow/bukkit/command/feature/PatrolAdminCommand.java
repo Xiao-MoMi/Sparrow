@@ -8,6 +8,8 @@ import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -60,6 +62,7 @@ public class PatrolAdminCommand extends AbstractCommand {
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("players");
                     final Player patrollingPlayer = commandContext.sender();
+                    boolean silent = commandContext.flags().hasFlag("silent");
                     final HashSet<UUID> playersToCheck = new HashSet<>(
                             selector.values().stream()
                                     .filter(player -> !player.hasPermission(BYPASS) && player != patrollingPlayer)
@@ -67,16 +70,31 @@ public class PatrolAdminCommand extends AbstractCommand {
                                     .toList()
                     );
                     if (playersToCheck.isEmpty()) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(patrollingPlayer)
-                                        .sendMessage(Component.text("No player found"));
-                        return;
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        }
                     }
 
                     PatrolManager patrolManager = BukkitPatrolManager.getInstance();
                     @Nullable Patrolable target = patrolManager.selectNextPatrolable(patrolable -> playersToCheck.contains(patrolable.getUniqueId()));
                     if (target == null) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(patrollingPlayer)
-                                .sendMessage(Component.text("No player found"));
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        }
                         return;
                     }
 
@@ -86,6 +104,18 @@ public class PatrolAdminCommand extends AbstractCommand {
 
                     patrolManager.finishPatrol(target);
                     patrollingPlayer.teleport(Objects.requireNonNull(targetUser.getPlayer()));
+                    if (!silent) {
+                        SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                .wrap(commandContext.sender())
+                                .sendMessage(
+                                        TranslationManager.render(
+                                                Message.COMMANDS_ADMIN_PATROL_SUCCESS
+                                                        .arguments(Component.text(targetUser.getPlayer().getName()))
+                                                        .build()
+                                        ),
+                                        true
+                                );
+                    }
                 });
     }
 

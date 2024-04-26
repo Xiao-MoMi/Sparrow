@@ -1,8 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -33,20 +36,44 @@ public class TitleAdminCommand extends AbstractCommand {
                 .flag(manager.flagBuilder("legacy-color").withAliases("l"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
+                    var players = selector.values();
                     boolean legacy = commandContext.flags().hasFlag("legacy-color");
                     int fadeIn = commandContext.get("fadeIn");
                     int stay = commandContext.get("stay");
                     int fadeOut = commandContext.get("fadeIn");
+                    boolean silent = commandContext.flags().hasFlag("silent");
                     String titleContent = commandContext.get("title");
                     String title;
                     String subTitle;
                     String[] split = titleContent.split("\\\\n");
                     if (split.length > 2) {
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_TITLE_FAILED_FORMAT.build()
+                                            ),
+                                            true
+                                    );
+                        }
                         return;
                     }
                     title = split[0].equals("") ? null : split[0];
                     subTitle = split.length == 2 && !split[1].equals("") ? split[1] : null;
-                    for (Player player : selector.values()) {
+                    if (players.size() == 0) {
+                        if (!silent)
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        return;
+                    }
+                    for (Player player : players) {
                         SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendTitle(
                                 player,
                                 Optional.ofNullable(title)
@@ -63,6 +90,31 @@ public class TitleAdminCommand extends AbstractCommand {
                                 stay,
                                 fadeOut
                         );
+                    }
+                    if (!silent) {
+                        if (players.size() == 1) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_TITLE_SUCCESS_SINGLE
+                                                            .arguments(Component.text(players.iterator().next().getName()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        } else {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_TITLE_SUCCESS_MULTIPLE
+                                                            .arguments(Component.text(players.size()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        }
                     }
                 });
     }

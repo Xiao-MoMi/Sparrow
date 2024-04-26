@@ -1,66 +1,43 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.common.locale.Message;
 import net.momirealms.sparrow.common.locale.TranslationManager;
+import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ColorableArmorMeta;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
-import org.incendo.cloud.parser.standard.IntegerParser;
+import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 
-import java.util.Collection;
-
-public class EnchantAdminCommand extends AbstractCommand {
+public class DyeAdminCommand extends AbstractCommand {
 
     @Override
     public String getFeatureID() {
-        return "enchant_admin";
+        return "dye_admin";
     }
 
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
-                .required("enchantment", CustomEnchantmentParser.enchantmentParser())
-                .optional("level", IntegerParser.integerParser(1))
+                .required("color", TextColorParser.textColorParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
-                .flag(manager.flagBuilder("ignore-level"))
-                .flag(manager.flagBuilder("ignore-conflict"))
-                .flag(manager.flagBuilder("ignore-incompatible"))
                 .handler(commandContext -> {
-                    Enchantment enchantment = commandContext.get("enchantment");
+                    TextColor textColor = commandContext.get("color");
                     boolean silent = commandContext.flags().hasFlag("silent");
-                    int level = commandContext.getOrDefault("level", 1);
-                    if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL
-                                                            .arguments(Component.text(level), Component.text(enchantment.getMaxLevel()))
-                                                            .build()
-                                            )
-                                    );
-                        return;
-                    }
-                    int i = 0;
-                    boolean ignoreIncompatible = commandContext.flags().hasFlag("ignore-incompatible");
-                    boolean ignoreConflict = commandContext.flags().hasFlag("ignore-conflict");
                     MultipleEntitySelector selector = commandContext.get("entity");
-                    Collection<Entity> targets = selector.values();
-                    if (targets.size() == 0) {
+                    var entities = selector.values();
+                    if (entities.size() == 0) {
                         if (!silent) {
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
@@ -73,37 +50,40 @@ public class EnchantAdminCommand extends AbstractCommand {
                         }
                         return;
                     }
-                    for (Entity entity : targets) {
+                    int i = 0;
+                    Color color = Color.fromRGB(textColor.red(), textColor.green(), textColor.blue());
+                    for (Entity entity : entities) {
                         if (entity instanceof LivingEntity livingEntity) {
                             EntityEquipment entityEquipment = livingEntity.getEquipment();
                             if (entityEquipment != null) {
                                 ItemStack itemStack = entityEquipment.getItemInMainHand();
                                 if (!itemStack.isEmpty()) {
-                                    if ((!enchantment.canEnchantItem(itemStack) && !ignoreIncompatible) || (hasConflicts(enchantment, itemStack) && !ignoreConflict)) {
-                                        if (targets.size() != 1) continue;
+                                    if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                                        if (entities.size() != 1) continue;
                                         SparrowBukkitPlugin.getInstance().getSenderFactory()
                                                 .wrap(commandContext.sender())
                                                 .sendMessage(
                                                         TranslationManager.render(
-                                                                Message.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE
+                                                                Message.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE
                                                                         .arguments(Component.translatable(itemStack.translationKey()))
                                                                         .build()
                                                         )
                                                 );
                                         return;
                                     }
-                                    itemStack.addUnsafeEnchantment(enchantment, level);
+                                    meta.setColor(color);
+                                    itemStack.setItemMeta(meta);
                                     entityEquipment.setItemInMainHand(itemStack);
                                     ++i;
                                     continue;
                                 }
-                                if (targets.size() != 1) continue;
+                                if (entities.size() != 1) continue;
                                 if (!silent)
                                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                                             .wrap(commandContext.sender())
                                             .sendMessage(
                                                     TranslationManager.render(
-                                                            Message.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS
+                                                            Message.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS
                                                                     .arguments(Component.text(livingEntity.getName()))
                                                                     .build()
                                                     )
@@ -111,39 +91,41 @@ public class EnchantAdminCommand extends AbstractCommand {
                                 return;
                             }
                         }
-                        if (targets.size() != 1) continue;
+                        if (entities.size() != 1) continue;
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY
+                                                    Message.COMMANDS_ADMIN_DYE_FAILED_ENTITY
                                                             .arguments(Component.text(entity.getName()))
                                                             .build()
                                             )
                                     );
                         return;
                     }
+
                     if (i == 0) {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED
+                                                    Message.COMMANDS_ADMIN_DYE_FAILED
                                                             .build()
                                             )
                                     );
                         return;
                     }
-                    if (targets.size() == 1) {
+
+                    if (entities.size() == 1) {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE
-                                                            .arguments(getFullName(enchantment, level), Component.text(targets.iterator().next().getName()))
+                                                    Message.COMMANDS_ADMIN_DYE_SUCCESS_SINGLE
+                                                            .arguments(Component.text(entities.iterator().next().getName()))
                                                             .build()
                                             )
                                     );
@@ -153,34 +135,12 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE
-                                                            .arguments(getFullName(enchantment, level), Component.text(targets.size()))
+                                                    Message.COMMANDS_ADMIN_DYE_SUCCESS_MULTIPLE
+                                                            .arguments(Component.text(entities.size()))
                                                             .build()
                                             )
                                     );
                     }
                 });
-    }
-
-    private boolean hasConflicts(Enchantment enchantment, ItemStack itemStack) {
-        for (Enchantment applied : itemStack.getEnchantments().keySet()) {
-            if (applied.conflictsWith(enchantment)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Component getFullName(Enchantment enchantment, int level) {
-        Component component = Component.translatable(enchantment.translationKey());
-        if (enchantment.isCursed()) {
-            component = component.color(NamedTextColor.RED);
-        } else {
-            component = component.color(NamedTextColor.GRAY);
-        }
-        if (level != 1 || enchantment.getMaxLevel() != 1) {
-            component = component.append(Component.space()).append(Component.translatable("enchantment.level." + level));
-        }
-        return component;
     }
 }

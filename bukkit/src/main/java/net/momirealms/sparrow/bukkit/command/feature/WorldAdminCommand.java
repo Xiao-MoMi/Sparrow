@@ -1,18 +1,19 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.util.EntityUtils;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.WorldParser;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
-import org.incendo.cloud.util.TypeUtils;
 
 public class WorldAdminCommand extends AbstractCommand {
 
@@ -24,23 +25,53 @@ public class WorldAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
+                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
                 .required("world", WorldParser.worldParser())
-                .optional("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     World world = commandContext.get("world");
-                    MultipleEntitySelector selector = commandContext.getOrDefault("entity", null);
-                    if (selector == null) {
-                        if (commandContext.sender() instanceof Player player) {
-                            EntityUtils.changeWorld(player, world);
-                        } else {
-                            SparrowBukkitPlugin.getInstance().getBootstrap().getPluginLogger().severe(
-                                    String.format("%s is not allowed to execute that command. Must be of type %s", commandContext.sender().getClass().getSimpleName(), TypeUtils.simpleName(Player.class))
-                            );
+                    MultipleEntitySelector selector = commandContext.get("entity");
+                    boolean silent = commandContext.flags().hasFlag("silent");
+                    var entities = selector.values();
+                    if (entities.size() == 0) {
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_ENTITY.build()
+                                            ),
+                                            true
+                                    );
                         }
-                    } else {
-                        for (Entity entity : selector.values()) {
-                            EntityUtils.changeWorld(entity, world);
+                        return;
+                    }
+                    for (Entity entity : entities) {
+                        EntityUtils.changeWorld(entity, world);
+                    }
+                    if (!silent) {
+                        if (entities.size() == 1) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_WORLD_SUCCESS_SINGLE
+                                                            .arguments(Component.text(entities.iterator().next().getName()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        } else {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_WORLD_SUCCESS_MULTIPLE
+                                                            .arguments(Component.text(entities.size()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
                         }
                     }
                 });

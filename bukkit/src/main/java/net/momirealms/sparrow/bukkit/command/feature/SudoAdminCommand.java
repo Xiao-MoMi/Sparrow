@@ -1,6 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
+import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -25,12 +29,47 @@ public class SudoAdminCommand extends AbstractCommand {
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     String command = commandContext.get("command");
-                    for (Player player : selector.values()) {
+                    boolean silent = commandContext.flags().hasFlag("silent");
+                    var players = selector.values();
+                    if (players.size() == 0) {
+                        if (!silent)
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
+                                            ),
+                                            true
+                                    );
+                        return;
+                    }
+                    for (Player player : players) {
                         player.performCommand(command);
                     }
-                    boolean silent = commandContext.flags().isPresent("silent");
                     if (!silent) {
-
+                        if (players.size() == 1) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_SUDO_SUCCESS_SINGLE
+                                                            .arguments(Component.text(players.iterator().next().getName()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        } else {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_SUDO_SUCCESS_MULTIPLE
+                                                            .arguments(Component.text(players.size()))
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        }
                     }
                 });
     }

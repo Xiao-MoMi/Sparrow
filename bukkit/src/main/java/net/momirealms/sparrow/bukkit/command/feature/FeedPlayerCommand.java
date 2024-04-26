@@ -1,6 +1,9 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -21,6 +24,14 @@ public class FeedPlayerCommand extends AbstractCommand {
                     final Player player = commandContext.sender();
                     player.setFoodLevel(20);
                     player.setSaturation(10f);
+                    SparrowBukkitPlugin.getInstance().getSenderFactory()
+                            .wrap(commandContext.sender())
+                            .sendMessage(
+                                    TranslationManager.render(
+                                            Message.COMMANDS_PLAYER_FEED_SUCCESS.build()
+                                    ),
+                                    true
+                            );
                 });
     }
 }

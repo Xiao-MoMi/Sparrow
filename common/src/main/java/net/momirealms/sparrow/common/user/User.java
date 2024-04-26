@@ -14,6 +14,8 @@ public interface User<T> {
 
     boolean isOnline();
 
+    String getName();
+
     @NotNull
     UUID getUniqueId();
 }

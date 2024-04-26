@@ -1,9 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.helper.AdventureHelper;
+import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,9 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ColorableArmorMeta;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
-import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
-
-import java.util.Optional;
 
 public class ColorAdminCommand extends AbstractCommand {
 
@@ -26,33 +25,55 @@ public class ColorAdminCommand extends AbstractCommand {
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .optional("color", TextColorParser.textColorParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
-                    Optional<TextColor> optional = commandContext.optional("color");
-
+                    boolean silent = commandContext.flags().hasFlag("silent");
                     ItemStack itemStack = commandContext.sender().getInventory().getItemInMainHand();
-                    if (itemStack.isEmpty()) return;
-                    if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) return;
-
-                    if (optional.isPresent()) {
-                        var textColor = optional.get();
-                        meta.setColor(Color.fromRGB(textColor.red(), textColor.green(), textColor.blue()));
-                        itemStack.setItemMeta(meta);
-                    } else {
-                        Color color = meta.getColor();
-                        String hex = TextColor.color(color.asRGB()).asHexString();
-                        SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(commandContext.sender())
-                                .sendMessage(
-                                        AdventureHelper.getMiniMessage().deserialize(
-                                                "<white>RGB: " +
-                                                        "<red>" + color.getRed() + "</red>, " +
-                                                        "<green>" + color.getGreen() + "</green>, " +
-                                                        "<blue>" + color.getBlue() + "</blue>" + "<newline>"
-                                                + "HEX: " + hex + "(<" + hex + ">" + "⬛" + "</" + hex + ">)</white>"
-                                        )
-                                );
+                    if (itemStack.isEmpty()) {
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_COLOR_FAILED_ITEMLESS
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        }
+                        return;
                     }
+                    if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_COLOR_FAILED_INCOMPATIBLE
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        }
+                        return;
+                    }
+                    Color color = meta.getColor();
+                    String hex = TextColor.color(color.asRGB()).asHexString();
+                    if (!silent)
+                        SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                .wrap(commandContext.sender())
+                                .sendMessage(
+                                        TranslationManager.render(
+                                                Message.COMMANDS_ADMIN_COLOR_SUCCESS_QUERY
+                                                        .arguments(Component.text(color.getRed()))
+                                                        .arguments(Component.text(color.getGreen()))
+                                                        .arguments(Component.text(color.getBlue()))
+                                                        .arguments(Component.text(color.asRGB()))
+                                                        .arguments(Component.text(hex))
+                                                        .build()
+                                        ),
+                                        true
+                                );
                 });
     }
 }

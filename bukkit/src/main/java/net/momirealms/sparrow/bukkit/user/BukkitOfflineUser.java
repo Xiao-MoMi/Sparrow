@@ -26,6 +26,11 @@ public class BukkitOfflineUser implements User<OfflinePlayer> {
         return getPlayer().isOnline();
     }
 
+    @Override
+    public String getName() {
+        return getPlayer().getName();
+    }
+
     @NotNull
     @Override
     public UUID getUniqueId() {
