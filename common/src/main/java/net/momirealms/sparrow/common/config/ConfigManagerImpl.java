@@ -8,10 +8,18 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+import java.util.stream.Stream;
 
 public class ConfigManagerImpl implements ConfigManager {
 
@@ -21,8 +29,14 @@ public class ConfigManagerImpl implements ConfigManager {
         this.plugin = plugin;
     }
 
-    protected Path resolveConfig(String fileName) {
-        Path configFile = plugin.getBootstrap().getConfigDirectory().resolve(fileName);
+    protected Path resolveConfig(String filePath) {
+        if (filePath == null || filePath.equals("")) {
+            throw new IllegalArgumentException("ResourcePath cannot be null or empty");
+        }
+
+        filePath = filePath.replace('\\', '/');
+
+        Path configFile = plugin.getBootstrap().getConfigDirectory().resolve(filePath);
 
         // if the config doesn't exist, create it based on the template in the resources dir
         if (!Files.exists(configFile)) {
@@ -32,7 +46,12 @@ public class ConfigManagerImpl implements ConfigManager {
                 // ignore
             }
 
-            try (InputStream is = plugin.getBootstrap().getResourceStream(fileName)) {
+            try (InputStream is = plugin.getBootstrap().getResourceStream(filePath)) {
+
+                if (is == null) {
+                    throw new IllegalArgumentException("The embedded resource '" + filePath + "' cannot be found");
+                }
+
                 Files.copy(is, configFile);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -43,12 +62,17 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
-    public YamlDocument loadConfig(String fileName) {
+    public YamlDocument loadConfig(String filePath) {
+        return loadConfig(filePath, '.');
+    }
+
+    @Override
+    public YamlDocument loadConfig(String filePath, char routeSeparator) {
         try {
             return YamlDocument.create(
-                    resolveConfig(fileName).toFile(),
-                    plugin.getBootstrap().getResourceStream(fileName),
-                    GeneralSettings.DEFAULT,
+                    resolveConfig(filePath).toFile(),
+                    plugin.getBootstrap().getResourceStream(filePath),
+                    GeneralSettings.builder().setRouteSeparator(routeSeparator).build(),
                     LoaderSettings
                             .builder()
                             .setAutoUpdate(true)
@@ -60,7 +84,7 @@ public class ConfigManagerImpl implements ConfigManager {
                             .build()
             );
         } catch (IOException e) {
-            plugin.getBootstrap().getPluginLogger().severe("Failed to load config " + fileName);
+            plugin.getBootstrap().getPluginLogger().severe("Failed to load config " + filePath);
             e.printStackTrace();
             return null;
         }

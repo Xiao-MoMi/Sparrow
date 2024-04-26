@@ -5,6 +5,7 @@ import net.momirealms.sparrow.common.config.ConfigManagerImpl;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.dependency.DependencyManagerImpl;
+import net.momirealms.sparrow.common.locale.TranslationManager;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -13,6 +14,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
 
     private DependencyManager dependencyManager;
     private ConfigManager configManager;
+    private TranslationManager translationManager;
 
     @Override
     public DependencyManager getDependencyManager() {
@@ -25,12 +27,20 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.dependencyManager.loadDependencies(getGlobalDependencies());
     }
 
-    public abstract void reload();
+    public void reload() {
+        this.translationManager.reload();
+    }
 
     public void enable() {
         this.setupConfigManager();
+        this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommands();
+        this.reload();
+    }
+
+    protected void setupTranslations() {
+        this.translationManager = new TranslationManager(this);
     }
 
     public void disable() {
@@ -59,6 +69,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.configManager = new ConfigManagerImpl(this);
     }
 
+    @Override
     public ConfigManager getConfigManager() {
         return configManager;
     }

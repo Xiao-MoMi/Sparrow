@@ -7,6 +7,7 @@ import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Collection;
@@ -80,6 +81,10 @@ public interface SparrowBootstrap {
      */
     default InputStream getResourceStream(String path) {
         return getClass().getClassLoader().getResourceAsStream(path);
+    }
+
+    default URL getResource(String path) {
+        return getClass().getClassLoader().getResource(path);
     }
 
     /**

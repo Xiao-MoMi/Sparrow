@@ -1,19 +1,22 @@
 package net.momirealms.sparrow.common.locale;
 
+import dev.dejvokep.boostedyaml.YamlDocument;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.translation.GlobalTranslator;
-import net.kyori.adventure.translation.Translatable;
-import net.kyori.adventure.translation.TranslationRegistry;
+import net.kyori.adventure.translation.Translator;
+import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
-import net.momirealms.sparrow.common.util.FileUtils;
+import net.momirealms.sparrow.common.util.Pair;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TranslationManager {
 
@@ -21,37 +24,122 @@ public class TranslationManager {
 
     private final SparrowPlugin plugin;
     private final Set<Locale> installed = ConcurrentHashMap.newKeySet();
-    private TranslationRegistry registry;
-
+    private MiniMessageTranslationRegistry registry;
     private final Path translationsDirectory;
-    private final Path repositoryTranslationsDirectory;
-    private final Path customTranslationsDirectory;
 
     public TranslationManager(SparrowPlugin plugin) {
         this.plugin = plugin;
         this.translationsDirectory = this.plugin.getBootstrap().getConfigDirectory().resolve("translations");
-        this.repositoryTranslationsDirectory = this.translationsDirectory.resolve("repository");
-        this.customTranslationsDirectory = this.translationsDirectory.resolve("custom");
-
-        try {
-            FileUtils.createDirectoriesIfNotExists(this.repositoryTranslationsDirectory);
-            FileUtils.createDirectoriesIfNotExists(this.customTranslationsDirectory);
-        } catch (IOException ignored) {
-        }
     }
 
     public void reload() {
         // remove any previous registry
         if (this.registry != null) {
-            GlobalTranslator.translator().removeSource(this.registry);
+            MiniMessageTranslator.translator().removeSource(this.registry);
             this.installed.clear();
         }
 
-        // create a translation registry
-        this.registry = TranslationRegistry.create(Key.key("sparrow", "main"));
-        this.registry.defaultLocale(DEFAULT_LOCALE);
+        // TODO Download other language files from repository
+        this.plugin.getConfigManager().loadConfig("translations" + File.separator + "en.yml");
 
-        // register it to the global source, so our translations can be picked up by adventure-platform
-        GlobalTranslator.translator().addSource(this.registry);
+        this.registry = MiniMessageTranslationRegistry.create(Key.key("sparrow", "main"), AdventureHelper.getMiniMessage());
+        this.registry.defaultLocale(DEFAULT_LOCALE);
+        this.loadFromFileSystem(this.translationsDirectory, false);
+        MiniMessageTranslator.translator().addSource(this.registry);
+    }
+
+    public static Component render(Component component) {
+        return render(component, null);
+    }
+
+    public static Component render(Component component, @Nullable Locale locale) {
+        if (locale == null) {
+            locale = Locale.getDefault();
+            if (locale == null) {
+                locale = DEFAULT_LOCALE;
+            }
+        }
+        return MiniMessageTranslator.render(component, locale);
+    }
+
+    public void loadFromFileSystem(Path directory, boolean suppressDuplicatesError) {
+        List<Path> translationFiles;
+        try (Stream<Path> stream = Files.list(directory)) {
+            translationFiles = stream.filter(TranslationManager::isTranslationFile).collect(Collectors.toList());
+        } catch (IOException e) {
+            translationFiles = Collections.emptyList();
+        }
+
+        if (translationFiles.isEmpty()) {
+            return;
+        }
+
+        Map<Locale, Map<String, String>> loaded = new HashMap<>();
+        for (Path translationFile : translationFiles) {
+            try {
+                Pair<Locale, Map<String, String>> result = loadTranslationFile(translationFile);
+                loaded.put(result.left(), result.right());
+            } catch (Exception e) {
+                if (!suppressDuplicatesError || !isAdventureDuplicatesException(e)) {
+                    this.plugin.getBootstrap().getPluginLogger().warn("Error loading locale file: " + translationFile.getFileName(), e);
+                }
+            }
+        }
+
+        // try registering the locale without a country code - if we don't already have a registration for that
+        loaded.forEach((locale, bundle) -> {
+            Locale localeWithoutCountry = new Locale(locale.getLanguage());
+            if (!locale.equals(localeWithoutCountry) && !localeWithoutCountry.equals(DEFAULT_LOCALE) && this.installed.add(localeWithoutCountry)) {
+                try {
+                    this.registry.registerAll(localeWithoutCountry, bundle);
+                } catch (IllegalArgumentException e) {
+                    // ignore
+                }
+            }
+        });
+    }
+
+    public static boolean isTranslationFile(Path path) {
+        return path.getFileName().toString().endsWith(".yml");
+    }
+
+    private static boolean isAdventureDuplicatesException(Exception e) {
+        return e instanceof IllegalArgumentException && (e.getMessage().startsWith("Invalid key") || e.getMessage().startsWith("Translation already exists"));
+    }
+
+    private Pair<Locale, Map<String, String>> loadTranslationFile(Path translationFile) {
+        String fileName = translationFile.getFileName().toString();
+        String localeString = fileName.substring(0, fileName.length() - ".yml".length());
+        Locale locale = parseLocale(localeString);
+
+        if (locale == null) {
+            throw new IllegalStateException("Unknown locale '" + localeString + "' - unable to register.");
+        }
+
+        Map<String, String> bundle = new HashMap<>();
+        YamlDocument document = plugin.getConfigManager().loadConfig("translations" + "\\" + translationFile.getFileName(), '@');
+        Map<String, Object> map = document.getStringRouteMappedValues(false);
+        map.remove("config-version");
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue() instanceof List<?> list) {
+                List<String> strList = (List<String>) list;
+                StringJoiner stringJoiner = new StringJoiner("<reset><newline>");
+                for (String str : strList) {
+                    stringJoiner.add(str);
+                }
+                bundle.put(entry.getKey(), stringJoiner.toString());
+            } else if (entry.getValue() instanceof String str) {
+                bundle.put(entry.getKey(), str);
+            }
+        }
+
+        this.registry.registerAll(locale, bundle);
+        this.installed.add(locale);
+
+        return Pair.of(locale, bundle);
+    }
+
+    public static @Nullable Locale parseLocale(@Nullable String locale) {
+        return locale == null ? null : Translator.parseLocale(locale);
     }
 }

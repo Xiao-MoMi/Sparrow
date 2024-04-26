@@ -1,0 +1,3 @@
+config-version: "1"
+
+commands.reload: "<green>Reloaded. Took <arg:0> ms."
