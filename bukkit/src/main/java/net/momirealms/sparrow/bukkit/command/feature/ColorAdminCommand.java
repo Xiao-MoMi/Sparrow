@@ -65,11 +65,13 @@ public class ColorAdminCommand extends AbstractCommand {
                                 .sendMessage(
                                         TranslationManager.render(
                                                 Message.COMMANDS_ADMIN_COLOR_SUCCESS_QUERY
-                                                        .arguments(Component.text(color.getRed()))
-                                                        .arguments(Component.text(color.getGreen()))
-                                                        .arguments(Component.text(color.getBlue()))
-                                                        .arguments(Component.text(color.asRGB()))
-                                                        .arguments(Component.text(hex))
+                                                        .arguments(
+                                                                Component.text(color.getRed()),
+                                                                Component.text(color.getGreen()),
+                                                                Component.text(color.getBlue()),
+                                                                Component.text(color.asRGB()),
+                                                                Component.text(hex).color(TextColor.color(color.asRGB()))
+                                                        )
                                                         .build()
                                         ),
                                         true
