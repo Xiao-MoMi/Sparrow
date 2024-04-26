@@ -40,7 +40,7 @@ public class TranslationManager {
         }
 
         for (String lang : locales) {
-            this.plugin.getConfigManager().loadConfig("translations/" + lang + ".yml", '@');
+            this.plugin.getConfigManager().loadConfig("translations/" + lang + ".yml");
         }
 
         this.registry = MiniMessageTranslationRegistry.create(Key.key("sparrow", "main"), AdventureHelper.getMiniMessage());
