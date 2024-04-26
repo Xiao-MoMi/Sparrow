@@ -1,4 +1,11 @@
-config-version: "2"
+config-version: "1"
 
-commands.reload: "<green>Reloaded. Took <arg:0> ms."
-commands.sb: "<green>Reloaded. Took <arg:0> ms."
+#
+# You can disable the message by setting the value to "" (empty) for example
+# commands.player.anvil.success: ""
+#
+
+commands.admin.reload.success: "<gray>Reloaded. Took <arg:0> ms.</gray>"
+commands.player.anvil.success: "<gray>You opened the anvil.</gray>"
+commands.admin.anvil.success.single: "<gray>Opened anvil for <arg:0>.</gray>"
+commands.admin.anvil.success.multiple: "<gray>Opened anvil for <arg:0> players.</gray>"

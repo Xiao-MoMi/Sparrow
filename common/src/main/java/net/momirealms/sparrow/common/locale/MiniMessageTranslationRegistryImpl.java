@@ -74,6 +74,9 @@ public class MiniMessageTranslationRegistryImpl implements Examinable, MiniMessa
         if (miniMessageString == null) {
             return null;
         }
+        if (miniMessageString.equals("")) {
+            return Component.empty();
+        }
         final Component resultingComponent;
         if (component.arguments().isEmpty()) {
             resultingComponent = this.miniMessage.deserialize(miniMessageString);

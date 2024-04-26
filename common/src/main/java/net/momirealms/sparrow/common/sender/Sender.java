@@ -72,6 +72,14 @@ public interface Sender {
     void sendMessage(Component message);
 
     /**
+     * Send a json message to the Sender.
+     *
+     * @param message the message to send.
+     * @param ignoreEmpty whether to ignore empty component
+     */
+    void sendMessage(Component message, boolean ignoreEmpty);
+
+    /**
      * Gets the tristate a permission is set to.
      *
      * @param permission the permission to check for

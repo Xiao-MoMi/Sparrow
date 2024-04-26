@@ -9,7 +9,6 @@ import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Pair;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,7 +40,7 @@ public class TranslationManager {
         }
 
         for (String lang : locales) {
-            YamlDocument document = this.plugin.getConfigManager().loadConfig("translations/" + lang + ".yml", '@');
+            this.plugin.getConfigManager().loadConfig("translations/" + lang + ".yml", '@');
         }
 
         this.registry = MiniMessageTranslationRegistry.create(Key.key("sparrow", "main"), AdventureHelper.getMiniMessage());

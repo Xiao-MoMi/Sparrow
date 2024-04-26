@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.locale.Message;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.Command;
@@ -29,11 +30,11 @@ public class ReloadAdminCommand extends AbstractCommand {
                                 .wrap(commandContext.sender())
                                 .sendMessage(
                                         TranslationManager.render(
-                                                Component.translatable()
-                                                        .key("commands.reload")
+                                                Message.COMMANDS_ADMIN_RELOAD_SUCCESS
                                                         .arguments(Component.text(timeTook))
                                                         .build()
-                                        )
+                                        ),
+                                        true
                                 );
                     }
                 });

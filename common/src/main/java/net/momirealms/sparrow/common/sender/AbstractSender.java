@@ -26,6 +26,7 @@
 package net.momirealms.sparrow.common.sender;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Tristate;
 
@@ -72,6 +73,14 @@ public final class AbstractSender<T> implements Sender {
     @Override
     public void sendMessage(Component message) {
         this.factory.sendMessage(this.sender, message);
+    }
+
+    @Override
+    public void sendMessage(Component message, boolean ignoreEmpty) {
+        if (ignoreEmpty && message.equals(Component.empty())) {
+            return;
+        }
+        sendMessage(message);
     }
 
     @Override
