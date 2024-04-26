@@ -1,3 +1,4 @@
-config-version: "1"
+config-version: "2"
 
 commands.reload: "<green>Reloaded. Took <arg:0> ms."
+commands.sb: "<green>Reloaded. Took <arg:0> ms."

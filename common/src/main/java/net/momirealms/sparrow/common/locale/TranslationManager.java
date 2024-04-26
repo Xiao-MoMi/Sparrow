@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 public class TranslationManager {
 
     public static final Locale DEFAULT_LOCALE = Locale.ENGLISH;
+    private static final List<String> locales = List.of("en");
 
     private final SparrowPlugin plugin;
     private final Set<Locale> installed = ConcurrentHashMap.newKeySet();
@@ -39,8 +40,9 @@ public class TranslationManager {
             this.installed.clear();
         }
 
-        // TODO Download other language files from repository
-        this.plugin.getConfigManager().loadConfig("translations" + File.separator + "en.yml");
+        for (String lang : locales) {
+            YamlDocument document = this.plugin.getConfigManager().loadConfig("translations/" + lang + ".yml", '@');
+        }
 
         this.registry = MiniMessageTranslationRegistry.create(Key.key("sparrow", "main"), AdventureHelper.getMiniMessage());
         this.registry.defaultLocale(DEFAULT_LOCALE);

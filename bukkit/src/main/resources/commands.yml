@@ -1,7 +1,7 @@
 #
 # For safety reasons, editing this file requires a restart to apply
 #
-config-version: "1"
+config-version: "2"
 
 reload_admin:
   enable: true
