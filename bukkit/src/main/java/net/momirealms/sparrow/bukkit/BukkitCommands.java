@@ -10,6 +10,7 @@ import net.momirealms.sparrow.bukkit.command.CommandConfig;
 import net.momirealms.sparrow.bukkit.command.CommandFeature;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
+import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
@@ -19,6 +20,7 @@ import org.incendo.cloud.bukkit.internal.CraftBukkitReflection;
 import org.incendo.cloud.bukkit.internal.RegistryReflection;
 import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.paper.parser.KeyedWorldParser;
 import org.incendo.cloud.setting.ManagerSetting;
@@ -113,6 +115,11 @@ public class BukkitCommands {
         } else if (this.manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
             this.manager.registerAsynchronousCompletions();
         }
+
+        MinecraftExceptionHandler.<CommandSender>create(c -> plugin.getSenderFactory().getAudience(c))
+                .defaultHandlers()
+                .captionFormatter(new SparrowCaptionFormatter<>())
+                .registerTo(this.manager);
     }
 
     public void unregisterCommandFeatures() {

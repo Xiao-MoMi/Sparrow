@@ -25,6 +25,7 @@
 
 package net.momirealms.sparrow.common.sender;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Tristate;
@@ -52,6 +53,8 @@ public abstract class SenderFactory<P extends SparrowPlugin, T> implements AutoC
     protected abstract UUID getUniqueId(T sender);
 
     protected abstract String getName(T sender);
+
+    protected abstract Audience getAudience(T sender);
 
     protected abstract void sendMessage(T sender, Component message);
 

@@ -15,6 +15,7 @@ config-version: "1"
 #     - First line
 #     - Second line
 #
+exception.invalid_syntax: "<red>Invalid syntax. Correct syntax: <white><arg:0></white></red>"
 commands.admin.reload.success: "<gray>Reloaded. Took <green><arg:0></green> ms</gray>"
 commands.player.anvil.success: "<gray>You opened the anvil</gray>"
 commands.admin.anvil.success.single: "<gray>Opened anvil for <white><arg:0></white></gray>"

@@ -25,6 +25,7 @@
 
 package net.momirealms.sparrow.bukkit;
 
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.common.sender.Sender;
@@ -59,6 +60,11 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
             return ((Player) sender).getUniqueId();
         }
         return Sender.CONSOLE_UUID;
+    }
+
+    @Override
+    protected Audience getAudience(CommandSender sender) {
+        return this.audiences.sender(sender);
     }
 
     @Override

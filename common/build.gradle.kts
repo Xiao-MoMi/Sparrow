@@ -9,4 +9,6 @@ dependencies {
     compileOnly("org.slf4j:slf4j-api:2.0.13")
     compileOnly("org.apache.logging.log4j:log4j-core:2.23.1")
     compileOnly("com.google.code.gson:gson:2.10.1")
+    compileOnly("org.incendo:cloud-core:2.0.0-beta.5")
+    compileOnly("org.incendo:cloud-minecraft-extras:2.0.0-beta.5")
 }
