@@ -60,6 +60,7 @@ commands.admin.flyspeed.success.multiple: "<gray>修改了<white><arg:0></white>
 commands.player.world.success: "<gray>你已传送到<white><arg:0></white>世界</gray>"
 commands.admin.world.success.single: "<gray>已将<white><arg:0></white>传送到<white><arg:1></white>世界</gray>"
 commands.admin.world.success.multiple: "<gray>已将<white><arg:0></white>个实体传送到<white><arg:1></white>世界</gray>"
+commands.admin.patrol.failed.target: "<red>没有目标被选中</red>"
 commands.admin.patrol.success: "<gray>现在正在巡查<white><arg:0></white></gray>"
 commands.player.suicide.success: "<gray>你紫砂了</gray>"
 commands.player.server.success: "<gray>你已传送到<white><arg:0></white>服务器</gray>"

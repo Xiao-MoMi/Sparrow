@@ -75,7 +75,9 @@ public class PatrolAdminCommand extends AbstractCommand {
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
                                     .wrap(commandContext.sender())
                                     .sendMessage(
-                                            Component.text("eeee?"),
+                                            TranslationManager.render(
+                                                    Message.COMMANDS_ADMIN_PATROL_FAILED_TARGET.build()
+                                            ),
                                             true
                                     );
                         }
