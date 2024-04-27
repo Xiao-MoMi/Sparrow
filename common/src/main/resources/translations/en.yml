@@ -141,3 +141,7 @@ commands.admin.tpoffline.success.multiple: "<gray>Teleported <white><arg:0></whi
 commands.player.topblock.success: "<gray>Teleported to the highest block location</gray>"
 commands.admin.topblock.success.single: "<gray>Teleported <white><arg:0></white> to the highest block location</gray>"
 commands.admin.topblock.success.multiple: "<gray>Teleported <white><arg:0></white> entities to the highest block location</gray>"
+commands.admin.burn.success.single: "<gray>Burned <white><arg:0></white> for <white><arg:1></white> ticks</gray>"
+commands.admin.burn.success.multiple: "<gray>Burned <white><arg:0></white> entities for <white><arg:1></white> ticks</gray>"
+commands.admin.extinguish.success.single: "<gray>Extinguished fire for <white><arg:0></white></gray>"
+commands.admin.extinguish.success.multiple: "<gray>Extinguished fire for <white><arg:0></white> entities</gray>"

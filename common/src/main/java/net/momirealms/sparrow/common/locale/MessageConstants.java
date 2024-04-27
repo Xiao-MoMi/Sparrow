@@ -97,4 +97,8 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_TOP_BLOCK_SUCCESS = Component.translatable().key("commands.player.topblock.success");
     TranslatableComponent.Builder COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_SINGLE = Component.translatable().key("commands.admin.topblock.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.topblock.success.multiple");
+    TranslatableComponent.Builder COMMANDS_ADMIN_BURN_SUCCESS_SINGLE = Component.translatable().key("commands.admin.burn.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_BURN_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.burn.success.multiple");
+    TranslatableComponent.Builder COMMANDS_ADMIN_EXTINGUISH_SUCCESS_SINGLE = Component.translatable().key("commands.admin.extinguish.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_EXTINGUISH_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.extinguish.success.multiple");
 }

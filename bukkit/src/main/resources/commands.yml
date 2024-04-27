@@ -327,3 +327,27 @@ topblock_admin:
   usage:
     - /sparrow topblock
     - /spa topblock
+
+more_admin:
+  enable: true
+  permission: sparrow.command.admin.more
+  usage:
+    - /sparrow more
+    - /spa more
+    - /more
+
+extinguish_admin:
+  enable: true
+  permission: sparrow.command.admin.extinguish
+  usage:
+    - /sparrow extinguish
+    - /spa extinguish
+    - /extinguish
+
+burn_admin:
+  enable: true
+  permission: sparrow.command.admin.burn
+  usage:
+    - /sparrow burn
+    - /spa burn
+    - /burn

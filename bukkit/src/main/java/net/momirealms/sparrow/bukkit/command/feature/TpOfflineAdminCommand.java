@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.AbstractCommand;
+import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
@@ -10,14 +10,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.incendo.cloud.Command;
-import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
 import java.util.Optional;
 
-public class TpOfflineAdminCommand extends AbstractCommand {
+public class TpOfflineAdminCommand extends AbstractCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -25,7 +25,7 @@ public class TpOfflineAdminCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
                 .required("player", StringParser.stringParser())

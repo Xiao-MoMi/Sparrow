@@ -47,7 +47,7 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
     }
 
     @Override
-    protected String getName(CommandSender sender) {
+    public String getName(CommandSender sender) {
         if (sender instanceof Player) {
             return sender.getName();
         }
@@ -55,7 +55,7 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
     }
 
     @Override
-    protected UUID getUniqueId(CommandSender sender) {
+    public UUID getUniqueId(CommandSender sender) {
         if (sender instanceof Player) {
             return ((Player) sender).getUniqueId();
         }
@@ -63,12 +63,12 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
     }
 
     @Override
-    protected Audience getAudience(CommandSender sender) {
+    public Audience getAudience(CommandSender sender) {
         return this.audiences.sender(sender);
     }
 
     @Override
-    protected void sendMessage(CommandSender sender, Component message) {
+    public void sendMessage(CommandSender sender, Component message) {
         // we can safely send async for players and the console - otherwise, send it sync
         if (sender instanceof Player || sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender) {
             this.audiences.sender(sender).sendMessage(message);
@@ -78,7 +78,7 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
     }
 
     @Override
-    protected Tristate getPermissionValue(CommandSender sender, String node) {
+    public Tristate getPermissionValue(CommandSender sender, String node) {
         if (sender.hasPermission(node)) {
             return Tristate.TRUE;
         } else if (sender.isPermissionSet(node)) {
@@ -89,17 +89,17 @@ public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, Comm
     }
 
     @Override
-    protected boolean hasPermission(CommandSender sender, String node) {
+    public boolean hasPermission(CommandSender sender, String node) {
         return sender.hasPermission(node);
     }
 
     @Override
-    protected void performCommand(CommandSender sender, String command) {
+    public void performCommand(CommandSender sender, String command) {
         getPlugin().getBootstrap().getServer().dispatchCommand(sender, command);
     }
 
     @Override
-    protected boolean isConsole(CommandSender sender) {
+    public boolean isConsole(CommandSender sender) {
         return sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender;
     }
 

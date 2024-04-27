@@ -1,7 +1,10 @@
 package net.momirealms.sparrow.bukkit;
 
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
+import net.momirealms.sparrow.common.sender.SenderFactory;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -11,7 +14,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private static SparrowBukkitPlugin plugin;
     private final SparrowBukkitBootstrap bootstrap;
     private BukkitSenderFactory senderFactory;
-    private BukkitCommands bukkitCommands;
+    private SparrowBukkitCommandManager sparrowBukkitCommandManager;
     private CoreNMSBridge coreNMSBridge;
     private final BukkitBungeeManager bungeeManager;
 
@@ -24,6 +27,18 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     public SparrowBukkitBootstrap getBootstrap() {
         return bootstrap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public SenderFactory<SparrowBukkitPlugin, CommandSender> getSenderFactory() {
+        return senderFactory;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public SparrowCommandManager<CommandSender> getCommandManager() {
+        return sparrowBukkitCommandManager;
     }
 
     @Override
@@ -51,7 +66,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     public void disable() {
-        this.bukkitCommands.unregisterCommandFeatures();
+        this.sparrowBukkitCommandManager.unregisterCommandFeatures();
         this.bungeeManager.disable();
         super.disable();
     }
@@ -63,16 +78,12 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     protected void setupCommands() {
-        this.bukkitCommands = new BukkitCommands(this);
-        this.bukkitCommands.registerCommandFeatures();
+        this.sparrowBukkitCommandManager = new SparrowBukkitCommandManager(this);
+        this.sparrowBukkitCommandManager.registerCommandFeatures();
     }
 
     public JavaPlugin getLoader() {
         return this.bootstrap.getLoader();
-    }
-
-    public BukkitSenderFactory getSenderFactory() {
-        return this.senderFactory;
     }
 
     public static SparrowBukkitPlugin getInstance() {

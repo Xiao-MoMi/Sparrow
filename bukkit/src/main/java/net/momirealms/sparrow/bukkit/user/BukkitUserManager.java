@@ -9,16 +9,16 @@ import java.util.UUID;
 
 public class BukkitUserManager implements UserManager<BukkitOnlineUser> {
 
-    private static BukkitUserManager instance;
     private final Map<UUID, BukkitOnlineUser> users = new HashMap<>();
 
     private BukkitUserManager() {}
 
+    private static class SingletonHolder {
+        private static final BukkitUserManager INSTANCE = new BukkitUserManager();
+    }
+
     public static BukkitUserManager getInstance() {
-        if (instance == null) {
-            instance = new BukkitUserManager();
-        }
-        return instance;
+        return SingletonHolder.INSTANCE;
     }
 
     public @NotNull BukkitOnlineUser getUser(UUID uniqueId) {

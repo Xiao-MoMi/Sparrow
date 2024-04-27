@@ -7,7 +7,6 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class AdventureHelper {
 
-    private static AdventureHelper helper;
     private final MiniMessage miniMessage;
     private final MiniMessage miniMessageStrict;
     private final LegacyComponentSerializer legacyComponentSerializer;
@@ -24,11 +23,12 @@ public class AdventureHelper {
         this.gsonComponentSerializer = GsonComponentSerializer.builder().build();
     }
 
-    private static AdventureHelper getInstance() {
-        if (helper == null) {
-            helper = new AdventureHelper();
-        }
-        return helper;
+    private static class SingletonHolder {
+        private static final AdventureHelper INSTANCE = new AdventureHelper();
+    }
+
+    public static AdventureHelper getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
     public static MiniMessage getMiniMessage() {

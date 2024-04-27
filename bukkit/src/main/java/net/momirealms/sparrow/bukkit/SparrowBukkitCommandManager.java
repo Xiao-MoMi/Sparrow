@@ -1,16 +1,11 @@
 package net.momirealms.sparrow.bukkit;
 
-import com.google.common.base.Preconditions;
 import com.mojang.brigadier.arguments.ArgumentType;
-import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.dejvokep.boostedyaml.block.implementation.Section;
 import io.leangen.geantyref.TypeToken;
-import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.bukkit.command.CommandConfig;
-import net.momirealms.sparrow.bukkit.command.CommandFeature;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
+import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
+import net.momirealms.sparrow.common.command.CommandFeature;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
@@ -18,21 +13,16 @@ import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
 import org.incendo.cloud.bukkit.internal.BukkitBrigadierMapper;
 import org.incendo.cloud.bukkit.internal.CraftBukkitReflection;
 import org.incendo.cloud.bukkit.internal.RegistryReflection;
-import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 import org.incendo.cloud.paper.PaperCommandManager;
 import org.incendo.cloud.paper.parser.KeyedWorldParser;
 import org.incendo.cloud.setting.ManagerSetting;
 
-import java.util.HashSet;
 import java.util.List;
 
-public class BukkitCommands {
+public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<CommandSender> {
 
-    private final HashSet<CommandComponent<? extends CommandSender>> registeredCommandComponents = new HashSet<>();
-
-    private final List<CommandFeature> FEATURES = List.of(
+    private static final List<CommandFeature<CommandSender>> FEATURES = List.of(
             new WorkbenchPlayerCommand(),
             new WorkbenchAdminCommand(),
             new HealPlayerCommand(),
@@ -78,25 +68,33 @@ public class BukkitCommands {
             new TpOfflineAdminCommand(),
             new TpOfflinePlayerCommand(),
             new TopBlockAdminCommand(),
-            new TopBlockPlayerCommand()
+            new TopBlockPlayerCommand(),
+            new BurnAdminCommand(),
+            new ExtinguishAdminCommand()
     );
 
-    private final SparrowBukkitPlugin plugin;
-    private final PaperCommandManager<CommandSender> manager;
+    @Override
+    protected List<CommandFeature<CommandSender>> getFeatureList() {
+        return FEATURES;
+    }
 
-    public BukkitCommands(SparrowBukkitPlugin plugin) {
-        this.plugin = plugin;
-        this.manager = new PaperCommandManager<>(
+    public SparrowBukkitCommandManager(SparrowBukkitPlugin plugin) {
+        super(plugin, new PaperCommandManager<>(
                 plugin.getLoader(),
                 ExecutionCoordinator.simpleCoordinator(),
                 SenderMapper.identity()
-        );
-        this.manager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, true);
-        this.manager.parserRegistry().registerParser(CustomEnchantmentParser.enchantmentParser());
-        if (this.manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
-            this.manager.registerBrigadier();
-            this.manager.brigadierManager().setNativeNumberSuggestions(true);
-            BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(this.manager, this.manager.brigadierManager());
+        ));
+        this.registerMappings();
+    }
+
+    private void registerMappings() {
+        final PaperCommandManager<CommandSender> manager = (PaperCommandManager<CommandSender>) getCommandManager();
+        manager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, true);
+        manager.parserRegistry().registerParser(CustomEnchantmentParser.enchantmentParser());
+        if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
+            manager.registerBrigadier();
+            manager.brigadierManager().setNativeNumberSuggestions(true);
+            BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(manager, manager.brigadierManager());
             switch (plugin.getBootstrap().getServerVersion()) {
                 case "1.17.1", "1.18.1", "1.18.2", "1.19.1", "1.19.2" -> mapper.mapSimpleNMS(new TypeToken<CustomEnchantmentParser<CommandSender>>() {}, "item_enchantment");
                 default -> mapper.mapNMS(
@@ -112,45 +110,8 @@ public class BukkitCommands {
             if (keyed != null && keyed.isAssignableFrom(World.class)) {
                 mapper.mapSimpleNMS(new TypeToken<KeyedWorldParser<CommandSender>>() {}, "resource_location", true);
             }
-        } else if (this.manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
-            this.manager.registerAsynchronousCompletions();
+        } else if (manager.hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
+            manager.registerAsynchronousCompletions();
         }
-
-        MinecraftExceptionHandler.<CommandSender>create(c -> plugin.getSenderFactory().getAudience(c))
-                .defaultHandlers()
-                .captionFormatter(new SparrowCaptionFormatter<>())
-                .registerTo(this.manager);
-    }
-
-    public void unregisterCommandFeatures() {
-        for (CommandComponent<? extends CommandSender> command : registeredCommandComponents) {
-            this.manager.commandRegistrationHandler().unregisterRootCommand((CommandComponent<CommandSender>) command);
-        }
-        this.registeredCommandComponents.clear();
-        FEATURES.forEach(commandFeature -> {
-            if (commandFeature instanceof AbstractCommand command) {
-                command.unregisterRelatedFunctions();
-            }
-        });
-    }
-
-    public void registerCommandFeatures() {
-        YamlDocument document = plugin.getConfigManager().loadConfig("commands.yml");
-        FEATURES.forEach(feature -> feature.registerFeature(this, this.manager,
-                Preconditions.checkNotNull(getCommandConfigFromDocument(document, feature.getFeatureID()), feature.getFeatureID() + " doesn't exist in commands.yml")));
-    }
-
-    private CommandConfig getCommandConfigFromDocument(YamlDocument document, String id) {
-        Section section = document.getSection(id);
-        if (section == null) return null;
-        return new CommandConfig(
-                section.getBoolean("enable", false),
-                section.getStringList("usage"),
-                section.getString("permission")
-        );
-    }
-
-    public void addCommandComponent(CommandComponent<? extends CommandSender> command) {
-        registeredCommandComponents.add(command);
     }
 }

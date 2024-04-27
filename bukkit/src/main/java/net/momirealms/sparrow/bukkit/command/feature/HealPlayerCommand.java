@@ -1,16 +1,16 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.util.EntityUtils;
+import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
-import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.CommandManager;
 
-public class HealPlayerCommand extends AbstractCommand {
+public class HealPlayerCommand extends AbstractCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -18,7 +18,7 @@ public class HealPlayerCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> {

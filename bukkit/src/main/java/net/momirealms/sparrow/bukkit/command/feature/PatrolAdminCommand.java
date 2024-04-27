@@ -3,10 +3,10 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.feature.patrol.BukkitPatrolManager;
 import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
+import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -20,7 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.incendo.cloud.Command;
-import org.incendo.cloud.bukkit.BukkitCommandManager;
+import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.ArgumentParseResult;
 import org.incendo.cloud.parser.ParserDescriptor;
@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PatrolAdminCommand extends AbstractCommand {
+public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
 
     private static final String BYPASS = "sparrow.bypass.patrol";
     private final PatrolListener listener;
@@ -57,7 +57,7 @@ public class PatrolAdminCommand extends AbstractCommand {
     }
 
     @Override
-    public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
+    public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
                 .required("players", multiplePlayerSelectorParser())

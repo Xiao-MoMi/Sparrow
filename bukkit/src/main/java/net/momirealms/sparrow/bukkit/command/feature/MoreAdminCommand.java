@@ -11,25 +11,27 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
+import org.incendo.cloud.parser.standard.IntegerParser;
 
-public class AnvilAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
-        return "anvil_admin";
+        return "loom_admin";
     }
 
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .optional("amount", IntegerParser.integerParser(0))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
-                    var players = selector.values();
                     boolean silent = commandContext.flags().hasFlag("silent");
+                    var players = selector.values();
                     for (Player player : players) {
-                        player.openAnvil(null, true);
+                        player.openLoom(null, true);
                     }
                     if (!silent) {
                         if (players.size() == 1) {
@@ -37,7 +39,7 @@ public class AnvilAdminCommand extends AbstractCommandFeature<CommandSender> {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ANVIL_SUCCESS_SINGLE
+                                                    MessageConstants.COMMANDS_ADMIN_LOOM_SUCCESS_SINGLE
                                                             .arguments(Component.text(players.iterator().next().getName()))
                                                             .build()
                                             ),
@@ -48,7 +50,7 @@ public class AnvilAdminCommand extends AbstractCommandFeature<CommandSender> {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ANVIL_SUCCESS_MULTIPLE
+                                                    MessageConstants.COMMANDS_ADMIN_LOOM_SUCCESS_MULTIPLE
                                                             .arguments(Component.text(players.size()))
                                                             .build()
                                             ),
