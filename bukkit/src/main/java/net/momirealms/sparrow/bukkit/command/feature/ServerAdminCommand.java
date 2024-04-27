@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.bukkit.BukkitCommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
-import org.incendo.cloud.bukkit.parser.PlayerParser;
+import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
 public class ServerAdminCommand extends AbstractCommand {
@@ -23,7 +23,7 @@ public class ServerAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", PlayerParser.playerParser())
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
                 .required("server", StringParser.stringParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
@@ -31,18 +31,6 @@ public class ServerAdminCommand extends AbstractCommand {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
-                    if (players.size() == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
-                                            ),
-                                            true
-                                    );
-                        return;
-                    }
                     for (Player player : players) {
                         SparrowBukkitPlugin.getInstance().getBungeeManager().connectServer(player, server);
                     }

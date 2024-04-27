@@ -15,8 +15,9 @@ config-version: "1"
 #     - First line
 #     - Second line
 #
-argument.entity.notfound.entity: "<red><lang:argument.entity.notfound.entity></red>"
-argument.entity.notfound.player: "<red><lang:argument.entity.notfound.player></red>"
+exception.invalid_syntax: "<red>Invalid syntax. Correct syntax: <white><arg:0></white></red>"
+exception.invalid_argument: "<red>Invalid argument. Reason: <white><arg:0></white></red>"
+argument.parse.failure.enchantment: "<red>Failed to parse enchantment: <white><arg:0></white></red>"
 commands.admin.reload.success: "<gray>Reloaded. Took <green><arg:0></green> ms</gray>"
 commands.player.anvil.success: "<gray>You opened the anvil</gray>"
 commands.admin.anvil.success.single: "<gray>Opened anvil for <white><arg:0></white></gray>"
@@ -62,6 +63,7 @@ commands.admin.flyspeed.success.multiple: "<gray>Modified fly speed for <white><
 commands.player.world.success: "<gray>Changed world to <white><arg:0></white></gray>"
 commands.admin.world.success.single: "<gray>Changed world for <white><arg:0></white></gray> to <white><arg:1></white>"
 commands.admin.world.success.multiple: "<gray>Changed world for <white><arg:0></white> entities</gray> to <white><arg:1></white>"
+commands.admin.patrol.failed.target: "<red>No target be selected</red>"
 commands.admin.patrol.success: "<gray>Now patrolling <white><arg:0></white></gray>"
 commands.player.suicide.success: "<gray>You suicided</gray>"
 commands.player.server.success: "<gray>Changed server to <white><arg:0></white></gray>"

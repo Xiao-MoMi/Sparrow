@@ -23,25 +23,12 @@ public class TopBlockAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
+                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultipleEntitySelector selector = commandContext.get("entity");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var entities = selector.values();
-                    if (entities.size() == 0) {
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_ENTITY.build()
-                                            ),
-                                            true
-                                    );
-                        }
-                        return;
-                    }
                     for (Entity entity : entities) {
                         EntityUtils.toTopBlockPosition(entity);
                     }

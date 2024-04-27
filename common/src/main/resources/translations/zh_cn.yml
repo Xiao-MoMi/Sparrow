@@ -15,8 +15,9 @@ config-version: "1"
 #     - 第一行
 #     - 第二行
 #
-argument.entity.notfound.entity: "<red><lang:argument.entity.notfound.entity></red>"
-argument.entity.notfound.player: "<red><lang:argument.entity.notfound.player></red>"
+exception.invalid_syntax: "<red>无效的语法。正确的语法: <white><arg:0></white></red>"
+exception.invalid_argument: "<red>无效的参数。原因: <white><arg:0></white></red>"
+argument.parse.failure.enchantment: "<red>无法解析附魔<white><arg:0></white></red>"
 commands.admin.reload.success: "<gray>已重新加载配置文件。耗时<green><arg:0></green>毫秒</gray><newline><green><click:open_url:https://github.com/jhqwqmc>译者：jhqwqmc</click></green>"
 commands.player.anvil.success: "<gray>你打开了铁砧</gray>"
 commands.admin.anvil.success.single: "<gray>为<white><arg:0></white>打开了铁砧</gray>"
@@ -62,6 +63,7 @@ commands.admin.flyspeed.success.multiple: "<gray>修改了<white><arg:0></white>
 commands.player.world.success: "<gray>你已传送到<white><arg:0></white>世界</gray>"
 commands.admin.world.success.single: "<gray>已将<white><arg:0></white>传送到<white><arg:1></white>世界</gray>"
 commands.admin.world.success.multiple: "<gray>已将<white><arg:0></white>个实体传送到<white><arg:1></white>世界</gray>"
+commands.admin.patrol.failed.target: "<red>没有目标被选中</red>"
 commands.admin.patrol.success: "<gray>现在正在巡查<white><arg:0></white></gray>"
 commands.player.suicide.success: "<gray>你紫砂了</gray>"
 commands.player.server.success: "<gray>你已传送到<white><arg:0></white>服务器</gray>"

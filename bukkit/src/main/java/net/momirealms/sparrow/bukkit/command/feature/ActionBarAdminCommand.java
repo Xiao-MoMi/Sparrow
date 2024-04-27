@@ -24,7 +24,7 @@ public class ActionBarAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
                 .required("actionbar", StringParser.greedyFlagYieldingStringParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .flag(manager.flagBuilder("legacy-color").withAliases("l"))
@@ -34,18 +34,6 @@ public class ActionBarAdminCommand extends AbstractCommand {
                     String actionBarContent = commandContext.get("actionbar");
                     boolean legacy = commandContext.flags().hasFlag("legacy-color");
                     boolean silent = commandContext.flags().hasFlag("silent");
-                    if (players.size() == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
-                                            ),
-                                            true
-                                    );
-                        return;
-                    }
                     for (Player player : players) {
                         String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                 legacy ? AdventureHelper.legacyToMiniMessage(actionBarContent) : actionBarContent
