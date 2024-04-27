@@ -38,10 +38,10 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class BukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, CommandSender> {
+public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugin, CommandSender> {
     private final BukkitAudiences audiences;
 
-    public BukkitSenderFactory(SparrowBukkitPlugin plugin) {
+    public SparrowBukkitSenderFactory(SparrowBukkitPlugin plugin) {
         super(plugin);
         this.audiences = BukkitAudiences.create(plugin.getLoader());
     }

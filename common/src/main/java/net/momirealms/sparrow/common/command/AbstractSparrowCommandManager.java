@@ -18,9 +18,9 @@ import java.util.List;
 public abstract class AbstractSparrowCommandManager<C> implements SparrowCommandManager<C> {
 
     protected final HashSet<CommandComponent<C>> registeredRootCommandComponents = new HashSet<>();
+    protected final HashSet<CommandFeature<C>> registeredFeatures = new HashSet<>();
     protected final CommandManager<C> commandManager;
     protected final SparrowPlugin plugin;
-    protected final HashSet<CommandFeature<C>> registeredFeatures = new HashSet<>();
 
     public AbstractSparrowCommandManager(SparrowPlugin plugin, CommandManager<C> commandManager) {
         this.commandManager = commandManager;

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class BukkitBungeeManager implements PluginMessageListener, Listener {
+public class SparrowBukkitBungeeManager implements PluginMessageListener, Listener {
 
     private final static String GET_SERVERS_PERM = "sparrow.proxy.getservers";
     private final SparrowBukkitPlugin plugin;
@@ -23,7 +23,7 @@ public class BukkitBungeeManager implements PluginMessageListener, Listener {
     private final ArrayList<String> backendServers = new ArrayList<>();
     private boolean proxyEnabled = false;
 
-    public BukkitBungeeManager(SparrowBukkitPlugin plugin) {
+    public SparrowBukkitBungeeManager(SparrowBukkitPlugin plugin) {
         this.plugin = plugin;
         this.init();
     }

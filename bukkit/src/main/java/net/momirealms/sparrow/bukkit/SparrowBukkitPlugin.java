@@ -13,32 +13,15 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     private static SparrowBukkitPlugin plugin;
     private final SparrowBukkitBootstrap bootstrap;
-    private BukkitSenderFactory senderFactory;
-    private SparrowBukkitCommandManager sparrowBukkitCommandManager;
-    private CoreNMSBridge coreNMSBridge;
-    private final BukkitBungeeManager bungeeManager;
+    private final SparrowBukkitBungeeManager bungeeManager;
+    private SparrowBukkitSenderFactory senderFactory;
+    private SparrowBukkitCommandManager commandManager;
+    private SparrowCoreNMSBridge coreNMSBridge;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         plugin = this;
         this.bootstrap = bootstrap;
-        this.bungeeManager = new BukkitBungeeManager(this);
-    }
-
-    @Override
-    public SparrowBukkitBootstrap getBootstrap() {
-        return bootstrap;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public SenderFactory<SparrowBukkitPlugin, CommandSender> getSenderFactory() {
-        return senderFactory;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public SparrowCommandManager<CommandSender> getCommandManager() {
-        return sparrowBukkitCommandManager;
+        this.bungeeManager = new SparrowBukkitBungeeManager(this);
     }
 
     @Override
@@ -60,26 +43,26 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     public void enable() {
-        this.coreNMSBridge = new CoreNMSBridge();
+        this.coreNMSBridge = new SparrowCoreNMSBridge();
         super.enable();
     }
 
     @Override
     public void disable() {
-        this.sparrowBukkitCommandManager.unregisterCommandFeatures();
+        this.commandManager.unregisterCommandFeatures();
         this.bungeeManager.disable();
         super.disable();
     }
 
     @Override
     protected void setupSenderFactory() {
-        this.senderFactory = new BukkitSenderFactory(this);
+        this.senderFactory = new SparrowBukkitSenderFactory(this);
     }
 
     @Override
-    protected void setupCommands() {
-        this.sparrowBukkitCommandManager = new SparrowBukkitCommandManager(this);
-        this.sparrowBukkitCommandManager.registerCommandFeatures();
+    protected void setupCommandManager() {
+        this.commandManager = new SparrowBukkitCommandManager(this);
+        this.commandManager.registerCommandFeatures();
     }
 
     public JavaPlugin getLoader() {
@@ -90,12 +73,29 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         return plugin;
     }
 
-    public CoreNMSBridge getCoreNMSBridge() {
+    public SparrowCoreNMSBridge getCoreNMSBridge() {
         return coreNMSBridge;
     }
 
-    public BukkitBungeeManager getBungeeManager() {
+    public SparrowBukkitBungeeManager getBungeeManager() {
         return bungeeManager;
+    }
+
+    @Override
+    public SparrowBukkitBootstrap getBootstrap() {
+        return bootstrap;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public SenderFactory<SparrowBukkitPlugin, CommandSender> getSenderFactory() {
+        return senderFactory;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public SparrowCommandManager<CommandSender> getCommandManager() {
+        return commandManager;
     }
 
     private String getInventoryAccessArtifact() {

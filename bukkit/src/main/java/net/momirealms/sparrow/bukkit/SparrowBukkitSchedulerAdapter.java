@@ -29,10 +29,10 @@ import net.momirealms.sparrow.common.plugin.scheduler.AbstractJavaScheduler;
 import net.momirealms.sparrow.common.plugin.scheduler.RegionExecutor;
 import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 
-public class BukkitSchedulerAdapter extends AbstractJavaScheduler implements SchedulerAdapter {
+public class SparrowBukkitSchedulerAdapter extends AbstractJavaScheduler implements SchedulerAdapter {
     protected RegionExecutor sync;
 
-    public BukkitSchedulerAdapter(SparrowBukkitBootstrap bootstrap, RegionExecutor executor) {
+    public SparrowBukkitSchedulerAdapter(SparrowBukkitBootstrap bootstrap, RegionExecutor executor) {
         super(bootstrap);
         this.sync = executor;
     }

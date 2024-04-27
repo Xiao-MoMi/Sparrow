@@ -77,7 +77,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
     /**
      * A scheduler adapter for the platform
      */
-    private final BukkitSchedulerAdapter schedulerAdapter;
+    private final SparrowBukkitSchedulerAdapter schedulerAdapter;
 
     // load/enable latches
     private final CountDownLatch loadLatch = new CountDownLatch(1);
@@ -97,7 +97,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
         } catch (ClassNotFoundException ignored) {
         }
 
-        this.schedulerAdapter = new BukkitSchedulerAdapter(this,
+        this.schedulerAdapter = new SparrowBukkitSchedulerAdapter(this,
             folia ?
                 (r, l) -> {
                     if (l == null) this.getServer().getGlobalRegionScheduler().execute(this.getLoader(), r);

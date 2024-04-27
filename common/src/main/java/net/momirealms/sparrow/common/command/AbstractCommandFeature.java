@@ -8,6 +8,7 @@ public abstract class AbstractCommandFeature<C> implements CommandFeature<C> {
     public abstract Command.Builder<? extends C> assembleCommand(CommandManager<C> manager, Command.Builder<C> builder);
 
     @Override
+    @SuppressWarnings("unchecked")
     public Command<C> registerCommand(CommandManager<C> manager, Command.Builder<C> builder) {
         Command<C> command = (Command<C>) assembleCommand(manager, builder).build();
         manager.command(command);
