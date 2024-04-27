@@ -9,7 +9,7 @@ import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -76,7 +76,7 @@ public class PatrolAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_PATROL_FAILED_TARGET.build()
+                                                    MessageConstants.COMMANDS_ADMIN_PATROL_FAILED_TARGET.build()
                                             ),
                                             true
                                     );
@@ -95,7 +95,7 @@ public class PatrolAdminCommand extends AbstractCommand {
                                 .wrap(commandContext.sender())
                                 .sendMessage(
                                         TranslationManager.render(
-                                                Message.COMMANDS_ADMIN_PATROL_SUCCESS
+                                                MessageConstants.COMMANDS_ADMIN_PATROL_SUCCESS
                                                         .arguments(Component.text(targetUser.getPlayer().getName()))
                                                         .build()
                                         ),

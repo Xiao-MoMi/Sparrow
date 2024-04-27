@@ -1,6 +1,5 @@
 package net.momirealms.sparrow.bukkit.command.parser;
 
-import org.apiguardian.api.API;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -20,12 +19,10 @@ import java.util.stream.Collectors;
 public class HeavyOfflinePlayerParser<C> implements ArgumentParser<C, OfflinePlayer>,
         BlockingSuggestionProvider.Strings<C> {
 
-    @API(status = API.Status.STABLE, since = "2.0.0")
     public static <C> @NonNull ParserDescriptor<C, OfflinePlayer> heavyOfflinePlayerParser() {
         return ParserDescriptor.of(new HeavyOfflinePlayerParser<>(), OfflinePlayer.class);
     }
 
-    @API(status = API.Status.STABLE, since = "2.0.0")
     public static <C> CommandComponent.@NonNull Builder<C, OfflinePlayer> heavyOfflinePlayerComponent() {
         return CommandComponent.<C, OfflinePlayer>builder().parser(heavyOfflinePlayerParser());
     }

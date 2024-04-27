@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -34,7 +34,7 @@ public class TpOfflinePlayerCommand extends AbstractCommand {
                                 .wrap(commandContext.sender())
                                 .sendMessage(
                                         TranslationManager.render(
-                                                Message.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED
+                                                MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED
                                                         .arguments(Component.text((String) commandContext.get("player")))
                                                         .build()
                                         ),
@@ -48,7 +48,7 @@ public class TpOfflinePlayerCommand extends AbstractCommand {
                             .wrap(commandContext.sender())
                             .sendMessage(
                                     TranslationManager.render(
-                                            Message.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS
+                                            MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS
                                                     .arguments(Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId()))))
                                                     .build()
                                     ),

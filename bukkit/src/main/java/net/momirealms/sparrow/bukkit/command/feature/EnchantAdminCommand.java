@@ -5,7 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
@@ -54,7 +54,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL
+                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL
                                                             .arguments(Component.text(level), Component.text(enchantment.getMaxLevel()))
                                                             .build()
                                             )
@@ -78,7 +78,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                                 .wrap(commandContext.sender())
                                                 .sendMessage(
                                                         TranslationManager.render(
-                                                                Message.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE
+                                                                MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE
                                                                         .arguments(Component.translatable(itemStack.translationKey()))
                                                                         .build()
                                                         )
@@ -96,7 +96,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                             .wrap(commandContext.sender())
                                             .sendMessage(
                                                     TranslationManager.render(
-                                                            Message.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS
+                                                            MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS
                                                                     .arguments(Component.text(livingEntity.getName()))
                                                                     .build()
                                                     )
@@ -110,7 +110,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY
+                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY
                                                             .arguments(Component.text(entity.getName()))
                                                             .build()
                                             )
@@ -123,7 +123,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_FAILED
+                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED
                                                             .build()
                                             )
                                     );
@@ -135,7 +135,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE
+                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE
                                                             .arguments(getFullName(enchantment, level), Component.text(targets.iterator().next().getName()))
                                                             .build()
                                             )
@@ -146,7 +146,7 @@ public class EnchantAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE
+                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE
                                                             .arguments(getFullName(enchantment, level), Component.text(targets.size()))
                                                             .build()
                                             )

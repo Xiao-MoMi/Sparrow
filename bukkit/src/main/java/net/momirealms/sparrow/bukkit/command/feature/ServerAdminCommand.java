@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,7 +40,7 @@ public class ServerAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_SERVER_SUCCESS_SINGLE
+                                                    MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_SINGLE
                                                             .arguments(Component.text(players.iterator().next().getName()), Component.text(server))
                                                             .build()
                                             ),
@@ -51,7 +51,7 @@ public class ServerAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_SERVER_SUCCESS_MULTIPLE
+                                                    MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_MULTIPLE
                                                             .arguments(Component.text(players.size()), Component.text(server))
                                                             .build()
                                             ),

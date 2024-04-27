@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
@@ -35,7 +35,7 @@ public class DyePlayerCommand extends AbstractCommand {
                                 .wrap(commandContext.sender())
                                 .sendMessage(
                                         TranslationManager.render(
-                                                Message.COMMANDS_PLAYER_DYE_FAILED_ITEMLESS
+                                                MessageConstants.COMMANDS_PLAYER_DYE_FAILED_ITEMLESS
                                                         .build()
                                         ),
                                         true
@@ -47,7 +47,7 @@ public class DyePlayerCommand extends AbstractCommand {
                                 .wrap(commandContext.sender())
                                 .sendMessage(
                                         TranslationManager.render(
-                                                Message.COMMANDS_PLAYER_DYE_FAILED_INCOMPATIBLE
+                                                MessageConstants.COMMANDS_PLAYER_DYE_FAILED_INCOMPATIBLE
                                                         .arguments(Component.translatable(itemStack.translationKey()))
                                                         .build()
                                         ),
@@ -62,7 +62,7 @@ public class DyePlayerCommand extends AbstractCommand {
                             .wrap(commandContext.sender())
                             .sendMessage(
                                     TranslationManager.render(
-                                            Message.COMMANDS_PLAYER_DYE_SUCCESS
+                                            MessageConstants.COMMANDS_PLAYER_DYE_SUCCESS
                                                     .build()
                                     ),
                                     true

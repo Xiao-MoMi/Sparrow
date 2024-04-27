@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
 import net.momirealms.sparrow.bukkit.util.EntityUtils;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -42,7 +42,7 @@ public class WorldAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_WORLD_SUCCESS_SINGLE
+                                                    MessageConstants.COMMANDS_ADMIN_WORLD_SUCCESS_SINGLE
                                                             .arguments(Component.text(entities.iterator().next().getName()), Component.text(world.getName()))
                                                             .build()
                                             ),
@@ -53,7 +53,7 @@ public class WorldAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_WORLD_SUCCESS_MULTIPLE
+                                                    MessageConstants.COMMANDS_ADMIN_WORLD_SUCCESS_MULTIPLE
                                                             .arguments(Component.text(entities.size()), Component.text(world.getName()))
                                                             .build()
                                             ),

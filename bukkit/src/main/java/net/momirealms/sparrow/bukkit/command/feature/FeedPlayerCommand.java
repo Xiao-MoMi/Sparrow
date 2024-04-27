@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,7 +28,7 @@ public class FeedPlayerCommand extends AbstractCommand {
                             .wrap(commandContext.sender())
                             .sendMessage(
                                     TranslationManager.render(
-                                            Message.COMMANDS_PLAYER_FEED_SUCCESS.build()
+                                            MessageConstants.COMMANDS_PLAYER_FEED_SUCCESS.build()
                                     ),
                                     true
                             );

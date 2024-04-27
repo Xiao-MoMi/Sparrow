@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -39,7 +39,7 @@ public class TpOfflineAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_TP_OFFLINE_FAILED_NEVER_PLAYED
+                                                    MessageConstants.COMMANDS_ADMIN_TP_OFFLINE_FAILED_NEVER_PLAYED
                                                             .arguments(Component.text((String) commandContext.get("player")))
                                                             .build()
                                             ),
@@ -62,7 +62,7 @@ public class TpOfflineAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_SINGLE
+                                                    MessageConstants.COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_SINGLE
                                                             .arguments(Component.text(entities.iterator().next().getName()), Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId()))))
                                                             .build()
                                             ),
@@ -75,7 +75,7 @@ public class TpOfflineAdminCommand extends AbstractCommand {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    Message.COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_MULTIPLE
+                                                    MessageConstants.COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_MULTIPLE
                                                             .arguments(Component.text(entities.size()), Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId()))))
                                                             .build()
                                             ),

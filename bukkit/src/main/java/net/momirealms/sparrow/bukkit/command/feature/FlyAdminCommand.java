@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.AbstractCommand;
-import net.momirealms.sparrow.common.locale.Message;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_FAILED_ON
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_FAILED_ON
                                                                 .arguments(Component.text(player.getName()))
                                                                 .build()
                                                 ),
@@ -54,7 +54,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_FAILED_OFF
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_FAILED_OFF
                                                                 .arguments(Component.text(player.getName()))
                                                                 .build()
                                                 ),
@@ -71,7 +71,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_SUCCESS_ON_SINGLE
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_SINGLE
                                                                 .arguments(Component.text(player.getName()))
                                                                 .build()
                                                 ),
@@ -82,7 +82,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_SUCCESS_OFF_SINGLE
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_SINGLE
                                                                 .arguments(Component.text(player.getName()))
                                                                 .build()
                                                 ),
@@ -101,7 +101,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_SUCCESS_ON_MULTIPLE
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_MULTIPLE
                                                                 .arguments(Component.text(players.size()))
                                                                 .build()
                                                 ),
@@ -112,7 +112,7 @@ public class FlyAdminCommand extends AbstractCommand {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        Message.COMMANDS_ADMIN_FLY_SUCCESS_OFF_MULTIPLE
+                                                        MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_MULTIPLE
                                                                 .arguments(Component.text(players.size()))
                                                                 .build()
                                                 ),

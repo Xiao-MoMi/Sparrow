@@ -1,8 +1,8 @@
-package net.momirealms.sparrow.bukkit.command.parser;
+package net.momirealms.sparrow.common.command.parser;
 
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.momirealms.sparrow.common.locale.CaptionConstants;
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.incendo.cloud.caption.Caption;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.caption.StandardCaptionKeys;
 import org.incendo.cloud.component.CommandComponent;
@@ -16,6 +16,7 @@ import org.incendo.cloud.parser.standard.DurationParser;
 import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -27,7 +28,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
 
     private static final Pattern TIME_PATTERN = Pattern.compile("(([1-9][0-9]+|[1-9])[dhmst])");
 
-    private static final Object2IntMap<String> UNITS = new Object2IntOpenHashMap<>();
+    private static final HashMap<String, Integer> UNITS = new HashMap<>();
 
     public static <C> @NonNull ParserDescriptor<C, Long> timeParser() {
         return ParserDescriptor.of(new TimeParser<>(), Long.class);
@@ -59,9 +60,9 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
             String timeUnit = String.valueOf(group.charAt(group.length() - 1));
             int timeValue = Integer.parseInt(group.substring(0, group.length() - 1));
             switch (timeUnit) {
-                case "d", "s", "h", "m", "t" -> ticks += (long) UNITS.getInt(timeUnit) * timeValue;
+                case "d", "s", "h", "m", "t" -> ticks += (long) UNITS.get(timeUnit) * timeValue;
                 default -> {
-                    return ArgumentParseResult.failure(new DurationParser.DurationParseException(input, commandContext));
+                    return ArgumentParseResult.failure(new TimeParseException(input, commandContext));
                 }
             }
         }
@@ -100,7 +101,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
             super(
                     TimeParser.class,
                     context,
-                    StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_DURATION,
+                    CaptionConstants.ARGUMENT_PARSE_FAILURE_TIME,
                     CaptionVariable.of("input", input)
             );
             this.input = input;
