@@ -314,3 +314,16 @@ tpoffline_admin:
   usage:
     - /sparrow tpoffline
     - /spa tpoffline
+
+topblock_player:
+  enable: true
+  permission: sparrow.command.player.topblock
+  usage:
+    - /topblock
+
+topblock_admin:
+  enable: true
+  permission: sparrow.command.admin.topblock
+  usage:
+    - /sparrow topblock
+    - /spa topblock

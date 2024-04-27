@@ -74,7 +74,9 @@ public class BukkitCommands {
             new DyePlayerCommand(),
             new DyeAdminCommand(),
             new TpOfflineAdminCommand(),
-            new TpOfflinePlayerCommand()
+            new TpOfflinePlayerCommand(),
+            new TopBlockAdminCommand(),
+            new TopBlockPlayerCommand()
     );
 
     private final SparrowBukkitPlugin plugin;

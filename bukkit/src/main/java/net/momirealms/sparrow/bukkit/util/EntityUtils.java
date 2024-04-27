@@ -33,6 +33,14 @@ public class EntityUtils {
         }
     }
 
+    public static void toTopBlockPosition(Entity entity) {
+         var location = entity.getLocation();
+         var block = location.getWorld().getHighestBlockAt(location.getBlockX(), location.getBlockZ());
+         var newLocation = location.clone();
+         newLocation.setY(block.isPassable() ? block.getY() : block.getY() + 1);
+         entity.teleport(newLocation);
+    }
+
     public static void changeWorld(@NotNull Entity entity, World to) {
         var fromEnv = entity.getWorld().getEnvironment();
         var toEnv = to.getEnvironment();

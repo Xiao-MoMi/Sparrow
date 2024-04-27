@@ -95,4 +95,7 @@ public interface Message {
     TranslatableComponent.Builder COMMANDS_ADMIN_TP_OFFLINE_FAILED_NEVER_PLAYED = Component.translatable().key("commands.admin.tpoffline.failed.neverplayed");
     TranslatableComponent.Builder COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_SINGLE = Component.translatable().key("commands.admin.tpoffline.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_TP_OFFLINE_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.tpoffline.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_TOP_BLOCK_SUCCESS = Component.translatable().key("commands.player.topblock.success");
+    TranslatableComponent.Builder COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_SINGLE = Component.translatable().key("commands.admin.topblock.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.topblock.success.multiple");
 }

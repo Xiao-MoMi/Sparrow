@@ -105,3 +105,6 @@ commands.player.tpoffline.success: "<gray>Teleported to player <white><arg:0></w
 commands.admin.tpoffline.failed.neverplayed: "<gray>Player <arg:0> has never played the server</gray>"
 commands.admin.tpoffline.success.single: "<gray>Teleported player <white><arg:0></white> to player <white><arg:1></white>'s logout location</gray>"
 commands.admin.tpoffline.success.multiple: "<gray>Teleported <white><arg:0></white> entities to player <white><arg:1></white>'s logout location</gray>"
+commands.player.topblock.success: "<gray>Teleported to the highest block location</gray>"
+commands.admin.topblock.success.single: "<gray>Teleported <white><arg:0></white> to the highest block location</gray>"
+commands.admin.topblock.success.multiple: "<gray>Teleported <white><arg:0></white> entities to the highest block location</gray>"
