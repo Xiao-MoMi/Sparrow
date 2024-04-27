@@ -72,7 +72,9 @@ public class BukkitCommands {
             new ColorAdminCommand(),
             new ReloadAdminCommand(),
             new DyePlayerCommand(),
-            new DyeAdminCommand()
+            new DyeAdminCommand(),
+            new TpOfflineAdminCommand(),
+            new TpOfflinePlayerCommand()
     );
 
     private final SparrowBukkitPlugin plugin;
