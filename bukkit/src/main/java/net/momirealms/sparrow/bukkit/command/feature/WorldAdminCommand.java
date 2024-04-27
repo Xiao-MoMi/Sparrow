@@ -56,7 +56,7 @@ public class WorldAdminCommand extends AbstractCommand {
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_WORLD_SUCCESS_SINGLE
-                                                            .arguments(Component.text(entities.iterator().next().getName()))
+                                                            .arguments(Component.text(entities.iterator().next().getName()), Component.text(world.getName()))
                                                             .build()
                                             ),
                                             true
@@ -67,7 +67,7 @@ public class WorldAdminCommand extends AbstractCommand {
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_WORLD_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(entities.size()))
+                                                            .arguments(Component.text(entities.size()), Component.text(world.getName()))
                                                             .build()
                                             ),
                                             true

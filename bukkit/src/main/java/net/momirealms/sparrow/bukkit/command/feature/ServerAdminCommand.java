@@ -53,7 +53,7 @@ public class ServerAdminCommand extends AbstractCommand {
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_SERVER_SUCCESS_SINGLE
-                                                            .arguments(Component.text(players.iterator().next().getName()))
+                                                            .arguments(Component.text(players.iterator().next().getName()), Component.text(server))
                                                             .build()
                                             ),
                                             true
@@ -64,7 +64,7 @@ public class ServerAdminCommand extends AbstractCommand {
                                     .sendMessage(
                                             TranslationManager.render(
                                                     Message.COMMANDS_ADMIN_SERVER_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(players.size()))
+                                                            .arguments(Component.text(players.size()), Component.text(server))
                                                             .build()
                                             ),
                                             true
