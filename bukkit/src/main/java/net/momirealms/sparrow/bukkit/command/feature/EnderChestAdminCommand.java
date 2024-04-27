@@ -24,24 +24,12 @@ public class EnderChestAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get("player");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
-                    if (players.size() == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
-                                            ),
-                                            true
-                                    );
-                        return;
-                    }
                     for (Player player : players) {
                         InventoryAccess.getInventoryUtils().openCustomInventory(player, player.getEnderChest(), new ShadedAdventureComponentWrapper(Component.translatable("container.enderchest")));
                     }

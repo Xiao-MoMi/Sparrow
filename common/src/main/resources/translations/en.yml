@@ -15,8 +15,6 @@ config-version: "1"
 #     - First line
 #     - Second line
 #
-argument.entity.notfound.entity: "<red><lang:argument.entity.notfound.entity></red>"
-argument.entity.notfound.player: "<red><lang:argument.entity.notfound.player></red>"
 commands.admin.reload.success: "<gray>Reloaded. Took <green><arg:0></green> ms</gray>"
 commands.player.anvil.success: "<gray>You opened the anvil</gray>"
 commands.admin.anvil.success.single: "<gray>Opened anvil for <white><arg:0></white></gray>"

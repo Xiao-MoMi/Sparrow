@@ -34,7 +34,7 @@ public class EnchantAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser())
+                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
                 .required("enchantment", CustomEnchantmentParser.enchantmentParser())
                 .optional("level", IntegerParser.integerParser(1))
                 .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
@@ -66,19 +66,6 @@ public class EnchantAdminCommand extends AbstractCommand {
                     boolean ignoreConflict = commandContext.flags().hasFlag("ignore-conflict");
                     MultipleEntitySelector selector = commandContext.get("entity");
                     Collection<Entity> targets = selector.values();
-                    if (targets.size() == 0) {
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_ENTITY.build()
-                                            ),
-                                            true
-                                    );
-                        }
-                        return;
-                    }
                     for (Entity entity : targets) {
                         if (entity instanceof LivingEntity livingEntity) {
                             EntityEquipment entityEquipment = livingEntity.getEquipment();

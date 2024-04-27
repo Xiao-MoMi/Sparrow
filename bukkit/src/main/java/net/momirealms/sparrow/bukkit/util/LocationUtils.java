@@ -4,7 +4,7 @@ import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-public class LocationUtils {
+public final class LocationUtils {
 
     private LocationUtils() {}
 

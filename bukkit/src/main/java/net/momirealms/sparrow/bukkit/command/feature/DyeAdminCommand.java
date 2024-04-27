@@ -44,59 +44,47 @@ public class DyeAdminCommand extends AbstractCommand {
                     EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     MultipleEntitySelector selector = commandContext.get("entity");
                     var entities = selector.values();
-                    if (entities.size() == 0) {
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_ENTITY.build()
-                                            ),
-                                            true
-                                    );
-                        }
-                        return;
-                    }
                     int i = 0;
                     Color color = Color.fromRGB(textColor.red(), textColor.green(), textColor.blue());
                     for (Entity entity : entities) {
                         if (entity instanceof LivingEntity livingEntity) {
                             EntityEquipment entityEquipment = livingEntity.getEquipment();
-                            if (entityEquipment != null) {
-                                ItemStack itemStack = entityEquipment.getItem(slot);
-                                if (!itemStack.isEmpty()) {
-                                    if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
-                                        if (entities.size() != 1) continue;
-                                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                                .wrap(commandContext.sender())
-                                                .sendMessage(
-                                                        TranslationManager.render(
-                                                                Message.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE
-                                                                        .arguments(Component.translatable(itemStack.translationKey()))
-                                                                        .build()
-                                                        )
-                                                );
-                                        return;
-                                    }
-                                    meta.setColor(color);
-                                    itemStack.setItemMeta(meta);
-                                    entityEquipment.setItem(slot, itemStack);
-                                    ++i;
-                                    continue;
-                                }
-                                if (entities.size() != 1) continue;
-                                if (!silent)
+                            if (entityEquipment == null) {
+                                continue;
+                            }
+                            ItemStack itemStack = entityEquipment.getItem(slot);
+                            if (!itemStack.isEmpty()) {
+                                if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                                    if (entities.size() != 1) continue;
                                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                                             .wrap(commandContext.sender())
                                             .sendMessage(
                                                     TranslationManager.render(
-                                                            Message.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS
-                                                                    .arguments(Component.text(livingEntity.getName()))
+                                                            Message.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE
+                                                                    .arguments(Component.translatable(itemStack.translationKey()))
                                                                     .build()
                                                     )
                                             );
-                                return;
+                                    return;
+                                }
+                                meta.setColor(color);
+                                itemStack.setItemMeta(meta);
+                                entityEquipment.setItem(slot, itemStack);
+                                ++i;
+                                continue;
                             }
+                            if (entities.size() != 1) continue;
+                            if (!silent)
+                                SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                        .wrap(commandContext.sender())
+                                        .sendMessage(
+                                                TranslationManager.render(
+                                                        Message.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS
+                                                                .arguments(Component.text(livingEntity.getName()))
+                                                                .build()
+                                                )
+                                        );
+                            return;
                         }
                         if (entities.size() != 1) continue;
                         if (!silent)

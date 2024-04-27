@@ -28,7 +28,7 @@ public class ToastAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
                 .required("type", EnumParser.enumParser(AdvancementType.class))
                 .required("item", ItemStackParser.itemStackParser())
                 .required("message", StringParser.greedyFlagYieldingStringParser())
@@ -43,18 +43,6 @@ public class ToastAdminCommand extends AbstractCommand {
                     String message = commandContext.get("message");
                     AdvancementType type = commandContext.get("type");
                     boolean silent = commandContext.flags().hasFlag("silent");
-                    if (players.size() == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
-                                            ),
-                                            true
-                                    );
-                        return;
-                    }
                     for (Player player : players) {
                         SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendToast(
                                 player,

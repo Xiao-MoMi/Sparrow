@@ -23,7 +23,7 @@ public class FlyAdminCommand extends AbstractCommand {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(BukkitCommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
                 .required("fly", BooleanParser.booleanParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
@@ -31,18 +31,6 @@ public class FlyAdminCommand extends AbstractCommand {
                     boolean fly = commandContext.get("fly");
                     var players = selector.values();
                     boolean silent = commandContext.flags().hasFlag("silent");
-                    if (players.size() == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    Message.ARGUMENT_ENTITY_NOTFOUND_PLAYER.build()
-                                            ),
-                                            true
-                                    );
-                        return;
-                    }
                     if (players.size() == 1) {
                         final Player player = players.iterator().next();
                         if (player.getAllowFlight() && fly) {

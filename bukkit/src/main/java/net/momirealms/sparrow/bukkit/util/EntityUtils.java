@@ -7,11 +7,14 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static java.util.Objects.requireNonNull;
 
-public class EntityUtils {
+public final class EntityUtils {
 
     private EntityUtils() {}
 
@@ -34,14 +37,22 @@ public class EntityUtils {
     }
 
     public static void toTopBlockPosition(Entity entity) {
-         var location = entity.getLocation();
-         var block = location.getWorld().getHighestBlockAt(location.getBlockX(), location.getBlockZ());
-         var newLocation = location.clone();
-         newLocation.setY(block.isPassable() ? block.getY() : block.getY() + 1);
-         entity.teleport(newLocation);
+        var location = entity.getLocation();
+        var block = location.getWorld().getHighestBlockAt(location.getBlockX(), location.getBlockZ());
+        var newLocation = location.clone();
+        newLocation.setY(block.isPassable() ? block.getY() : block.getY() + 1);
+        entity.teleport(newLocation);
     }
-
-    public static void changeWorld(@NotNull Entity entity, World to) {
+    
+    /**
+     * Changes the world of the entity. The location of the entity will be adjusted to the new world.
+     *
+     * @param entity the entity to change the world of.
+     * @param to the world to change to.
+     */
+    public static void changeWorld(@NotNull Entity entity, @NotNull World to) {
+        requireNonNull(entity, "entity");
+        requireNonNull(to, "to");
         var fromEnv = entity.getWorld().getEnvironment();
         var toEnv = to.getEnvironment();
         var location = entity.getLocation();
@@ -73,5 +84,14 @@ public class EntityUtils {
             }
         }
         entity.teleport(toLocation.subtract(0,height - 1,0));
+    }
+
+    @Nullable
+    public static Inventory getEntityInventory(@NotNull Entity entity) {
+        requireNonNull(entity, "entity");
+        if (entity instanceof InventoryHolder holder) {
+            return holder.getInventory();
+        }
+        return null;
     }
 }
