@@ -1,5 +1,6 @@
 dependencies {
     api(project(":loader"))
+    compileOnly("net.bytebuddy:byte-buddy:1.14.14")
     compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
     compileOnly("net.kyori:adventure-api:4.16.0")
     compileOnly("net.kyori:adventure-text-minimessage:4.16.0")

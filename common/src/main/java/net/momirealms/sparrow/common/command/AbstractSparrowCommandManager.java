@@ -33,7 +33,7 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
 
     protected abstract Audience wrapAudience(C c);
 
-    public void injectLocales() {
+    private void injectLocales() {
         MinecraftExceptionHandler.<C>create(this::wrapAudience)
                 .defaultHandlers()
                 .captionFormatter(new SparrowCaptionFormatter<>())

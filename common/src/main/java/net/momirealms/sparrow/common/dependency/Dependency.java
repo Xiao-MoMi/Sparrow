@@ -174,6 +174,14 @@ public enum Dependency {
             "xenondevs",
             "?",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
+    ),
+    BYTEBUDDY(
+            "net{}bytebuddy",
+            "byte-buddy",
+            "1.14.14",
+            "maven",
+            "byte-buddy",
+            Relocation.of("bytebuddy", "net{}bytebuddy")
     );
 
     private final List<Relocation> relocations;

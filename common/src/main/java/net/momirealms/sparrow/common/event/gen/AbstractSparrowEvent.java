@@ -1,7 +1,10 @@
-package net.momirealms.sparrow.common.event;
+package net.momirealms.sparrow.common.event.gen;
 
+import net.momirealms.sparrow.common.event.SparrowEvent;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.lang.invoke.MethodHandles;
 
 public abstract class AbstractSparrowEvent implements SparrowEvent {
 
@@ -15,5 +18,9 @@ public abstract class AbstractSparrowEvent implements SparrowEvent {
     @Override
     public SparrowPlugin getSparrowPlugin() {
         return plugin;
+    }
+
+    public MethodHandles.Lookup mhl() {
+        throw new UnsupportedOperationException();
     }
 }

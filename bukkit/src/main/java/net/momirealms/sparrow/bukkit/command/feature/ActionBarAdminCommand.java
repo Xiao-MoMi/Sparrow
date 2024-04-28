@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.event.type.CommandFeedbackEvent;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;

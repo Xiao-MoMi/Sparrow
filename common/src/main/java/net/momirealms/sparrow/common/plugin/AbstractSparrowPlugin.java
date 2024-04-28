@@ -5,7 +5,7 @@ import net.momirealms.sparrow.common.config.ConfigManagerImpl;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.dependency.DependencyManagerImpl;
-import net.momirealms.sparrow.common.event.EventDispatcher;
+import net.momirealms.sparrow.common.event.EventManager;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 
 import java.util.EnumSet;
@@ -16,7 +16,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     private DependencyManager dependencyManager;
     private ConfigManager configManager;
     private TranslationManager translationManager;
-    private EventDispatcher eventDispatcher;
+    private EventManager eventManager;
 
     @Override
     public DependencyManager getDependencyManager() {
@@ -38,7 +38,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommandManager();
-        this.eventDispatcher = new EventDispatcher(this);
+        this.eventManager = EventManager.get(this);
         this.reload();
     }
 
@@ -60,7 +60,8 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.CLOUD_BRIGADIER,
                 Dependency.CLOUD_SERVICES,
                 Dependency.CLOUD_MINECRAFT_EXTRAS,
-                Dependency.BOOSTED_YAML
+                Dependency.BOOSTED_YAML,
+                Dependency.BYTEBUDDY
         );
     }
 
@@ -78,7 +79,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     }
 
     @Override
-    public EventDispatcher getEventDispatcher() {
-        return this.eventDispatcher;
+    public EventManager getEventDispatcher() {
+        return this.eventManager;
     }
 }

@@ -38,6 +38,7 @@ tasks {
         relocate ("dev.dejvokep", "net.momirealms.sparrow.libraries")
         relocate ("xyz.xenondevs", "net.momirealms.sparrow.libraries")
         relocate ("de.tr7zw.changeme", "net.momirealms.sparrow.libraries")
+        relocate ("net.bytebuddy", "net.momirealms.sparrow.libraries.bytebuddy")
     }
 }
 
