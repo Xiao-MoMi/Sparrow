@@ -141,3 +141,7 @@ commands.admin.tpoffline.success.multiple: "<gray>将<white><arg:0></white>个�
 commands.player.topblock.success: "<gray>已传送到最高的方块上</gray>"
 commands.admin.topblock.success.single: "<gray>将<white><arg:0></white>传送到最高的方块上</gray>"
 commands.admin.topblock.success.multiple: "<gray>将<white><arg:0></white>个实体传送到最高的方块上</gray>"
+commands.admin.burn.success.single: "<gray>已点燃<white><arg:0></white>，持续<white><arg:1></white>tick</gray>"
+commands.admin.burn.success.multiple: "<gray>已点燃<white><arg:0></white>个实体，持续<white><arg:1></white>tick</gray>"
+commands.admin.extinguish.success.single: "<gray>已熄灭<white><arg:0></white>的火焰</gray>"
+commands.admin.extinguish.success.multiple: "<gray>已熄灭<white><arg:0></white>个实体的火焰</gray>"
