@@ -5,6 +5,7 @@ import net.momirealms.sparrow.common.config.ConfigManagerImpl;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.dependency.DependencyManagerImpl;
+import net.momirealms.sparrow.common.event.EventDispatcher;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 
 import java.util.EnumSet;
@@ -15,6 +16,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     private DependencyManager dependencyManager;
     private ConfigManager configManager;
     private TranslationManager translationManager;
+    private EventDispatcher eventDispatcher;
 
     @Override
     public DependencyManager getDependencyManager() {
@@ -36,6 +38,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommandManager();
+        this.eventDispatcher = new EventDispatcher(this);
         this.reload();
     }
 
@@ -72,5 +75,10 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     @Override
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    @Override
+    public EventDispatcher getEventDispatcher() {
+        return this.eventDispatcher;
     }
 }

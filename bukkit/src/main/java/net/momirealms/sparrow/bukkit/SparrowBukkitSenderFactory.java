@@ -47,7 +47,7 @@ public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugi
     }
 
     @Override
-    public String getName(CommandSender sender) {
+    protected String getName(CommandSender sender) {
         if (sender instanceof Player) {
             return sender.getName();
         }
@@ -55,7 +55,7 @@ public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugi
     }
 
     @Override
-    public UUID getUniqueId(CommandSender sender) {
+    protected UUID getUniqueId(CommandSender sender) {
         if (sender instanceof Player) {
             return ((Player) sender).getUniqueId();
         }
@@ -63,22 +63,22 @@ public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugi
     }
 
     @Override
-    public Audience getAudience(CommandSender sender) {
+    protected Audience getAudience(CommandSender sender) {
         return this.audiences.sender(sender);
     }
 
     @Override
-    public void sendMessage(CommandSender sender, Component message) {
+    protected void sendMessage(CommandSender sender, Component message) {
         // we can safely send async for players and the console - otherwise, send it sync
         if (sender instanceof Player || sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender) {
-            this.audiences.sender(sender).sendMessage(message);
+            getAudience(sender).sendMessage(message);
         } else {
-            getPlugin().getBootstrap().getScheduler().executeSync(() -> this.audiences.sender(sender).sendMessage(message));
+            getPlugin().getBootstrap().getScheduler().executeSync(() -> getAudience(sender).sendMessage(message));
         }
     }
 
     @Override
-    public Tristate getPermissionValue(CommandSender sender, String node) {
+    protected Tristate getPermissionValue(CommandSender sender, String node) {
         if (sender.hasPermission(node)) {
             return Tristate.TRUE;
         } else if (sender.isPermissionSet(node)) {
@@ -89,17 +89,17 @@ public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugi
     }
 
     @Override
-    public boolean hasPermission(CommandSender sender, String node) {
+    protected boolean hasPermission(CommandSender sender, String node) {
         return sender.hasPermission(node);
     }
 
     @Override
-    public void performCommand(CommandSender sender, String command) {
+    protected void performCommand(CommandSender sender, String command) {
         getPlugin().getBootstrap().getServer().dispatchCommand(sender, command);
     }
 
     @Override
-    public boolean isConsole(CommandSender sender) {
+    protected boolean isConsole(CommandSender sender) {
         return sender instanceof ConsoleCommandSender || sender instanceof RemoteConsoleCommandSender;
     }
 

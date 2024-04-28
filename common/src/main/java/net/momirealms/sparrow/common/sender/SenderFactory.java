@@ -50,23 +50,23 @@ public abstract class SenderFactory<P extends SparrowPlugin, T> implements AutoC
         return this.plugin;
     }
 
-    public abstract UUID getUniqueId(T sender);
+    protected abstract UUID getUniqueId(T sender);
 
-    public abstract String getName(T sender);
+    protected abstract String getName(T sender);
 
-    public abstract Audience getAudience(T sender);
+    protected abstract Audience getAudience(T sender);
 
-    public abstract void sendMessage(T sender, Component message);
+    protected abstract void sendMessage(T sender, Component message);
 
-    public abstract Tristate getPermissionValue(T sender, String node);
+    protected abstract Tristate getPermissionValue(T sender, String node);
 
-    public abstract boolean hasPermission(T sender, String node);
+    protected abstract boolean hasPermission(T sender, String node);
 
-    public abstract void performCommand(T sender, String command);
+    protected abstract void performCommand(T sender, String command);
 
-    public abstract boolean isConsole(T sender);
+    protected abstract boolean isConsole(T sender);
 
-    public boolean consoleHasAllPermissions() {
+    protected boolean consoleHasAllPermissions() {
         return true;
     }
 

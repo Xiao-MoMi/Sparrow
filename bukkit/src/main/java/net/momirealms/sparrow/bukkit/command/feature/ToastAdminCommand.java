@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.gameplay.AdvancementType;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
@@ -44,13 +45,13 @@ public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
                     AdvancementType type = commandContext.get("type");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendToast(
+                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendToast(
                                 player,
                                 bukkitStack,
                                 AdventureHelper.componentToJson(
                                         AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(message) : message)
                                 ),
-                                type.name()
+                                type
                         );
                     }
                     if (!silent) {
@@ -79,11 +80,5 @@ public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
                         }
                     }
                 });
-    }
-
-    public enum AdvancementType {
-        TASK,
-        GOAL,
-        CHALLENGE
     }
 }

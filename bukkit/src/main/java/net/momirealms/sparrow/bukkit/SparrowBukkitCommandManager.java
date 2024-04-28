@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
+import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
@@ -76,6 +77,11 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
     @Override
     protected List<CommandFeature<CommandSender>> getFeatureList() {
         return FEATURES;
+    }
+
+    @Override
+    protected Audience wrapAudience(CommandSender sender) {
+        return ((SparrowBukkitSenderFactory) ((SparrowBukkitPlugin) plugin).getSenderFactory()).getAudience(sender);
     }
 
     public SparrowBukkitCommandManager(SparrowBukkitPlugin plugin) {

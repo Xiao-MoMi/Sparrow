@@ -2,6 +2,7 @@ package net.momirealms.sparrow.common.command;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
+import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.ArrayUtils;
@@ -30,8 +31,10 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
 
     protected abstract List<CommandFeature<C>> getFeatureList();
 
+    protected abstract Audience wrapAudience(C c);
+
     public void injectLocales() {
-        MinecraftExceptionHandler.<C>create(c -> plugin.getSenderFactory().getAudience(c))
+        MinecraftExceptionHandler.<C>create(this::wrapAudience)
                 .defaultHandlers()
                 .captionFormatter(new SparrowCaptionFormatter<>())
                 .registerTo(getCommandManager());
@@ -66,6 +69,7 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
 
     @Override
     public void registerCommand(CommandFeature<C> feature, CommandConfig<C> config) {
+        if (!config.isEnable()) throw new RuntimeException("Registering a disabled command feature is not allowed");
         for (Command.Builder<C> builder : buildCommandBuilders(config)) {
             Command<C> command = feature.registerCommand(commandManager, builder);
             this.registeredRootCommandComponents.add(command.rootComponent());

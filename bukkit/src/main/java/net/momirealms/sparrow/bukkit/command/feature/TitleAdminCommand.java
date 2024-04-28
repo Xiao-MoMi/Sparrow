@@ -62,7 +62,7 @@ public class TitleAdminCommand extends AbstractCommandFeature<CommandSender> {
                     title = split[0].isEmpty() ? null : split[0];
                     subTitle = split.length == 2 && !split[1].isEmpty() ? split[1] : null;
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendTitle(
+                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendTitle(
                                 player,
                                 Optional.ofNullable(title)
                                         .map(t -> AdventureHelper.componentToJson(

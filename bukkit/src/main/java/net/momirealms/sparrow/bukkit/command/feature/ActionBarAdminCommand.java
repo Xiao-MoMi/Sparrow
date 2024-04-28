@@ -38,7 +38,7 @@ public class ActionBarAdminCommand extends AbstractCommandFeature<CommandSender>
                         String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                 legacy ? AdventureHelper.legacyToMiniMessage(actionBarContent) : actionBarContent
                         ));
-                        SparrowBukkitPlugin.getInstance().getCoreNMSBridge().getHeart().sendActionBar(
+                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendActionBar(
                                 player, json
                         );
                     }

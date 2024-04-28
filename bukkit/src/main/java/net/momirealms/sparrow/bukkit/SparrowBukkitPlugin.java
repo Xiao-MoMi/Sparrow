@@ -16,7 +16,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private final SparrowBukkitBungeeManager bungeeManager;
     private SparrowBukkitSenderFactory senderFactory;
     private SparrowBukkitCommandManager commandManager;
-    private SparrowCoreNMSBridge coreNMSBridge;
+    private SparrowNMSProxy nmsProxy;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         plugin = this;
@@ -43,7 +43,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     public void enable() {
-        this.coreNMSBridge = new SparrowCoreNMSBridge();
+        this.nmsProxy = new SparrowNMSProxy();
         super.enable();
     }
 
@@ -73,12 +73,16 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         return plugin;
     }
 
-    public SparrowCoreNMSBridge getCoreNMSBridge() {
-        return coreNMSBridge;
+    public SparrowNMSProxy getNMSProxy() {
+        return nmsProxy;
     }
 
     public SparrowBukkitBungeeManager getBungeeManager() {
         return bungeeManager;
+    }
+
+    public SenderFactory<SparrowBukkitPlugin, CommandSender> getSenderFactory() {
+        return senderFactory;
     }
 
     @Override
@@ -86,14 +90,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         return bootstrap;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public SenderFactory<SparrowBukkitPlugin, CommandSender> getSenderFactory() {
-        return senderFactory;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
     public SparrowCommandManager<CommandSender> getCommandManager() {
         return commandManager;
     }
