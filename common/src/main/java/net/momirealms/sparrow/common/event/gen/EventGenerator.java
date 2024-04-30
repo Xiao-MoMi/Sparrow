@@ -58,7 +58,7 @@ import static net.bytebuddy.matcher.ElementMatchers.*;
 public class EventGenerator {
 
     /**
-     * A loading cache of event types to {@link EventGenerator}es.
+     * A loading cache of event types to {@link EventGenerator}s.
      */
     private static final Map<Class<? extends SparrowEvent>, EventGenerator> CACHE = new HashMap<>();
 

@@ -103,7 +103,7 @@ public enum Dependency {
     CLOUD_CORE(
             "org{}incendo",
             "cloud-core",
-            "2.0.0-beta.4",
+            "2.0.0-beta.5",
             "maven",
             "cloud-core",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -111,7 +111,7 @@ public enum Dependency {
     CLOUD_BRIGADIER(
             "org{}incendo",
             "cloud-brigadier",
-            "2.0.0-beta.5",
+            "2.0.0-beta.6",
             "maven",
             "cloud-brigadier",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -119,7 +119,7 @@ public enum Dependency {
     CLOUD_SERVICES(
             "org{}incendo",
             "cloud-services",
-            "2.0.0-beta.4",
+            "2.0.0-beta.5",
             "maven",
             "cloud-services",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -127,7 +127,7 @@ public enum Dependency {
     CLOUD_BUKKIT(
             "org{}incendo",
             "cloud-bukkit",
-            "2.0.0-beta.5",
+            "2.0.0-beta.6",
             "maven",
             "cloud-bukkit",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -135,7 +135,7 @@ public enum Dependency {
     CLOUD_PAPER(
             "org{}incendo",
             "cloud-paper",
-            "2.0.0-beta.5",
+            "2.0.0-beta.6",
             "maven",
             "cloud-paper",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -143,7 +143,7 @@ public enum Dependency {
     CLOUD_MINECRAFT_EXTRAS(
             "org{}incendo",
             "cloud-minecraft-extras",
-            "2.0.0-beta.5",
+            "2.0.0-beta.6",
             "maven",
             "cloud-minecraft-extras",
             Relocation.of("cloud", "org{}incendo{}cloud"),
@@ -162,7 +162,7 @@ public enum Dependency {
     INVENTORY_ACCESS(
             "xyz{}xenondevs{}invui",
             "inventory-access",
-            "1.29",
+            "1.30",
             "xenondevs",
             "inventory-access",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
@@ -170,7 +170,7 @@ public enum Dependency {
     INVENTORY_ACCESS_NMS(
             "xyz{}xenondevs{}invui",
             "?",
-            "1.29",
+            "1.30",
             "xenondevs",
             "?",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")

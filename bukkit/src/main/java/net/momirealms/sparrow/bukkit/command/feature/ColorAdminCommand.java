@@ -25,7 +25,6 @@ public class ColorAdminCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     boolean silent = commandContext.flags().hasFlag("silent");
                     ItemStack itemStack = commandContext.sender().getInventory().getItemInMainHand();

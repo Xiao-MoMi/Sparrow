@@ -23,7 +23,6 @@ public class FlySpeedPlayerCommand extends AbstractCommandFeature<CommandSender>
         return builder
                 .senderType(Player.class)
                 .required("speed", FloatParser.floatParser(-1, 1))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     float speed = commandContext.get("speed");
                     commandContext.sender().setFlySpeed(speed);

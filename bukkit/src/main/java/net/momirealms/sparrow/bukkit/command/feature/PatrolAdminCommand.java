@@ -61,7 +61,6 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
         return builder
                 .senderType(Player.class)
                 .required("players", multiplePlayerSelectorParser())
-                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     final HashSet<Player> players = commandContext.get("players");
                     final Player patrollingPlayer = commandContext.sender();

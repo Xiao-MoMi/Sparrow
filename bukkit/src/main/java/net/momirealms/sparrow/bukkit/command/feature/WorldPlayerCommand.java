@@ -25,7 +25,6 @@ public class WorldPlayerCommand extends AbstractCommandFeature<CommandSender> {
         return builder
                 .senderType(Player.class)
                 .required("world", WorldParser.worldParser())
-                .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
                     World world = commandContext.get("world");
                     EntityUtils.changeWorld(commandContext.sender(), world);
