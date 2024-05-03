@@ -32,7 +32,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         dependencies.add(Dependency.CLOUD_PAPER);
         dependencies.add(Dependency.SPARROW_HEART);
         dependencies.add(Dependency.INVENTORY_ACCESS);
-        dependencies.add(Dependency.INVENTORY_ACCESS_NMS.setArtifactID(getInventoryAccessArtifact()).setCustomArtifactName(getInventoryAccessArtifact()));
+        dependencies.add(Dependency.INVENTORY_ACCESS_NMS.setRawArtifactID(getInventoryAccessArtifact()).setCustomArtifactID(getInventoryAccessArtifact()));
         return dependencies;
     }
 

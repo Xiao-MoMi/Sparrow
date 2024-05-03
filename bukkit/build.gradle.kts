@@ -14,14 +14,13 @@ repositories {
 
 dependencies {
     implementation(project(":common"))
-    compileOnly("dev.folia:folia-api:1.20.4-R0.1-SNAPSHOT")
-    compileOnly("net.kyori:adventure-platform-bukkit:4.3.2")
-    compileOnly("org.incendo:cloud-paper:2.0.0-beta.6")
-    compileOnly("org.incendo:cloud-minecraft-extras:2.0.0-beta.6")
-    compileOnly("dev.dejvokep:boosted-yaml:1.3.4")
-    compileOnly("xyz.xenondevs.invui:inventory-access:1.30")
-    compileOnly("com.mojang:brigadier:1.0.18")
-    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:0.3")
+    compileOnly(project(":loader"))
+    compileOnly("dev.folia:folia-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
+    compileOnly("net.kyori:adventure-platform-bukkit:${rootProject.properties["adventure_platform_version"]}")
+    compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
+    compileOnly("xyz.xenondevs.invui:inventory-access:${rootProject.properties["inventory_access_version"]}")
+    compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
+    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
 }
 
 tasks.withType<JavaCompile> {
@@ -32,6 +31,9 @@ tasks.withType<JavaCompile> {
 tasks {
     shadowJar {
         archiveFileName.set("sparrow-bukkit.jarinjar")
+        dependencies {
+            include(project(":common"))
+        }
         relocate("net.kyori", "net.momirealms.sparrow.libraries")
         relocate("org.incendo", "net.momirealms.sparrow.libraries")
         relocate("dev.dejvokep", "net.momirealms.sparrow.libraries")

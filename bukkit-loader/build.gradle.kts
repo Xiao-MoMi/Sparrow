@@ -9,21 +9,13 @@ repositories {
 
 dependencies {
     implementation(project(":loader"))
-    compileOnly("io.papermc.paper:paper-api:1.20.4-R0.1-SNAPSHOT")
-}
-
-tasks.processResources {
-    val props = mapOf("version" to version)
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("*plugin.yml") {
-        expand(props)
-    }
+    compileOnly("io.papermc.paper:paper-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
 }
 
 tasks {
     shadowJar {
-        archiveFileName = "Sparrow-Bukkit-${project.version}.jar"
+        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["projectVersion"]}.jar"
+        destinationDirectory.set(file("$rootDir/target"))
         from(project(":bukkit").tasks.shadowJar.get().archiveFile)
     }
 }

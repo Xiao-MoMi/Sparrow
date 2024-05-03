@@ -43,42 +43,36 @@ public enum Dependency {
     ASM(
             "org.ow2.asm",
             "asm",
-            "9.1",
             "maven",
             "asm"
     ),
     ASM_COMMONS(
             "org.ow2.asm",
             "asm-commons",
-            "9.1",
             "maven",
             "asm-commons"
     ),
     JAR_RELOCATOR(
             "me.lucko",
             "jar-relocator",
-            "1.7",
             "maven",
             "jar-relocator"
     ),
     H2_DRIVER(
             "com.h2database",
             "h2",
-            "2.2.224",
             "maven",
-            "h2database"
+            "h2-driver"
     ),
     SQLITE_DRIVER(
             "org.xerial",
             "sqlite-jdbc",
-            "3.45.3.0",
             "maven",
-            "sqlite-jdbc"
+            "sqlite-driver"
     ),
     ADVENTURE_API(
             "com.github.Xiao-MoMi",
             "Adventure-Bundle",
-            "4.16.0",
             "jitpack",
             "adventure-bundle",
             Relocation.of("adventure", "net{}kyori{}adventure"),
@@ -88,22 +82,19 @@ public enum Dependency {
     SPARROW_HEART(
             "com.github.Xiao-MoMi",
             "Sparrow-Heart",
-            "0.3",
             "jitpack",
             "sparrow-heart"
     ),
     NBT_API(
             "de{}tr7zw",
             "item-nbt-api",
-            "2.12.3",
             "codemc",
-            "item-nbt-api",
+            "nbt-api",
             Relocation.of("nbtapi", "de{}tr7zw{}changeme{}nbtapi")
     ),
     CLOUD_CORE(
             "org{}incendo",
             "cloud-core",
-            "2.0.0-beta.5",
             "maven",
             "cloud-core",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -111,7 +102,6 @@ public enum Dependency {
     CLOUD_BRIGADIER(
             "org{}incendo",
             "cloud-brigadier",
-            "2.0.0-beta.6",
             "maven",
             "cloud-brigadier",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -119,7 +109,6 @@ public enum Dependency {
     CLOUD_SERVICES(
             "org{}incendo",
             "cloud-services",
-            "2.0.0-beta.5",
             "maven",
             "cloud-services",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -127,7 +116,6 @@ public enum Dependency {
     CLOUD_BUKKIT(
             "org{}incendo",
             "cloud-bukkit",
-            "2.0.0-beta.6",
             "maven",
             "cloud-bukkit",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -135,7 +123,6 @@ public enum Dependency {
     CLOUD_PAPER(
             "org{}incendo",
             "cloud-paper",
-            "2.0.0-beta.6",
             "maven",
             "cloud-paper",
             Relocation.of("cloud", "org{}incendo{}cloud")
@@ -143,7 +130,6 @@ public enum Dependency {
     CLOUD_MINECRAFT_EXTRAS(
             "org{}incendo",
             "cloud-minecraft-extras",
-            "2.0.0-beta.6",
             "maven",
             "cloud-minecraft-extras",
             Relocation.of("cloud", "org{}incendo{}cloud"),
@@ -154,7 +140,6 @@ public enum Dependency {
     BOOSTED_YAML(
             "dev{}dejvokep",
             "boosted-yaml",
-            "1.3.4",
             "maven",
             "boosted-yaml",
             Relocation.of("boostedyaml", "dev{}dejvokep{}boostedyaml")
@@ -162,7 +147,6 @@ public enum Dependency {
     INVENTORY_ACCESS(
             "xyz{}xenondevs{}invui",
             "inventory-access",
-            "1.30",
             "xenondevs",
             "inventory-access",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
@@ -170,15 +154,18 @@ public enum Dependency {
     INVENTORY_ACCESS_NMS(
             "xyz{}xenondevs{}invui",
             "?",
-            "1.30",
             "xenondevs",
             "?",
             Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
-    ),
+    ) {
+        @Override
+        public String getVersion() {
+            return Dependency.INVENTORY_ACCESS.getVersion();
+        }
+    },
     BYTEBUDDY(
             "net{}bytebuddy",
             "byte-buddy",
-            "1.14.14",
             "maven",
             "byte-buddy",
             Relocation.of("bytebuddy", "net{}bytebuddy")
@@ -187,40 +174,35 @@ public enum Dependency {
     private final List<Relocation> relocations;
     private final String repo;
     private final String groupId;
-    private final String version;
-    private String artifactId;
-    private String artifactSuffix;
-    private String customArtifactName;
+    private String rawArtifactId;
+    private String customArtifactID;
 
     private static final String MAVEN_FORMAT = "%s/%s/%s/%s-%s.jar";
 
-    Dependency(String groupId, String artifactId, String version, String repo, String artifact) {
-        this(groupId, artifactId, version, repo, artifact, new Relocation[0]);
+    Dependency(String groupId, String rawArtifactId, String repo, String customArtifactID) {
+        this(groupId, rawArtifactId, repo, customArtifactID, new Relocation[0]);
     }
 
-    Dependency(String groupId, String artifactId, String version, String repo, String artifact, Relocation... relocations) {
-        this.artifactId = artifactId;
-        this.artifactSuffix = "";
+    Dependency(String groupId, String rawArtifactId, String repo, String customArtifactID, Relocation... relocations) {
+        this.rawArtifactId = rawArtifactId;
         this.groupId = groupId;
-        this.version = version;
         this.relocations = new ArrayList<>(Arrays.stream(relocations).toList());
         this.repo = repo;
-        this.customArtifactName = artifact;
+        this.customArtifactID = customArtifactID;
     }
 
-    public Dependency setCustomArtifactName(String customArtifactName) {
-        this.customArtifactName = customArtifactName;
+    public Dependency setCustomArtifactID(String customArtifactID) {
+        this.customArtifactID = customArtifactID;
         return this;
     }
 
-    public Dependency setArtifactID(String artifactId) {
-        this.artifactId = artifactId;
+    public Dependency setRawArtifactID(String artifactId) {
+        this.rawArtifactId = artifactId;
         return this;
     }
 
-    public Dependency setArtifactSuffix(String artifactSuffix) {
-        this.artifactSuffix = artifactSuffix;
-        return this;
+    public String getVersion() {
+        return DependencyProperties.getDependencyVersion(customArtifactID);
     }
 
     private static String rewriteEscaping(String s) {
@@ -228,20 +210,20 @@ public enum Dependency {
     }
 
     public String getFileName(String classifier) {
-        String name = customArtifactName.toLowerCase(Locale.ROOT).replace('_', '-');
+        String name = customArtifactID.toLowerCase(Locale.ROOT).replace('_', '-');
         String extra = classifier == null || classifier.isEmpty()
                 ? ""
                 : "-" + classifier;
-        return name + "-" + this.version + extra + ".jar";
+        return name + "-" + this.getVersion() + extra + ".jar";
     }
 
     String getMavenRepoPath() {
         return String.format(MAVEN_FORMAT,
                 rewriteEscaping(groupId).replace(".", "/"),
-                rewriteEscaping(artifactId),
-                version,
-                rewriteEscaping(artifactId),
-                version + artifactSuffix
+                rewriteEscaping(rawArtifactId),
+                getVersion(),
+                rewriteEscaping(rawArtifactId),
+                getVersion()
         );
     }
 
