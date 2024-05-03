@@ -61,7 +61,18 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.CLOUD_SERVICES,
                 Dependency.CLOUD_MINECRAFT_EXTRAS,
                 Dependency.BOOSTED_YAML,
-                Dependency.BYTEBUDDY
+                Dependency.BYTEBUDDY,
+                Dependency.BSTATS_BASE,
+                Dependency.MARIADB_DRIVER,
+                Dependency.MYSQL_DRIVER,
+                Dependency.HIKARI_CP,
+                Dependency.COMMONS_POOL_2,
+                Dependency.JEDIS,
+                Dependency.MONGODB_DRIVER_BSON,
+                Dependency.MONGODB_DRIVER_CORE,
+                Dependency.MONGODB_DRIVER_SYNC,
+                Dependency.SQLITE_DRIVER,
+                Dependency.H2_DRIVER
         );
     }
 

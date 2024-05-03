@@ -169,7 +169,96 @@ public enum Dependency {
             "maven",
             "byte-buddy",
             Relocation.of("bytebuddy", "net{}bytebuddy")
-    );
+    ),
+    MARIADB_DRIVER(
+            "org{}mariadb{}jdbc",
+            "mariadb-java-client",
+            "maven",
+            "mariadb-java-client",
+            Relocation.of("mariadb", "org{}mariadb")
+    ),
+    MYSQL_DRIVER(
+            "com{}mysql",
+            "mysql-connector-j",
+            "maven",
+            "mysql-connector-j",
+            Relocation.of("mysql", "com{}mysql")
+    ),
+    HIKARI_CP(
+            "com{}zaxxer",
+            "HikariCP",
+            "maven",
+            "hikari-cp",
+            Relocation.of("hikari", "com{}zaxxer{}hikari")
+    ),
+    MONGODB_DRIVER_CORE(
+            "org{}mongodb",
+            "mongodb-driver-core",
+            "maven",
+            "mongodb-driver-core",
+            Relocation.of("mongodb", "com{}mongodb"),
+            Relocation.of("bson", "org{}bson")
+    ),
+    MONGODB_DRIVER_SYNC(
+            "org{}mongodb",
+            "mongodb-driver-sync",
+            "maven",
+            "mongodb-driver-sync",
+            Relocation.of("mongodb", "com{}mongodb"),
+            Relocation.of("bson", "org{}bson")
+    ) {
+        @Override
+        public String getVersion() {
+            return Dependency.MONGODB_DRIVER_CORE.getVersion();
+        }
+    },
+    MONGODB_DRIVER_BSON(
+            "org{}mongodb",
+            "bson",
+            "maven",
+            "mongodb-bson",
+            Relocation.of("mongodb", "com{}mongodb"),
+            Relocation.of("bson", "org{}bson")
+    ) {
+        @Override
+        public String getVersion() {
+            return Dependency.MONGODB_DRIVER_CORE.getVersion();
+        }
+    },
+    JEDIS(
+            "redis{}clients",
+            "jedis",
+            "maven",
+            "jedis",
+            Relocation.of("jedis", "redis{}clients{}jedis"),
+            Relocation.of("commonspool2", "org{}apache{}commons{}pool2")
+    ),
+    COMMONS_POOL_2(
+            "org{}apache{}commons",
+            "commons-pool2",
+            "maven",
+            "commons-pool",
+            Relocation.of("commonspool2", "org{}apache{}commons{}pool2")
+    ),
+    BSTATS_BASE(
+            "org{}bstats",
+            "bstats-base",
+            "maven",
+            "bstats-base",
+            Relocation.of("bstats", "org{}bstats")
+    ),
+    BSTATS_BUKKIT(
+            "org{}bstats",
+            "bstats-bukkit",
+            "maven",
+            "bstats-bukkit",
+            Relocation.of("bstats", "org{}bstats")
+    ) {
+        @Override
+        public String getVersion() {
+            return Dependency.BSTATS_BASE.getVersion();
+        }
+    };
 
     private final List<Relocation> relocations;
     private final String repo;

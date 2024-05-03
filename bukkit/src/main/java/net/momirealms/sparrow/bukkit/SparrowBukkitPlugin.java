@@ -4,6 +4,7 @@ import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
 import net.momirealms.sparrow.common.sender.SenderFactory;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +28,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     protected Set<Dependency> getGlobalDependencies() {
         Set<Dependency> dependencies = super.getGlobalDependencies();
+        dependencies.add(Dependency.BSTATS_BUKKIT);
         dependencies.add(Dependency.NBT_API);
         dependencies.add(Dependency.CLOUD_BUKKIT);
         dependencies.add(Dependency.CLOUD_PAPER);
@@ -45,6 +47,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     public void enable() {
         this.nmsProxy = new SparrowNMSProxy();
         super.enable();
+        new Metrics(getLoader(), 21789);
     }
 
     @Override
@@ -107,7 +110,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
             case "1.20.1" -> artifact = "r16";
             case "1.20.2" -> artifact = "r17";
             case "1.20.3", "1.20.4" -> artifact = "r18";
-            case "1.20.5" -> artifact = "r19";
+            case "1.20.5", "1.20.6" -> artifact = "r19";
             default -> throw new RuntimeException("Unsupported version: " + version);
         }
         return String.format("inventory-access-%s", artifact);

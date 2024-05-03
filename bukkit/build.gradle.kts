@@ -21,6 +21,7 @@ dependencies {
     compileOnly("xyz.xenondevs.invui:inventory-access:${rootProject.properties["inventory_access_version"]}")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
     compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
+    compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
 }
 
 tasks.withType<JavaCompile> {
@@ -40,6 +41,14 @@ tasks {
         relocate("xyz.xenondevs", "net.momirealms.sparrow.libraries")
         relocate("de.tr7zw.changeme", "net.momirealms.sparrow.libraries")
         relocate("net.bytebuddy", "net.momirealms.sparrow.libraries.bytebuddy")
+        relocate ("org.apache.commons.pool2", "net.momirealms.sparrow.libraries.commonspool2")
+        relocate ("com.mysql", "net.momirealms.sparrow.libraries.mysql")
+        relocate ("org.mariadb", "net.momirealms.sparrow.libraries.mariadb")
+        relocate ("com.zaxxer.hikari", "net.momirealms.sparrow.libraries.hikari")
+        relocate ("redis.clients.jedis", "net.momirealms.sparrow.libraries.jedis")
+        relocate ("com.mongodb", "net.momirealms.sparrow.libraries.mongodb")
+        relocate ("org.bson", "net.momirealms.sparrow.libraries.bson")
+        relocate ("org.bstats", "net.momirealms.sparrow.libraries.bstats")
     }
 }
 
