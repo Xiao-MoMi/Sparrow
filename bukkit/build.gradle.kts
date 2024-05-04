@@ -20,6 +20,7 @@ dependencies {
     compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
     compileOnly("xyz.xenondevs.invui:inventory-access:${rootProject.properties["inventory_access_version"]}")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
+    compileOnly("de.tr7zw:item-nbt-api:${rootProject.properties["nbt_api_version"]}")
     compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
 }

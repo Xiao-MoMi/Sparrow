@@ -59,8 +59,9 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .senderType(Player.class)
                 .required("players", multiplePlayerSelectorParser())
+                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .senderType(Player.class)
                 .handler(commandContext -> {
                     final HashSet<Player> players = commandContext.get("players");
                     final Player patrollingPlayer = commandContext.sender();

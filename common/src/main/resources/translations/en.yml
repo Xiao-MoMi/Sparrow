@@ -145,3 +145,6 @@ commands.admin.burn.success.single: "<gray>Burned <white><arg:0></white> for <wh
 commands.admin.burn.success.multiple: "<gray>Burned <white><arg:0></white> entities for <white><arg:1></white> ticks</gray>"
 commands.admin.extinguish.success.single: "<gray>Extinguished fire for <white><arg:0></white></gray>"
 commands.admin.extinguish.success.multiple: "<gray>Extinguished fire for <white><arg:0></white> entities</gray>"
+commands.admin.head.success.single: "<gray>Obtained <white><arg:0></white>'s head</gray>"
+commands.admin.head.success.multiple: "<gray>Obtained <white><arg:0></white> players' heads</gray>"
+commands.player.head.success: "<gray>Obtained your own head</gray>"

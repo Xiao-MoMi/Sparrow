@@ -351,3 +351,10 @@ burn_admin:
     - /sparrow burn
     - /spa burn
     - /burn
+
+head_admin:
+  enable: true
+  permission: sparrow.command.admin.head
+  usage:
+    - /sparrow head
+    - /spa head
