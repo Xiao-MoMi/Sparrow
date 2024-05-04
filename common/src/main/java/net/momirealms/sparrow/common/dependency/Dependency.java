@@ -97,35 +97,40 @@ public enum Dependency {
             "cloud-core",
             "maven",
             "cloud-core",
-            Relocation.of("cloud", "org{}incendo{}cloud")
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     CLOUD_BRIGADIER(
             "org{}incendo",
             "cloud-brigadier",
             "maven",
             "cloud-brigadier",
-            Relocation.of("cloud", "org{}incendo{}cloud")
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     CLOUD_SERVICES(
             "org{}incendo",
             "cloud-services",
             "maven",
             "cloud-services",
-            Relocation.of("cloud", "org{}incendo{}cloud")
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     CLOUD_BUKKIT(
             "org{}incendo",
             "cloud-bukkit",
             "maven",
             "cloud-bukkit",
-            Relocation.of("cloud", "org{}incendo{}cloud")
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     CLOUD_PAPER(
             "org{}incendo",
             "cloud-paper",
             "maven",
             "cloud-paper",
-            Relocation.of("cloud", "org{}incendo{}cloud")
+            Relocation.of("cloud", "org{}incendo{}cloud"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     CLOUD_MINECRAFT_EXTRAS(
             "org{}incendo",
@@ -135,7 +140,8 @@ public enum Dependency {
             Relocation.of("cloud", "org{}incendo{}cloud"),
             Relocation.of("adventure", "net{}kyori{}adventure"),
             Relocation.of("option", "net{}kyori{}option"),
-            Relocation.of("examination", "net{}kyori{}examination")
+            Relocation.of("examination", "net{}kyori{}examination"),
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
     ),
     BOOSTED_YAML(
             "dev{}dejvokep",
@@ -258,7 +264,14 @@ public enum Dependency {
         public String getVersion() {
             return Dependency.BSTATS_BASE.getVersion();
         }
-    };
+    },
+    GEANTY_REF(
+            "io{}leangen{}geantyref",
+            "geantyref",
+            "maven",
+            "geantyref",
+            Relocation.of("geantyref", "io{}leangen{}geantyref")
+    );
 
     private final List<Relocation> relocations;
     private final String repo;

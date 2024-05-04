@@ -55,6 +55,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
 
     protected Set<Dependency> getGlobalDependencies() {
         return EnumSet.of(
+                Dependency.GEANTY_REF,
                 Dependency.ADVENTURE_API,
                 Dependency.CLOUD_CORE,
                 Dependency.CLOUD_BRIGADIER,

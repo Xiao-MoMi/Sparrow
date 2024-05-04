@@ -49,6 +49,7 @@ tasks {
         relocate ("com.mongodb", "net.momirealms.sparrow.libraries.mongodb")
         relocate ("org.bson", "net.momirealms.sparrow.libraries.bson")
         relocate ("org.bstats", "net.momirealms.sparrow.libraries.bstats")
+        relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
     }
 }
 
