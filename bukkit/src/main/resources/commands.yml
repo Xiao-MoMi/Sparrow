@@ -358,3 +358,9 @@ head_admin:
   usage:
     - /sparrow head
     - /spa head
+
+head_player:
+  enable: true
+  permission: sparrow.command.player.head
+  usage:
+    - /head
