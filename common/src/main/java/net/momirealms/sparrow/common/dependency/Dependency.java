@@ -271,6 +271,19 @@ public enum Dependency {
             "maven",
             "geantyref",
             Relocation.of("geantyref", "io{}leangen{}geantyref")
+    ),
+    GSON(
+            "com.google.code.gson",
+            "gson",
+            "maven",
+            "gson"
+    ),
+    CAFFEINE(
+            "com{}github{}ben-manes{}caffeine",
+            "caffeine",
+            "maven",
+            "caffeine",
+            Relocation.of("caffeine", "com{}github{}benmanes{}caffeine")
     );
 
     private final List<Relocation> relocations;

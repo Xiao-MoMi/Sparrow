@@ -1,10 +1,13 @@
 package net.momirealms.sparrow.common.feature.skull;
 
+import net.momirealms.sparrow.common.util.Either;
 import org.jetbrains.annotations.NotNull;
 
-public interface SkullManager {
-    @NotNull
-    Skull getSkull(@NotNull String name);
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-    void removeSkull(@NotNull String name);
+public interface SkullManager {
+
+    @NotNull
+    CompletableFuture<SkullData> getSkull(@NotNull Either<String, UUID> nameOrUUID);
 }

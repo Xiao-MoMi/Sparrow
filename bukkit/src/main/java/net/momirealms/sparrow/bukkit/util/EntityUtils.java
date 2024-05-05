@@ -96,6 +96,12 @@ public final class EntityUtils {
         return null;
     }
 
+    public static void giveItem(@NotNull Entity entity, @NotNull ItemStack itemStack) {
+        requireNonNull(entity, "entity");
+        requireNonNull(itemStack, "itemStack");
+        giveItem(requireNonNull(getEntityInventory(entity)), itemStack);
+    }
+
     public static void giveItem(@NotNull Inventory inventory, @NotNull ItemStack itemStack) {
         requireNonNull(inventory, "inventory");
         requireNonNull(itemStack, "itemStack");

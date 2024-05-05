@@ -1,8 +1,6 @@
 package net.momirealms.sparrow.common.plugin.scheduler;
 
-import net.momirealms.sparrow.common.util.Location;
+public interface RegionExecutor<T> {
 
-public interface RegionExecutor {
-
-    void execute(Runnable r, Location l);
+    void execute(Runnable r, T l);
 }

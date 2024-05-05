@@ -7,6 +7,10 @@ public class Location {
     private final double z;
     private final String world;
 
+    public static Location of(double x, double y, double z, String world) {
+        return new Location(x, y, z, world);
+    }
+
     public Location(double x, double y, double z, String world) {
         this.x = x;
         this.y = y;

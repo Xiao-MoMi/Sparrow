@@ -25,15 +25,13 @@
 
 package net.momirealms.sparrow.common.plugin.scheduler;
 
-import net.momirealms.sparrow.common.util.Location;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
  * A scheduler for running tasks using the systems provided by the platform
  */
-public interface SchedulerAdapter {
+public interface SchedulerAdapter<T> {
 
     /**
      * Gets an async executor instance
@@ -47,7 +45,7 @@ public interface SchedulerAdapter {
      *
      * @return a sync executor instance
      */
-    RegionExecutor sync();
+    RegionExecutor<T> sync();
 
     /**
      * Executes a task async
@@ -63,7 +61,7 @@ public interface SchedulerAdapter {
      *
      * @param task the task
      */
-    default void executeSync(Runnable task, Location location) {
+    default void executeSync(Runnable task, T location) {
         sync().execute(task, location);
     }
 

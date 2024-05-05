@@ -1,5 +1,6 @@
 package net.momirealms.sparrow.bukkit;
 
+import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
@@ -15,6 +16,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private static SparrowBukkitPlugin plugin;
     private final SparrowBukkitBootstrap bootstrap;
     private final SparrowBukkitBungeeManager bungeeManager;
+    private SparrowBukkitSkullManager skullManager;
     private SparrowBukkitSenderFactory senderFactory;
     private SparrowBukkitCommandManager commandManager;
     private SparrowNMSProxy nmsProxy;
@@ -47,6 +49,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     public void enable() {
         this.nmsProxy = new SparrowNMSProxy();
         super.enable();
+        this.skullManager = new SparrowBukkitSkullManager(this);
         new Metrics(getLoader(), 21789);
     }
 
@@ -91,6 +94,10 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     public SparrowBukkitBootstrap getBootstrap() {
         return bootstrap;
+    }
+
+    public SparrowBukkitSkullManager getSkullManager() {
+        return skullManager;
     }
 
     public SparrowCommandManager<CommandSender> getCommandManager() {

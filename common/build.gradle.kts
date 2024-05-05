@@ -1,3 +1,7 @@
+repositories {
+    maven("https://repo.codemc.io/repository/maven-public/")
+}
+
 dependencies {
     api("net.kyori:adventure-api:${rootProject.properties["adventure_bundle_version"]}") {
         exclude(module = "adventure-bom")
@@ -16,4 +20,6 @@ dependencies {
     compileOnly("net.kyori:adventure-text-serializer-gson:${rootProject.properties["adventure_bundle_version"]}")
     compileOnly("com.google.code.gson:gson:${rootProject.properties["gson_version"]}")
     compileOnly("net.bytebuddy:byte-buddy:${rootProject.properties["byte_buddy_version"]}")
+    compileOnly("com.github.ben-manes.caffeine:caffeine:${rootProject.properties["caffeine_version"]}")
+    compileOnly("net.skinsrestorer:skinsrestorer-api:${rootProject.properties["skinsrestorer_version"]}")
 }

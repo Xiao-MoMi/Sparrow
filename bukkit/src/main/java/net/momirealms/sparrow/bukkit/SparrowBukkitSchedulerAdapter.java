@@ -27,20 +27,18 @@ package net.momirealms.sparrow.bukkit;
 
 import net.momirealms.sparrow.common.plugin.scheduler.AbstractJavaScheduler;
 import net.momirealms.sparrow.common.plugin.scheduler.RegionExecutor;
-import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
+import org.bukkit.Location;
 
-import java.util.UUID;
+public class SparrowBukkitSchedulerAdapter extends AbstractJavaScheduler<Location> {
+    protected RegionExecutor<Location> sync;
 
-public class SparrowBukkitSchedulerAdapter extends AbstractJavaScheduler implements SchedulerAdapter {
-    protected RegionExecutor sync;
-
-    public SparrowBukkitSchedulerAdapter(SparrowBukkitBootstrap bootstrap, RegionExecutor executor) {
+    public SparrowBukkitSchedulerAdapter(SparrowBukkitBootstrap bootstrap, RegionExecutor<Location> executor) {
         super(bootstrap);
         this.sync = executor;
     }
 
     @Override
-    public RegionExecutor sync() {
+    public RegionExecutor<Location> sync() {
         return this.sync;
     }
 }

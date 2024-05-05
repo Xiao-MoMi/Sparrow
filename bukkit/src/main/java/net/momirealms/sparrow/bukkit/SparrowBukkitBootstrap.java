@@ -25,7 +25,6 @@
 
 package net.momirealms.sparrow.bukkit;
 
-import net.momirealms.sparrow.bukkit.util.LocationUtils;
 import net.momirealms.sparrow.common.plugin.Platform;
 import net.momirealms.sparrow.common.plugin.bootstrap.BootstrappedWithLoader;
 import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
@@ -36,6 +35,7 @@ import net.momirealms.sparrow.common.plugin.logging.PluginLogger;
 import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 import net.momirealms.sparrow.loader.LoaderBootstrap;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -101,7 +101,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
             folia ?
                 (r, l) -> {
                     if (l == null) this.getServer().getGlobalRegionScheduler().execute(this.getLoader(), r);
-                    else this.getServer().getRegionScheduler().execute(this.getLoader(), LocationUtils.toBukkitLocation(l), r);
+                    else this.getServer().getRegionScheduler().execute(this.getLoader(), l, r);
                 } :
                 (r, l) -> this.getServer().getScheduler().scheduleSyncDelayedTask(this.getLoader(), r)
         );
@@ -178,7 +178,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
     }
 
     @Override
-    public SchedulerAdapter getScheduler() {
+    public SchedulerAdapter<Location> getScheduler() {
         return schedulerAdapter;
     }
 

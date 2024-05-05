@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 /**
  * Abstract implementation of {@link SchedulerAdapter} using a {@link ScheduledExecutorService}.
  */
-public abstract class AbstractJavaScheduler implements SchedulerAdapter {
+public abstract class AbstractJavaScheduler<T> implements SchedulerAdapter<T> {
     private static final int PARALLELISM = 16;
 
     private final SparrowBootstrap bootstrap;

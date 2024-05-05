@@ -23,7 +23,6 @@ dependencies {
     compileOnly("de.tr7zw:item-nbt-api:${rootProject.properties["nbt_api_version"]}")
     compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
-    compileOnly("net.skinsrestorer:skinsrestorer-api:${rootProject.properties["skinsrestorer_version"]}")
 }
 
 tasks.withType<JavaCompile> {
@@ -52,6 +51,7 @@ tasks {
         relocate ("org.bson", "net.momirealms.sparrow.libraries.bson")
         relocate ("org.bstats", "net.momirealms.sparrow.libraries.bstats")
         relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
+        relocate ("com.github.benmanes.caffeine", "net.momirealms.sparrow.libraries.caffeine")
     }
 }
 
