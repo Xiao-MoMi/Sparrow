@@ -8,10 +8,12 @@ import net.momirealms.sparrow.bukkit.util.PluginUtils;
 import net.momirealms.sparrow.common.feature.skull.Skull;
 import net.momirealms.sparrow.common.feature.skull.SkullManager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.TimeUnit;
 
@@ -44,9 +46,13 @@ public final class BukkitSkullManager implements SkullManager {
     }
 
     private @NotNull Skull getSkullInternal(String name) {
-        if (PluginUtils.isPluginEnabled("SkinRestorer"))
+        if (PluginUtils.isPluginEnabled("SkinsRestorer"))
             return new SkinRestorerSkull(name);
-        return new UserSkull(name);
+        @Nullable Player player = Bukkit.getPlayer(name);
+        if (player != null)
+            return new OnlinePlayerSkull(player.getPlayerProfile());
+
+        return new OfflinePlayerSkull(name);
     }
 
     private static class SkullListener implements Listener {

@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.feature.skull.BukkitSkullManager;
+import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.feature.skull.Skull;
@@ -32,12 +33,7 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
 
                     ItemStackUtils.createSkullItemAsync(skull, 1)
                             .thenAcceptAsync(item -> {
-                                if (senderInventory.firstEmpty() != -1) {
-                                    senderInventory.addItem(item);
-                                } else {
-                                    player.getWorld().dropItem(player.getLocation(), item);
-                                }
-
+                                EntityUtils.giveItem(senderInventory, item);
                                 SparrowBukkitPlugin.getInstance().getSenderFactory()
                                         .wrap(commandContext.sender())
                                         .sendMessage(

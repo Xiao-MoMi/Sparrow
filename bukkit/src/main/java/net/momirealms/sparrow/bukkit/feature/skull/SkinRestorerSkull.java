@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public class SkinRestorerSkull implements Skull {
+public final class SkinRestorerSkull implements Skull {
     private final String skinOrUniqueId;
     private final SkinsRestorer skinsRestorer;
 

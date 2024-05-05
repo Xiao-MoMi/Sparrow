@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -93,5 +94,16 @@ public final class EntityUtils {
             return holder.getInventory();
         }
         return null;
+    }
+
+    public static void giveItem(@NotNull Inventory inventory, @NotNull ItemStack itemStack) {
+        requireNonNull(inventory, "inventory");
+        requireNonNull(itemStack, "itemStack");
+        if (inventory.firstEmpty() != -1) {
+            inventory.addItem(itemStack);
+        } else {
+            Location location = requireNonNull(inventory.getLocation());
+            location.getWorld().dropItem(location, itemStack);
+        }
     }
 }

@@ -29,9 +29,7 @@ public final class ItemStackUtils {
     @Blocking
     @Contract(pure = true)
     public static ItemStack createSkullItem(@NotNull Skull skull, int amount) {
-        final ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD, amount);
-        changeSkullItem(skullItem, skull.getBase64().join());
-        return skullItem;
+        return createSkullItemAsync(skull, amount).join();
     }
 
     /**
@@ -42,7 +40,7 @@ public final class ItemStackUtils {
      */
     @NotNull
     @Contract(pure = true)
-    public static CompletableFuture<ItemStack> createSkullItemAsync(@NotNull Skull skull, int amount) {
+    public static CompletableFuture<@NotNull ItemStack> createSkullItemAsync(@NotNull Skull skull, int amount) {
         return skull.getBase64().thenApply(base64 -> {
             final ItemStack skullItem = new ItemStack(Material.PLAYER_HEAD, amount);
             changeSkullItem(skullItem, base64);

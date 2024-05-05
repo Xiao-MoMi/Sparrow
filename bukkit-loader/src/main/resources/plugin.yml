@@ -3,5 +3,3 @@ version: ${projectVersion}
 author: XiaoMoMi
 main: net.momirealms.sparrow.bukkit.loader.BukkitLoaderPlugin
 api-version: 1.18
-softdepend:
-  - SkinRestorer

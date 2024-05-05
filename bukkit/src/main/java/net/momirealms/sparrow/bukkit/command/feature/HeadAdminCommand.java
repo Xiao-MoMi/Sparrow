@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.feature.skull.Skull;
@@ -44,19 +45,17 @@ public class HeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                     boolean silent = commandContext.flags().hasFlag("silent");
                     BukkitSkullManager skullManager = BukkitSkullManager.getInstance();
 
-                    CompletableFuture<?>[] futures = players.stream().map(player -> {
-                        Inventory senderInventory = player.getInventory();
-                        Skull skull = skullManager.getSkull(targetName);
-                        return ItemStackUtils.createSkullItemAsync(skull, amount)
-                                .thenApplyAsync(item -> {
-                                    if (senderInventory.firstEmpty() != -1) {
-                                        senderInventory.addItem(item);
-                                    } else {
-                                        player.getWorld().dropItem(player.getLocation(), item);
-                                    }
-                                    return targetName;
-                                });
-                    }).toArray(CompletableFuture<?>[]::new);
+                    CompletableFuture<?>[] futures = players.stream()
+                            .map(player -> {
+                                Inventory senderInventory = player.getInventory();
+                                Skull skull = skullManager.getSkull(targetName);
+                                return ItemStackUtils.createSkullItemAsync(skull, amount)
+                                        .thenApplyAsync(item -> {
+                                            EntityUtils.giveItem(senderInventory, item);
+                                            return targetName;
+                                        });
+                            })
+                            .toArray(CompletableFuture<?>[]::new);
 
                     CompletableFuture.allOf(futures)
                             .thenAcceptAsync(unused -> {
