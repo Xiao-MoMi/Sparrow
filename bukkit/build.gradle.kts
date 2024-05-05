@@ -23,6 +23,7 @@ dependencies {
     compileOnly("de.tr7zw:item-nbt-api:${rootProject.properties["nbt_api_version"]}")
     compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
+    compileOnly("net.skinsrestorer:skinsrestorer-api:${rootProject.properties["skinsrestorer_version"]}")
 }
 
 tasks.withType<JavaCompile> {
