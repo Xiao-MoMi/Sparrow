@@ -29,6 +29,8 @@ import net.momirealms.sparrow.common.plugin.scheduler.AbstractJavaScheduler;
 import net.momirealms.sparrow.common.plugin.scheduler.RegionExecutor;
 import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 
+import java.util.UUID;
+
 public class SparrowBukkitSchedulerAdapter extends AbstractJavaScheduler implements SchedulerAdapter {
     protected RegionExecutor sync;
 

@@ -57,21 +57,17 @@ public class DependencyManagerImpl implements DependencyManager {
     /** A map of isolated classloaders which have been created. */
     private final Map<Set<Dependency>, IsolatedClassLoader> loaders = new HashMap<>();
     /** Cached relocation handler instance. */
-    private RelocationHandler relocationHandler = null;
+    private final RelocationHandler relocationHandler;
     private final Executor loadingExecutor;
+    private final SparrowPlugin plugin;
 
     public DependencyManagerImpl(SparrowPlugin plugin) {
+        this.plugin = plugin;
         this.registry = new DependencyRegistry();
         this.cacheDirectory = setupCacheDirectory(plugin);
         this.classPathAppender = plugin.getBootstrap().getClassPathAppender();
         this.loadingExecutor = plugin.getBootstrap().getScheduler().async();
-    }
-
-    private synchronized RelocationHandler getRelocationHandler() {
-        if (this.relocationHandler == null) {
-            this.relocationHandler = new RelocationHandler(this);
-        }
-        return this.relocationHandler;
+        this.relocationHandler = new RelocationHandler(this);
     }
 
     @Override
@@ -150,7 +146,8 @@ public class DependencyManagerImpl implements DependencyManager {
     }
 
     private Path downloadDependency(Dependency dependency) throws DependencyDownloadException {
-        Path file = this.cacheDirectory.resolve(dependency.getFileName(null));
+        String fileName = dependency.getFileName(null);
+        Path file = this.cacheDirectory.resolve(fileName);
 
         // if the file already exists, don't attempt to re-download it.
         if (Files.exists(file)) {
@@ -164,7 +161,9 @@ public class DependencyManagerImpl implements DependencyManager {
             int i = 0;
             while (i < repository.size()) {
                 try {
+                    plugin.getBootstrap().getPluginLogger().info("Downloading dependency(" + fileName + ") from " + repository.get(i).getUrl() + dependency.getMavenRepoPath());
                     repository.get(i).download(dependency, file);
+                    plugin.getBootstrap().getPluginLogger().info("Successfully downloaded " + fileName);
                     return file;
                 } catch (DependencyDownloadException e) {
                     lastError = e;
@@ -188,7 +187,9 @@ public class DependencyManagerImpl implements DependencyManager {
             return remappedFile;
         }
 
-        getRelocationHandler().remap(normalFile, remappedFile, rules);
+        plugin.getBootstrap().getPluginLogger().info("Remapping " + dependency.getFileName(null));
+        relocationHandler.remap(normalFile, remappedFile, rules);
+        plugin.getBootstrap().getPluginLogger().info("Successfully remapped " + dependency.getFileName(null));
         return remappedFile;
     }
 

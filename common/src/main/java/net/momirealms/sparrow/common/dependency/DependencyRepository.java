@@ -77,6 +77,10 @@ public enum DependencyRepository {
         this.id = id;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     public static List<DependencyRepository> getByID(String id) {
         ArrayList<DependencyRepository> repositories = new ArrayList<>();
         for (DependencyRepository repository : values()) {

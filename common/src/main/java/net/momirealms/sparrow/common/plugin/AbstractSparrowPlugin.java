@@ -25,6 +25,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
 
     public final void load() {
         // load dependencies
+        this.getBootstrap().getPluginLogger().info("Loading libraries. Please wait...");
         this.dependencyManager = createDependencyManager();
         this.dependencyManager.loadDependencies(getGlobalDependencies());
     }
