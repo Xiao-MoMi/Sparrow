@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -20,12 +21,12 @@ public final class UserSkull implements Skull {
         this(name, 5, TimeUnit.SECONDS);
     }
     
-    UserSkull(String name, int timeout, TimeUnit timeUnit) {
+    UserSkull(String skinOrUniqueId, int timeout, TimeUnit timeUnit) {
         this.base64 = CompletableFuture.supplyAsync(() -> {
                     try {
-                        return fetchSkinBase64(name);
+                        return fetchSkinBase64(skinOrUniqueId);
                     } catch (IOException e) {
-                        throw new FailedToGetSkullException(name, e);
+                        throw new FailedToGetSkullException(skinOrUniqueId, e);
                     }
                 }, SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async())
                 .orTimeout(timeout, timeUnit);
@@ -38,12 +39,24 @@ public final class UserSkull implements Skull {
     }
 
     @NotNull
-    private String fetchSkinBase64(String name) throws IOException {
-        URL url = new URL("https://api.ashcon.app/mojang/v2/user/" + name);
-        JsonObject jsonObject = JsonParser.parseString(NetWorkUtils.getUrlResponse(url)).getAsJsonObject();
-        JsonObject textures = jsonObject.getAsJsonObject("textures");
-        JsonObject raw = textures.getAsJsonObject("raw");
+    private String fetchSkinBase64(String skinOrUniqueId) throws IOException {
+        // Use Mojang API to get the skin texture
+        try {
+            URL url = new URL("https://api.ashcon.app/mojang/v2/user/" + skinOrUniqueId);
+            JsonObject jsonObject = JsonParser.parseString(NetWorkUtils.getUrlResponse(url)).getAsJsonObject();
+            JsonObject textures = jsonObject.getAsJsonObject("textures");
+            JsonObject raw = textures.getAsJsonObject("raw");
 
-        return raw.get("value").getAsString();
+            return raw.get("value").getAsString();
+        } catch (Exception e) {
+            // If the API fails, use the profile API to get the skin texture
+            UUID uniqueId = UUID.fromString(skinOrUniqueId);
+            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uniqueId.toString().replace("-", ""));
+            JsonObject jsonObject = JsonParser.parseString(NetWorkUtils.getUrlResponse(url)).getAsJsonObject();
+            JsonObject properties = jsonObject.getAsJsonArray("properties").get(0).getAsJsonObject();
+
+            return properties.get("value").getAsString();
+        }
+
     }
 }

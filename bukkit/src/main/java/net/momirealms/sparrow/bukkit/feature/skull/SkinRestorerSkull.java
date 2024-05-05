@@ -12,11 +12,11 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class SkinRestorerSkull implements Skull {
-    private final String name;
+    private final String skinOrUniqueId;
     private final SkinsRestorer skinsRestorer;
 
-    public SkinRestorerSkull(String name) {
-        this.name = name;
+    public SkinRestorerSkull(String skinOrUniqueId) {
+        this.skinOrUniqueId = skinOrUniqueId;
         this.skinsRestorer = SkinsRestorerProvider.get();
     }
 
@@ -24,11 +24,11 @@ public class SkinRestorerSkull implements Skull {
     @Override
     public CompletableFuture<String> getBase64() {
         try {
-            Optional<MojangSkinDataResult> skin = skinsRestorer.getSkinStorage().getPlayerSkin(name, true);
+            Optional<MojangSkinDataResult> skin = skinsRestorer.getSkinStorage().getPlayerSkin(skinOrUniqueId, true);
             return skin.map(mojangSkinDataResult -> CompletableFuture.completedFuture(mojangSkinDataResult.getSkinProperty().getValue()))
-                    .orElseGet(() -> CompletableFuture.failedFuture(new FailedToGetSkullException(name)));
+                    .orElseGet(() -> CompletableFuture.failedFuture(new FailedToGetSkullException(skinOrUniqueId)));
         } catch (DataRequestException e) {
-            return CompletableFuture.failedFuture(new FailedToGetSkullException(name, e));
+            return CompletableFuture.failedFuture(new FailedToGetSkullException(skinOrUniqueId, e));
         }
     }
 }
