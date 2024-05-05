@@ -46,7 +46,7 @@ public final class BukkitSkullManager implements SkullManager {
     }
 
     private @NotNull Skull getSkullInternal(String name) {
-        if (PluginUtils.isPluginEnabled("SkinRestorer"))
+        if (PluginUtils.isPluginEnabled("SkinsRestorer"))
             return new SkinRestorerSkull(name);
         @Nullable Player player = Bukkit.getPlayer(name);
         if (player != null)

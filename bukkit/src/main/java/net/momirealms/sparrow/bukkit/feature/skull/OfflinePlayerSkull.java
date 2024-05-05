@@ -50,11 +50,13 @@ public final class OfflinePlayerSkull implements Skull {
             return raw.get("value").getAsString();
         } catch (Exception e) {
             // If the API fails, use the profile API to get the skin texture
-            UUID uniqueId = UUID.fromString(name);
-            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uniqueId.toString().replace("-", ""));
-            JsonObject jsonObject = JsonParser.parseString(NetWorkUtils.getUrlResponse(url)).getAsJsonObject();
-            JsonObject properties = jsonObject.getAsJsonArray("properties").get(0).getAsJsonObject();
+            final URL getUniqueIdUrl = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+            final JsonObject jsonObject = JsonParser.parseString(NetWorkUtils.getUrlResponse(getUniqueIdUrl)).getAsJsonObject();
+            final UUID uniqueId = UUID.fromString(jsonObject.get("id").getAsString());
 
+            final URL texturesUrl = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uniqueId + "?unsigned=false");
+            final JsonObject textures = JsonParser.parseString(NetWorkUtils.getUrlResponse(texturesUrl)).getAsJsonObject();
+            final JsonObject properties = textures.getAsJsonArray("properties").get(0).getAsJsonObject();
             return properties.get("value").getAsString();
         }
 
