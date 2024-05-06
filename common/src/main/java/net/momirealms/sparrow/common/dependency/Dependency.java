@@ -150,25 +150,6 @@ public enum Dependency {
             "boosted-yaml",
             Relocation.of("boostedyaml", "dev{}dejvokep{}boostedyaml")
     ),
-    INVENTORY_ACCESS(
-            "xyz{}xenondevs{}invui",
-            "inventory-access",
-            "xenondevs",
-            "inventory-access",
-            Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
-    ),
-    INVENTORY_ACCESS_NMS(
-            "xyz{}xenondevs{}invui",
-            "?",
-            "xenondevs",
-            "?",
-            Relocation.of("inventoryaccess", "xyz{}xenondevs{}inventoryaccess")
-    ) {
-        @Override
-        public String getVersion() {
-            return Dependency.INVENTORY_ACCESS.getVersion();
-        }
-    },
     BYTEBUDDY(
             "net{}bytebuddy",
             "byte-buddy",

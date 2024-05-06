@@ -63,11 +63,7 @@ public enum DependencyRepository {
     /**
      * CodeMC
      */
-    CODE_MC("codemc", "https://repo.codemc.io/repository/maven-public/"),
-    /**
-     * Xenondevs
-     */
-    XENONDEVS("xenondevs", "https://repo.xenondevs.xyz/releases/");
+    CODE_MC("codemc", "https://repo.codemc.io/repository/maven-public/");
 
     private final String url;
     private final String id;

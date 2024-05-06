@@ -5,6 +5,7 @@ import net.momirealms.sparrow.heart.SparrowVessel;
 import net.momirealms.sparrow.heart.heart.SparrowHeart;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,5 +56,12 @@ public class SparrowNMSProxy {
     public void sendDemo(Player player) {
         requireNonNull(player, "player");
         getNMSInstance().sendDemo(player);
+    }
+
+    public void openCustomInventory(Player player, Inventory inventory, String titleTitle) {
+        requireNonNull(player, "player");
+        requireNonNull(inventory, "inventory");
+        requireNonNull(titleTitle, "titleTitle");
+        getNMSInstance().openCustomInventory(player, inventory, titleTitle);
     }
 }
