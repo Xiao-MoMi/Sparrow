@@ -14,7 +14,7 @@ dependencies {
 
 tasks {
     shadowJar {
-        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["projectVersion"]}.jar"
+        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["project_version"]}.jar"
         destinationDirectory.set(file("$rootDir/target"))
         from(project(":bukkit").tasks.shadowJar.get().archiveFile)
     }

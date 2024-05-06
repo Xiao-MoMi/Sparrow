@@ -1,5 +1,9 @@
 name: Sparrow
-version: ${projectVersion}
-author: XiaoMoMi
 main: net.momirealms.sparrow.bukkit.loader.BukkitLoaderPlugin
+version: ${project_version}
+author: XiaoMoMi
+contributors:
+  - g2213swo
+  - jhqwqmc
 api-version: 1.18
+folia-supported: true
