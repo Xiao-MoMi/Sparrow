@@ -3,8 +3,8 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
-import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
+import net.momirealms.sparrow.bukkit.util.PlayerUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -77,7 +77,7 @@ public class HeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                                 players.forEach(player -> {
                                     SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().sync().execute(
                                             () -> {
-                                                EntityUtils.giveItem(player, itemStack);
+                                                PlayerUtils.dropItem(player, itemStack, false, true, false);
                                             }, player.getLocation()
                                     );
                                 });
@@ -92,7 +92,7 @@ public class HeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                                                         MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_SINGLE
                                                                 .arguments(
                                                                         Component.text(amount),
-                                                                        Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString))),
+                                                                        Component.text(skullData.getOwner()),
                                                                         Component.text(receiverName)
                                                                 )
                                                                 .build()
@@ -107,7 +107,7 @@ public class HeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                                                                 MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_MULTIPLE
                                                                         .arguments(
                                                                                 Component.text(amount),
-                                                                                Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString))),
+                                                                                Component.text(skullData.getOwner()),
                                                                                 Component.text(players.size())
                                                                         )
                                                                         .build()

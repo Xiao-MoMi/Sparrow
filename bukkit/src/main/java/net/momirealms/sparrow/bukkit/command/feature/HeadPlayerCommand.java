@@ -2,8 +2,8 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
-import net.momirealms.sparrow.bukkit.util.EntityUtils;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
+import net.momirealms.sparrow.bukkit.util.PlayerUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -50,7 +50,7 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
                         ItemStackUtils.applySkull(itemStack, skullData);
                         SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().sync().execute(
                                 () -> {
-                                    EntityUtils.giveItem(player, itemStack);
+                                    PlayerUtils.dropItem(player, itemStack, false, true, false);
                                 }, player.getLocation()
                         );
                         SparrowBukkitPlugin.getInstance().getSenderFactory()

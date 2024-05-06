@@ -106,4 +106,10 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_ADMIN_HEAD_FAILED_SKULL = Component.translatable().key("commands.admin.head.failed.skull");
     TranslatableComponent.Builder COMMANDS_PLAYER_HEAD_SUCCESS = Component.translatable().key("commands.player.head.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_HEAD_FAILED_SKULL = Component.translatable().key("commands.player.head.failed.skull");
+    TranslatableComponent.Builder COMMANDS_ADMIN_MORE_SUCCESS = Component.translatable().key("commands.admin.more.success");
+    TranslatableComponent.Builder COMMANDS_ADMIN_MORE_FAILED_TOO_MANY = Component.translatable().key("commands.admin.more.failed.toomany");
+    TranslatableComponent.Builder COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE = Component.translatable().key("commands.admin.more.failed.nochange");
+    TranslatableComponent.Builder COMMANDS_PLAYER_MORE_SUCCESS = Component.translatable().key("commands.player.more.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_MORE_FAILED_TOO_MANY = Component.translatable().key("commands.player.more.failed.toomany");
+    TranslatableComponent.Builder COMMANDS_PLAYER_MORE_FAILED_NO_CHANGE = Component.translatable().key("commands.player.more.failed.nochange");
 }

@@ -1,7 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.util.PlayerUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,7 +14,6 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-//TODO unfinished
 public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
 
     @Override
@@ -36,7 +38,7 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
                                     .wrap(commandContext.sender())
                                     .sendMessage(
                                             TranslationManager.render(
-                                                    null
+                                                    MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE.build()
                                             ),
                                             true
                                     );
@@ -45,7 +47,36 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
                     }
                     int maxStack = itemInHand.getType().getMaxStackSize();
                     if (amount == 0) {
+                        if (itemInHand.getAmount() == maxStack) {
+                            if (!silent) {
+                                SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                        .wrap(commandContext.sender())
+                                        .sendMessage(
+                                                TranslationManager.render(
+                                                        MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE.build()
+                                                ),
+                                                true
+                                        );
+                            }
+                            return;
+                        }
                         itemInHand.setAmount(maxStack);
+                        if (!silent) {
+                            amount = maxStack - itemInHand.getAmount();
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS
+                                                            .arguments(
+                                                                    Component.text(amount),
+                                                                    Component.text(player.getName())
+                                                            )
+                                                            .build()
+                                            ),
+                                            true
+                                    );
+                        }
                     } else {
                         if (amount > maxStack * 100) {
                             if (!silent) {
@@ -53,7 +84,7 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
                                         .wrap(commandContext.sender())
                                         .sendMessage(
                                                 TranslationManager.render(
-                                                        null
+                                                        MessageConstants.COMMANDS_ADMIN_MORE_FAILED_TOO_MANY.build()
                                                 ),
                                                 true
                                         );
@@ -67,12 +98,24 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
                             amountToGive -= perStackSize;
                             ItemStack more = itemInHand.clone();
                             more.setAmount(perStackSize);
-                            player.getInventory().addItem(more);
-
+                            PlayerUtils.dropItem(player, more, false, true, false);
+                        }
+                        if (!silent) {
+                            SparrowBukkitPlugin.getInstance().getSenderFactory()
+                                    .wrap(commandContext.sender())
+                                    .sendMessage(
+                                            TranslationManager.render(
+                                                    MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS
+                                                            .arguments(
+                                                                    Component.text(amount),
+                                                                    Component.text(player.getName())
+                                                            )
+                                                            .build()
+                                            ),
+                                            true
+                                    );
                         }
                     }
-
-
                 });
     }
 }

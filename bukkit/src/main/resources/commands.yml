@@ -334,6 +334,11 @@ more_admin:
   usage:
     - /sparrow more
     - /spa more
+
+more_player:
+  enable: true
+  permission: sparrow.command.player.more
+  usage:
     - /more
 
 extinguish_admin:

@@ -7,11 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import static java.util.Objects.requireNonNull;
 
@@ -85,31 +81,5 @@ public final class EntityUtils {
             }
         }
         entity.teleport(toLocation.subtract(0,height - 1,0));
-    }
-
-    @Nullable
-    public static Inventory getEntityInventory(@NotNull Entity entity) {
-        requireNonNull(entity, "entity");
-        if (entity instanceof InventoryHolder holder) {
-            return holder.getInventory();
-        }
-        return null;
-    }
-
-    public static void giveItem(@NotNull Entity entity, @NotNull ItemStack itemStack) {
-        requireNonNull(entity, "entity");
-        requireNonNull(itemStack, "itemStack");
-        giveItem(requireNonNull(getEntityInventory(entity)), itemStack);
-    }
-
-    public static void giveItem(@NotNull Inventory inventory, @NotNull ItemStack itemStack) {
-        requireNonNull(inventory, "inventory");
-        requireNonNull(itemStack, "itemStack");
-        if (inventory.firstEmpty() != -1) {
-            inventory.addItem(itemStack);
-        } else {
-            Location location = requireNonNull(inventory.getLocation());
-            location.getWorld().dropItem(location, itemStack);
-        }
     }
 }
