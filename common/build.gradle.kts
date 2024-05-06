@@ -16,10 +16,9 @@ dependencies {
     compileOnly("org.slf4j:slf4j-api:${rootProject.properties["slf4j_version"]}")
     compileOnly("org.apache.logging.log4j:log4j-core:${rootProject.properties["log4j_version"]}")
     compileOnly("net.kyori:adventure-text-minimessage:${rootProject.properties["adventure_bundle_version"]}")
-    compileOnly("net.kyori:adventure-text-serializer-legacy:${rootProject.properties["adventure_bundle_version"]}")
     compileOnly("net.kyori:adventure-text-serializer-gson:${rootProject.properties["adventure_bundle_version"]}")
     compileOnly("com.google.code.gson:gson:${rootProject.properties["gson_version"]}")
     compileOnly("net.bytebuddy:byte-buddy:${rootProject.properties["byte_buddy_version"]}")
     compileOnly("com.github.ben-manes.caffeine:caffeine:${rootProject.properties["caffeine_version"]}")
-    compileOnly("net.skinsrestorer:skinsrestorer-api:${rootProject.properties["skinsrestorer_version"]}")
+    compileOnly("io.lettuce:lettuce-core:${rootProject.properties["lettuce_version"]}")
 }

@@ -284,6 +284,13 @@ public enum Dependency {
             "maven",
             "caffeine",
             Relocation.of("caffeine", "com{}github{}benmanes{}caffeine")
+    ),
+    LETTUCE(
+            "io{}lettuce",
+            "lettuce-core",
+            "maven",
+            "lettuce-core",
+            Relocation.of("lettuce", "io{}lettuce")
     );
 
     private final List<Relocation> relocations;

@@ -18,6 +18,7 @@ subprojects {
 
     tasks.processResources {
         filteringCharset = "UTF-8"
+
         filesMatching(arrayListOf("library-version.properties")) {
             expand(rootProject.properties)
         }

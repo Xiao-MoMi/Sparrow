@@ -369,3 +369,40 @@ head_player:
   permission: sparrow.command.player.head
   usage:
     - /head
+
+totemanimation_admin:
+  enable: true
+  permission: sparrow.command.admin.totemanimation
+  usage:
+    - /sparrow totemanimation
+    - /sparrow totem
+    - /spa totemanimation
+    - /spa totem
+    - /totemanimation
+    - /totem
+
+credits_admin:
+  enable: true
+  permission: sparrow.command.admin.credits
+  usage:
+    - /sparrow credits
+    - /spa credits
+
+credits_player:
+  enable: true
+  permission: sparrow.command.player.credits
+  usage:
+    - /credits
+
+demo_admin:
+  enable: true
+  permission: sparrow.command.admin.demo
+  usage:
+    - /sparrow demo
+    - /spa demo
+
+demo_player:
+  enable: true
+  permission: sparrow.command.player.demo
+  usage:
+    - /demo

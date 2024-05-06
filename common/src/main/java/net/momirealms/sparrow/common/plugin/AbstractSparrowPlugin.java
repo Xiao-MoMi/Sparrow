@@ -72,6 +72,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.HIKARI_CP,
                 Dependency.COMMONS_POOL_2,
                 Dependency.JEDIS,
+                Dependency.LETTUCE,
                 Dependency.MONGODB_DRIVER_BSON,
                 Dependency.MONGODB_DRIVER_CORE,
                 Dependency.MONGODB_DRIVER_SYNC,

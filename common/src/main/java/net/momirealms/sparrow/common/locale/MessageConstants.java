@@ -112,4 +112,13 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_MORE_SUCCESS = Component.translatable().key("commands.player.more.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_MORE_FAILED_TOO_MANY = Component.translatable().key("commands.player.more.failed.toomany");
     TranslatableComponent.Builder COMMANDS_PLAYER_MORE_FAILED_NO_CHANGE = Component.translatable().key("commands.player.more.failed.nochange");
+    TranslatableComponent.Builder COMMANDS_ADMIN_TOTEM_FAILED = Component.translatable().key("commands.admin.totemanimation.failed");
+    TranslatableComponent.Builder COMMANDS_ADMIN_TOTEM_SUCCESS_SINGLE = Component.translatable().key("commands.admin.totemanimation.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_TOTEM_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.totemanimation.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_DEMO_SUCCESS = Component.translatable().key("commands.player.demo.success");
+    TranslatableComponent.Builder COMMANDS_ADMIN_DEMO_SUCCESS_SINGLE = Component.translatable().key("commands.admin.demo.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_DEMO_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.demo.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_CREDITS_SUCCESS = Component.translatable().key("commands.player.credits.success");
+    TranslatableComponent.Builder COMMANDS_ADMIN_CREDITS_SUCCESS_SINGLE = Component.translatable().key("commands.admin.credits.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_CREDITS_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.credits.success.multiple");
 }

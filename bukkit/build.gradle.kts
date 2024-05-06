@@ -50,6 +50,7 @@ tasks {
         relocate ("com.mongodb", "net.momirealms.sparrow.libraries.mongodb")
         relocate ("org.bson", "net.momirealms.sparrow.libraries.bson")
         relocate ("org.bstats", "net.momirealms.sparrow.libraries.bstats")
+        relocate ("io.lettuce", "net.momirealms.sparrow.libraries.lettuce")
         relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
         relocate ("com.github.benmanes.caffeine", "net.momirealms.sparrow.libraries.caffeine")
     }

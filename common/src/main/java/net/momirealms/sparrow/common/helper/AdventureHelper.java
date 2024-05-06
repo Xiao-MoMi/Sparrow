@@ -3,23 +3,16 @@ package net.momirealms.sparrow.common.helper;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class AdventureHelper {
 
     private final MiniMessage miniMessage;
     private final MiniMessage miniMessageStrict;
-    private final LegacyComponentSerializer legacyComponentSerializer;
     private final GsonComponentSerializer gsonComponentSerializer;
 
     private AdventureHelper() {
         this.miniMessage = MiniMessage.builder().build();
         this.miniMessageStrict = MiniMessage.builder().strict(true).build();
-        this.legacyComponentSerializer = LegacyComponentSerializer.builder()
-                .hexColors()
-                .character('§')
-                .useUnusualXRepeatedCharacterHexFormat()
-                .build();
         this.gsonComponentSerializer = GsonComponentSerializer.builder().build();
     }
 
