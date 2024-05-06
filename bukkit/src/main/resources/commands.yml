@@ -1,7 +1,7 @@
 #
 # Don't change this
 #
-config-version: "${git_version}"
+config-version: "${project_version}"
 
 #
 # For safety reasons, editing this file requires a restart to apply

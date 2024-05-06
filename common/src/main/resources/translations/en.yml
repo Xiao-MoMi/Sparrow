@@ -1,7 +1,7 @@
 #
 # Don't change this
 #
-config-version: "${git_version}"
+config-version: "${project_version}"
 
 #
 # Text format: https://docs.advntr.dev/minimessage/format
