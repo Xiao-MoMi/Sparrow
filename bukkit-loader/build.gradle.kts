@@ -1,3 +1,5 @@
+val commitID: String by project
+
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
@@ -14,7 +16,7 @@ dependencies {
 
 tasks {
     shadowJar {
-        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["project_version"]}.jar"
+        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["project_version"]}-${commitID}.jar"
         destinationDirectory.set(file("$rootDir/target"))
         from(project(":bukkit").tasks.shadowJar.get().archiveFile)
     }

@@ -4,6 +4,9 @@ plugins {
     id("java")
 }
 
+val commitID : String = versionBanner()
+ext["commitID"] = commitID
+
 subprojects {
 
     apply(plugin = "java")
@@ -19,11 +22,10 @@ subprojects {
             expand(rootProject.properties)
         }
 
-        val commitHash = versionBanner()
         filesMatching(arrayListOf("plugin.yml", "*.yml", "*/*.yml")) {
             expand(
-                Pair("git_version", commitHash),
-                Pair("project_version", rootProject.properties["project_version"].toString() + "-" + commitHash)
+                Pair("git_version", commitID),
+                Pair("project_version", rootProject.properties["project_version"])
             )
         }
     }
