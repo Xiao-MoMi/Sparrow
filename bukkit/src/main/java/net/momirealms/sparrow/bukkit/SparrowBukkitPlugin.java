@@ -19,7 +19,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private SparrowBukkitSkullManager skullManager;
     private SparrowBukkitSenderFactory senderFactory;
     private SparrowBukkitCommandManager commandManager;
-    private SparrowNMSProxy nmsProxy;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         plugin = this;
@@ -45,7 +44,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     public void enable() {
-        this.nmsProxy = new SparrowNMSProxy();
         super.enable();
         this.skullManager = new SparrowBukkitSkullManager(this);
         new Metrics(getLoader(), 21789);
@@ -75,10 +73,6 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     public static SparrowBukkitPlugin getInstance() {
         return plugin;
-    }
-
-    public SparrowNMSProxy getNMSProxy() {
-        return nmsProxy;
     }
 
     public SparrowBukkitBungeeManager getBungeeManager() {

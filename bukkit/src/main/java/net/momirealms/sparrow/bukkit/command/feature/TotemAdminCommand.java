@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
@@ -49,7 +50,7 @@ public class TotemAdminCommand extends AbstractCommandFeature<CommandSender> {
                         return;
                     }
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendTotemAnimation(
+                        SparrowNMSProxy.getInstance().sendTotemAnimation(
                                 player,
                                 bukkitStack
                         );

@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
@@ -29,7 +30,7 @@ public class DemoAdminCommand extends AbstractCommandFeature<CommandSender> {
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendDemo(player);
+                        SparrowNMSProxy.getInstance().sendDemo(player);
                     }
                     if (!silent) {
                         if (players.size() == 1) {

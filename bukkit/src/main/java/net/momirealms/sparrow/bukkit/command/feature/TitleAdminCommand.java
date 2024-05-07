@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -62,7 +63,7 @@ public class TitleAdminCommand extends AbstractCommandFeature<CommandSender> {
                     title = split[0].isEmpty() ? null : split[0];
                     subTitle = split.length == 2 && !split[1].isEmpty() ? split[1] : null;
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendTitle(
+                        SparrowNMSProxy.getInstance().sendTitle(
                                 player,
                                 Optional.ofNullable(title)
                                         .map(t -> AdventureHelper.componentToJson(

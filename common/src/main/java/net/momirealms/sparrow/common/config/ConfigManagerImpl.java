@@ -1,8 +1,6 @@
 package net.momirealms.sparrow.common.config;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
-import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
-import dev.dejvokep.boostedyaml.dvs.versioning.ManualVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;

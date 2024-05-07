@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -24,7 +25,7 @@ public class EnderChestPlayerCommand extends AbstractCommandFeature<CommandSende
                 .senderType(Player.class)
                 .handler(commandContext -> {
                     final Player player = commandContext.sender();
-                    SparrowBukkitPlugin.getInstance().getNMSProxy().openCustomInventory(player, player.getEnderChest(), AdventureHelper.componentToJson(Component.translatable("container.enderchest")));
+                    SparrowNMSProxy.getInstance().openCustomInventory(player, player.getEnderChest(), AdventureHelper.componentToJson(Component.translatable("container.enderchest")));
                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                             .wrap(commandContext.sender())
                             .sendMessage(

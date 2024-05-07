@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.gameplay.AdvancementType;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
@@ -45,7 +46,7 @@ public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
                     AdvancementType type = commandContext.get("type");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     for (Player player : players) {
-                        SparrowBukkitPlugin.getInstance().getNMSProxy().sendToast(
+                        SparrowNMSProxy.getInstance().sendToast(
                                 player,
                                 bukkitStack,
                                 AdventureHelper.componentToJson(

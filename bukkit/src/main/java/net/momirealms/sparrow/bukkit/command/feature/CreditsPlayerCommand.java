@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
@@ -21,7 +22,7 @@ public class CreditsPlayerCommand extends AbstractCommandFeature<CommandSender> 
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> {
-                    SparrowBukkitPlugin.getInstance().getNMSProxy().sendCredits(commandContext.sender());
+                    SparrowNMSProxy.getInstance().sendCredits(commandContext.sender());
                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                             .wrap(commandContext.sender())
                             .sendMessage(
