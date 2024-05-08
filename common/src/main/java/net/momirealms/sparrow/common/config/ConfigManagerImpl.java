@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.common.config;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning;
 import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings;
 import dev.dejvokep.boostedyaml.settings.general.GeneralSettings;
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings;
@@ -72,7 +73,7 @@ public class ConfigManagerImpl implements ConfigManager {
                     DumperSettings.DEFAULT,
                     UpdaterSettings
                             .builder()
-                            .setVersioning(new SparrowVersioning("config-version"))
+                            .setVersioning(new BasicVersioning("config-version"))
                             .build()
             );
         } catch (IOException e) {

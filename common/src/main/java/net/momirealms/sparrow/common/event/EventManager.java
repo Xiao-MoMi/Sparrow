@@ -11,7 +11,7 @@ public interface EventManager {
         private static EventManager INSTANCE = null;
     }
 
-    static EventManager get(SparrowPlugin plugin) {
+    static EventManager create(SparrowPlugin plugin) {
         if (SingletonHolder.INSTANCE == null) {
             SingletonHolder.INSTANCE = new EventManagerImpl(plugin);
         }

@@ -1,7 +1,7 @@
 #
 # Don't change this
 #
-config-version: "${project_version}"
+config-version: "${config_version}"
 
 #
 # For safety reasons, editing this file requires a restart to apply
@@ -406,3 +406,16 @@ demo_player:
   permission: sparrow.command.player.demo
   usage:
     - /demo
+
+enchantmenttable_player:
+  enable: true
+  permission: sparrow.command.player.enchantmenttable
+  usage:
+    - /enchantmenttable
+
+enchantmenttable_admin:
+  enable: true
+  permission: sparrow.command.admin.enchantmenttable
+  usage:
+    - /sparrow enchantmenttable
+    - /spa enchantmenttable

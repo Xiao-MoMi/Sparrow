@@ -1,7 +1,7 @@
 #
 # 不要动这个
 #
-config-version: "${project_version}"
+config-version: "${config_version}"
 
 #
 # 文本格式文档: https://docs.advntr.dev/minimessage/format

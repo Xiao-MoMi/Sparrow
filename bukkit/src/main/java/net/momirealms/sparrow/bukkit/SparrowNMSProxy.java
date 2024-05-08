@@ -4,6 +4,7 @@ import net.momirealms.sparrow.common.gameplay.AdvancementType;
 import net.momirealms.sparrow.heart.SparrowHeart;
 import net.momirealms.sparrow.heart.argument.HandSlot;
 import org.bukkit.Material;
+import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -80,5 +81,11 @@ public class SparrowNMSProxy {
         requireNonNull(player, "player");
         requireNonNull(slot, "slot");
         heart.swingHand(player, slot);
+    }
+
+    public EnchantmentOffer[] getEnchantmentOffers(Player player, ItemStack itemToEnchant, int shelves) {
+        requireNonNull(player, "player");
+        requireNonNull(itemToEnchant, "itemToEnchant");
+        return heart.getEnchantmentOffers(player, itemToEnchant, shelves);
     }
 }

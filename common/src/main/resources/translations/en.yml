@@ -1,7 +1,7 @@
 #
 # Don't change this
 #
-config-version: "${project_version}"
+config-version: "${config_version}"
 
 #
 # Text format: https://docs.advntr.dev/minimessage/format
@@ -165,3 +165,6 @@ commands.player.credits.success: "<gray>You opened the credits</gray>"
 commands.admin.demo.success.single: "<gray>Sent demo to <white><arg:0></white></gray>"
 commands.admin.demo.success.multiple: "<gray>Sent demo to <white><arg:0></white> players</gray>"
 commands.player.demo.success: "<gray>You opened the demo page</gray>"
+commands.admin.enchantmenttable.success.single: "<gray>Opened enchantment table for <white><arg:0></white></gray>"
+commands.admin.enchantmenttable.success.multiple: "<gray>Opened enchantment table for <white><arg:0></white> players</gray>"
+commands.player.enchantmenttable.success: "<gray>You opened the enchantment table</gray>"

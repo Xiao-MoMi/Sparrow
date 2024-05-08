@@ -39,8 +39,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommandManager();
-        this.eventManager = EventManager.get(this);
-        this.reload();
+        this.eventManager = EventManager.create(this);
     }
 
     protected void setupTranslations() {

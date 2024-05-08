@@ -1,5 +1,6 @@
 package net.momirealms.sparrow.bukkit;
 
+import net.momirealms.sparrow.bukkit.feature.enchant.SparrowBukkitEnchantManager;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
@@ -19,6 +20,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     private SparrowBukkitSkullManager skullManager;
     private SparrowBukkitSenderFactory senderFactory;
     private SparrowBukkitCommandManager commandManager;
+    private SparrowBukkitEnchantManager enchantManager;
 
     public SparrowBukkitPlugin(SparrowBukkitBootstrap bootstrap) {
         plugin = this;
@@ -40,12 +42,14 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     public void reload() {
         super.reload();
+        this.enchantManager.reload();
     }
 
     @Override
     public void enable() {
         super.enable();
         this.skullManager = new SparrowBukkitSkullManager(this);
+        this.enchantManager = new SparrowBukkitEnchantManager(this);
         new Metrics(getLoader(), 21789);
     }
 
@@ -53,6 +57,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     public void disable() {
         this.commandManager.unregisterCommandFeatures();
         this.bungeeManager.disable();
+        this.enchantManager.disable();
         super.disable();
     }
 
@@ -94,5 +99,9 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     public SparrowCommandManager<CommandSender> getCommandManager() {
         return commandManager;
+    }
+
+    public SparrowBukkitEnchantManager getEnchantManager() {
+        return enchantManager;
     }
 }

@@ -142,6 +142,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
         this.startTime = Instant.now();
         try {
             this.plugin.enable();
+            this.plugin.reload();
             getServer().getScheduler().runTask(this.loader, () -> this.serverStarting = false);
         } finally {
             this.enableLatch.countDown();

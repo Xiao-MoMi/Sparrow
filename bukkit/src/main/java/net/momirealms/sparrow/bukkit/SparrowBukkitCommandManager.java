@@ -80,7 +80,9 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
             new DemoAdminCommand(),
             new DemoPlayerCommand(),
             new CreditsAdminCommand(),
-            new CreditsPlayerCommand()
+            new CreditsPlayerCommand(),
+            new EnchantmentTableAdminCommand(),
+            new EnchantmentTablePlayerCommand()
     );
 
     @Override
