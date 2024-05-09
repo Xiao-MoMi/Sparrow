@@ -7,7 +7,6 @@ import net.kyori.adventure.translation.Translator;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Pair;
-import org.incendo.cloud.caption.CaptionRegistry;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;

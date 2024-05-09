@@ -45,7 +45,6 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
                     SparrowBukkitSkullManager skullManager = SparrowBukkitPlugin.getInstance().getSkullManager();
-                    System.out.println(url.toString());
                     CompletableFuture<SkullData> futureSkull = skullManager.getSkull(new URLSkullArgument(url));
                     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
                     futureSkull.thenAcceptAsync(

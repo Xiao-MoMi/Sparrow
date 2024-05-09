@@ -9,7 +9,6 @@ import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.ArrayUtils;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
-import org.incendo.cloud.caption.CaptionRegistry;
 import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 

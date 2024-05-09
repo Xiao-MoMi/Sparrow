@@ -1,7 +1,6 @@
 package net.momirealms.sparrow.common.command.parser;
 
 import net.momirealms.sparrow.common.locale.SparrowCaptionKeys;
-import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.component.CommandComponent;

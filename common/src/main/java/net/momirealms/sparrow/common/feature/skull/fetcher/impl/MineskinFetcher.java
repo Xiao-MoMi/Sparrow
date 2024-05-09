@@ -1,14 +1,11 @@
 package net.momirealms.sparrow.common.feature.skull.fetcher.impl;
 
-import net.momirealms.sparrow.common.feature.skull.AbstractSkullManager;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.feature.skull.fetcher.SkullFetcher;
 import net.momirealms.sparrow.common.feature.skull.mineskin.MineskinClient;
 import net.momirealms.sparrow.common.feature.skull.mineskin.SkinOptions;
 import net.momirealms.sparrow.common.feature.skull.mineskin.Variant;
 import net.momirealms.sparrow.common.feature.skull.mineskin.Visibility;
-import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;

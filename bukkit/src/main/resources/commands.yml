@@ -426,3 +426,19 @@ enchantmenttable_admin:
   usage:
     - /sparrow enchantmenttable
     - /spa enchantmenttable
+
+distance_player:
+  enable: true
+  permission: sparrow.command.player.distance
+  usage:
+    - /sparrow distance
+    - /spa distance
+    - /distance
+
+highlight_player:
+  enable: true
+  permission: sparrow.command.player.highlight
+  usage:
+    - /sparrow highlight
+    - /spa highlight
+    - /highlight

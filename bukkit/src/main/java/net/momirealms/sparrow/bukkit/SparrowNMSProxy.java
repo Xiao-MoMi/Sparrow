@@ -3,6 +3,9 @@ package net.momirealms.sparrow.bukkit;
 import net.momirealms.sparrow.common.gameplay.AdvancementType;
 import net.momirealms.sparrow.heart.SparrowHeart;
 import net.momirealms.sparrow.heart.argument.HandSlot;
+import net.momirealms.sparrow.heart.argument.NamedTextColor;
+import net.momirealms.sparrow.heart.feature.highlight.HighlightBlocks;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.enchantments.EnchantmentOffer;
 import org.bukkit.entity.Player;
@@ -87,5 +90,9 @@ public class SparrowNMSProxy {
         requireNonNull(player, "player");
         requireNonNull(itemToEnchant, "itemToEnchant");
         return heart.getEnchantmentOffers(player, itemToEnchant, shelves);
+    }
+
+    public HighlightBlocks highlightBlocks(Player player, NamedTextColor color, Location... locations) {
+        return heart.highlightBlocks(player, color, locations);
     }
 }

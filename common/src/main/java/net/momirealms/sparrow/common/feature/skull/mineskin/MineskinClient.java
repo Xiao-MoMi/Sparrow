@@ -5,7 +5,6 @@ import com.google.gson.JsonParseException;
 import net.momirealms.sparrow.common.feature.skull.mineskin.data.MineskinException;
 import net.momirealms.sparrow.common.feature.skull.mineskin.data.Skin;
 import net.momirealms.sparrow.common.helper.GsonHelper;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -55,7 +54,6 @@ public class MineskinClient {
                 HttpURLConnection connection = generateRequest("/url", body.toString().getBytes());
                 return handleResponse(connection.getInputStream());
             } catch (Exception e) {
-                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
@@ -91,13 +89,10 @@ public class MineskinClient {
         connection.setReadTimeout(10000);
         connection.setInstanceFollowRedirects(false);
         connection.setRequestProperty("Content-Type", "application/json");
-
         if (apiKey != null) {
             connection.setRequestProperty("Authorization", "Bearer " + apiKey);
         }
-
         connection.getOutputStream().write(data);
-
         return connection;
     }
 }
