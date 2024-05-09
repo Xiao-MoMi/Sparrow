@@ -4,10 +4,12 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
+import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.ArrayUtils;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.caption.CaptionRegistry;
 import org.incendo.cloud.component.CommandComponent;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 
@@ -38,6 +40,7 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
                 .defaultHandlers()
                 .captionFormatter(new SparrowCaptionFormatter<>())
                 .registerTo(getCommandManager());
+        getCommandManager().captionRegistry().registerProvider(new SparrowCaptionProvider<>());
     }
 
     @Override

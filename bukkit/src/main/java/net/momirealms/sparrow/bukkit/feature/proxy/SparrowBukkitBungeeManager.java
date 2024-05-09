@@ -1,8 +1,9 @@
-package net.momirealms.sparrow.bukkit;
+package net.momirealms.sparrow.bukkit.feature.proxy;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
+import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

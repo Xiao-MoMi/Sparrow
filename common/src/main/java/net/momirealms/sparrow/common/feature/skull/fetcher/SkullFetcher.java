@@ -1,4 +1,6 @@
-package net.momirealms.sparrow.common.feature.skull;
+package net.momirealms.sparrow.common.feature.skull.fetcher;
+
+import net.momirealms.sparrow.common.feature.skull.SkullData;
 
 import java.util.concurrent.CompletableFuture;
 

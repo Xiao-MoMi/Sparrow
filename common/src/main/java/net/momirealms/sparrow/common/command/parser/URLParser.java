@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.common.command.parser;
 
-import net.momirealms.sparrow.common.locale.CaptionConstants;
+import net.momirealms.sparrow.common.locale.SparrowCaptionKeys;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.context.CommandContext;
@@ -10,10 +10,9 @@ import org.incendo.cloud.parser.MappedArgumentParser;
 
 import java.net.URI;
 import java.net.URL;
-
 import java.util.concurrent.CompletableFuture;
 
-public class URLMapper<C> implements MappedArgumentParser.Mapper<C, String, URL>{
+public class URLParser<C> implements MappedArgumentParser.Mapper<C, String, URL>{
 
     @Override
     public @NonNull CompletableFuture<ArgumentParseResult<URL>> map(@NonNull CommandContext<C> context, @NonNull ArgumentParseResult<String> input) {
@@ -42,10 +41,10 @@ public class URLMapper<C> implements MappedArgumentParser.Mapper<C, String, URL>
                 final @NonNull CommandContext<?> context
         ) {
             super(
-                    URLMapper.class,
+                    URLParser.class,
                     context,
-                    CaptionConstants.ARGUMENT_PARSE_FAILURE_URL,
-                    CaptionVariable.of(input, "input")
+                    SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_URL,
+                    CaptionVariable.of("input", input)
             );
             this.input = input;
         }

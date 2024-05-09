@@ -21,5 +21,4 @@ dependencies {
     compileOnly("net.bytebuddy:byte-buddy:${rootProject.properties["byte_buddy_version"]}")
     compileOnly("com.github.ben-manes.caffeine:caffeine:${rootProject.properties["caffeine_version"]}")
     compileOnly("io.lettuce:lettuce-core:${rootProject.properties["lettuce_version"]}")
-    compileOnly("org.jsoup:jsoup:${rootProject.properties["jsoup_version"]}")
 }

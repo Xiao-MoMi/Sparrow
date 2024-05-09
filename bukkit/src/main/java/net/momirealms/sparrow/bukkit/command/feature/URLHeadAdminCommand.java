@@ -6,7 +6,7 @@ import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
-import net.momirealms.sparrow.common.command.parser.URLMapper;
+import net.momirealms.sparrow.common.command.parser.URLParser;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.feature.skull.argument.URLSkullArgument;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -35,7 +35,7 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
-                .required("url", StringParser.<CommandSender>quotedStringParser().flatMap(URL.class, new URLMapper<>()))
+                .required("url", StringParser.<CommandSender>quotedStringParser().flatMap(URL.class, new URLParser<>()))
                 .optional("amount", IntegerParser.integerParser(1, 6400))
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
@@ -45,6 +45,7 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                     boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
                     SparrowBukkitSkullManager skullManager = SparrowBukkitPlugin.getInstance().getSkullManager();
+                    System.out.println(url.toString());
                     CompletableFuture<SkullData> futureSkull = skullManager.getSkull(new URLSkullArgument(url));
                     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
                     futureSkull.thenAcceptAsync(

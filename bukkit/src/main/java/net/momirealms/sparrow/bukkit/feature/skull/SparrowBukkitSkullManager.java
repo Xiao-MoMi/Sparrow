@@ -1,11 +1,16 @@
 package net.momirealms.sparrow.bukkit.feature.skull;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.feature.skull.fetcher.OnlinePlayerFetcherSetter;
+import net.momirealms.sparrow.bukkit.feature.skull.fetcher.OnlinePlayerFetcherProvider;
 import net.momirealms.sparrow.common.feature.skull.AbstractSkullManager;
-import net.momirealms.sparrow.common.feature.skull.SkullFetcher;
-import net.momirealms.sparrow.common.feature.skull.argument.SkullArgument;
-import net.momirealms.sparrow.common.feature.skull.fetcher.FetcherSetter;
+import net.momirealms.sparrow.common.feature.skull.fetcher.provider.APIFetcherProvider;
+import net.momirealms.sparrow.common.feature.skull.fetcher.provider.FetcherProvider;
+import net.momirealms.sparrow.common.feature.skull.fetcher.provider.MineSkinFetcherProvider;
+import net.momirealms.sparrow.common.util.Pair;
+import org.bukkit.Bukkit;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SparrowBukkitSkullManager extends AbstractSkullManager {
 
@@ -17,11 +22,13 @@ public final class SparrowBukkitSkullManager extends AbstractSkullManager {
     }
 
     @Override
-    protected SkullFetcher setSkullFetcher(SkullArgument argument) {
-        return FetcherSetter.chain(
-                new OnlinePlayerFetcherSetter(plugin, argument),
-                new FetcherSetter.Mineskin(argument),
-                new FetcherSetter.API(argument)
-        ).fetcher();
+    protected List<Pair<String, FetcherProvider>> getProviders() {
+        ArrayList<Pair<String, FetcherProvider>> providers = new ArrayList<>();
+        if (Bukkit.getServer().getOnlineMode()) {
+            providers.add(Pair.of("online", new OnlinePlayerFetcherProvider()));
+        }
+        providers.add(Pair.of("mineskin", new MineSkinFetcherProvider()));
+        providers.add(Pair.of("api", new APIFetcherProvider()));
+        return providers;
     }
 }

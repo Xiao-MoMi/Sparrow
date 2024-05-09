@@ -1,7 +1,9 @@
 package net.momirealms.sparrow.bukkit;
 
 import net.momirealms.sparrow.bukkit.feature.enchant.SparrowBukkitEnchantManager;
+import net.momirealms.sparrow.bukkit.feature.proxy.SparrowBukkitBungeeManager;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
+import net.momirealms.sparrow.bukkit.util.NBTUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
 import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
@@ -50,6 +52,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         super.enable();
         this.skullManager = new SparrowBukkitSkullManager(this);
         this.enchantManager = new SparrowBukkitEnchantManager(this);
+        NBTUtils.disableNBTAPILogs();
         new Metrics(getLoader(), 21789);
     }
 
@@ -58,6 +61,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         this.commandManager.unregisterCommandFeatures();
         this.bungeeManager.disable();
         this.enchantManager.disable();
+        this.skullManager.disable();
         super.disable();
     }
 

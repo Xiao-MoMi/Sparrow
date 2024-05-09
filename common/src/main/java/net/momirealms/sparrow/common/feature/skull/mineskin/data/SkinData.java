@@ -6,7 +6,4 @@ public class SkinData {
 
 	public UUID    uuid;
 	public Texture texture;
-
-
-
 }

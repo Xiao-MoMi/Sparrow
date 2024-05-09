@@ -1,16 +1,20 @@
-package net.momirealms.sparrow.common.feature.skull.fetcher;
+package net.momirealms.sparrow.common.feature.skull.fetcher.impl;
 
+import net.momirealms.sparrow.common.feature.skull.AbstractSkullManager;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
-import net.momirealms.sparrow.common.feature.skull.SkullFetcher;
+import net.momirealms.sparrow.common.feature.skull.fetcher.SkullFetcher;
 import net.momirealms.sparrow.common.feature.skull.mineskin.MineskinClient;
 import net.momirealms.sparrow.common.feature.skull.mineskin.SkinOptions;
 import net.momirealms.sparrow.common.feature.skull.mineskin.Variant;
 import net.momirealms.sparrow.common.feature.skull.mineskin.Visibility;
+import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
+import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 
 public class MineskinFetcher implements SkullFetcher {
+
     private final CompletableFuture<SkullData> futureSkull;
 
     public MineskinFetcher(URL url) {
@@ -23,7 +27,7 @@ public class MineskinFetcher implements SkullFetcher {
     }
 
     private static CompletableFuture<SkullData> fetchSkull(URL url) {
-        MineskinClient client = new MineskinClient("Sparrow-Plugin", "775f7fe6312ed1373d3f832cfd9f700434566c9323f1fe983f4391826a7a71ae");
+        MineskinClient client = new MineskinClient("anonymous");
         return client.generateUrl(url.toString(), SkinOptions.create("", Variant.AUTO, Visibility.PRIVATE))
                 .thenApplyAsync(skin -> SkullData.builder()
                         .owner(skin.name)

@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.feature.skull.fetcher;
+package net.momirealms.sparrow.common.feature.skull.fetcher.impl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.feature.skull.SkullFetchException;
-import net.momirealms.sparrow.common.feature.skull.SkullFetcher;
+import net.momirealms.sparrow.common.feature.skull.fetcher.SkullFetcher;
 import net.momirealms.sparrow.common.helper.GsonHelper;
 import net.momirealms.sparrow.common.util.Commons;
 import net.momirealms.sparrow.common.util.Either;

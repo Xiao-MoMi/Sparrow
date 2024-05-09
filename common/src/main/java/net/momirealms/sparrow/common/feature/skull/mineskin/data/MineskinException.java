@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.common.feature.skull.mineskin.data;
 
 public class MineskinException extends RuntimeException {
+
     public MineskinException() {
     }
 

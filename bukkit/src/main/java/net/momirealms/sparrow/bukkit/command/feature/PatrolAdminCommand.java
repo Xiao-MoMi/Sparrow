@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.feature.patrol.BukkitPatrolManager;
+import net.momirealms.sparrow.bukkit.feature.patrol.SparrowBukkitPatrolManager;
 import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
@@ -68,7 +68,7 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
                     final List<UUID> playersToCheck = players.stream().map(Player::getUniqueId).toList();
                     boolean silent = commandContext.flags().hasFlag("silent");
 
-                    PatrolManager patrolManager = BukkitPatrolManager.getInstance();
+                    PatrolManager patrolManager = SparrowBukkitPatrolManager.getInstance();
                     @Nullable Patrolable target = patrolManager.selectNextPatrolable(patrolable -> playersToCheck.contains(patrolable.getUniqueId()));
                     if (target == null) {
                         if (!silent) {
@@ -128,7 +128,7 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
     public static class PatrolListener implements Listener {
 
         private final BukkitUserManager userManager = BukkitUserManager.getInstance();
-        private final BukkitPatrolManager patrolManager = BukkitPatrolManager.getInstance();
+        private final SparrowBukkitPatrolManager patrolManager = SparrowBukkitPatrolManager.getInstance();
 
         @EventHandler
         private void onPlayerJoin(PlayerJoinEvent event) {

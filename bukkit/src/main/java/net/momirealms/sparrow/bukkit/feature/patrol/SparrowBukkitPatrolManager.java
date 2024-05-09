@@ -13,21 +13,21 @@ import org.jetbrains.annotations.Nullable;
 import java.util.TreeSet;
 import java.util.function.Function;
 
-public class BukkitPatrolManager implements PatrolManager {
-    private static BukkitPatrolManager instance;
+public class SparrowBukkitPatrolManager implements PatrolManager {
+    private static SparrowBukkitPatrolManager instance;
     private final UserManager<BukkitOnlineUser> userManager = BukkitUserManager.getInstance();
     private final TreeSet<Patrolable> patrolableUsers = new TreeSet<>();
 
-    private BukkitPatrolManager() {
+    private SparrowBukkitPatrolManager() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             BukkitOnlineUser user = userManager.getUser(player.getUniqueId());
             addPatrolable(user);
         }
     }
 
-    public static BukkitPatrolManager getInstance() {
+    public static SparrowBukkitPatrolManager getInstance() {
         if (instance == null) {
-            instance = new BukkitPatrolManager();
+            instance = new SparrowBukkitPatrolManager();
         }
         return instance;
     }

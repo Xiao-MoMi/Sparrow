@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.common.command.parser;
 
-import net.momirealms.sparrow.common.locale.CaptionConstants;
+import net.momirealms.sparrow.common.locale.SparrowCaptionKeys;
+import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.caption.CaptionVariable;
 import org.incendo.cloud.component.CommandComponent;
@@ -99,7 +100,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
             super(
                     TimeParser.class,
                     context,
-                    CaptionConstants.ARGUMENT_PARSE_FAILURE_TIME,
+                    SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_TIME,
                     CaptionVariable.of("input", input)
             );
             this.input = input;

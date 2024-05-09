@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.feature.skull.fetcher;
 
 import net.momirealms.sparrow.common.feature.skull.SkullData;
-import net.momirealms.sparrow.common.feature.skull.SkullFetcher;
+import net.momirealms.sparrow.common.feature.skull.fetcher.SkullFetcher;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.CompletableFuture;

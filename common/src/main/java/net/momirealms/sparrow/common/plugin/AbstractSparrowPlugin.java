@@ -7,6 +7,7 @@ import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.dependency.DependencyManagerImpl;
 import net.momirealms.sparrow.common.event.EventManager;
 import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.storage.StorageFactory;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -39,6 +40,7 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommandManager();
+        StorageFactory storageFactory = new StorageFactory(this);
         this.eventManager = EventManager.create(this);
     }
 
@@ -70,14 +72,12 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.MYSQL_DRIVER,
                 Dependency.HIKARI_CP,
                 Dependency.COMMONS_POOL_2,
-                Dependency.JEDIS,
                 Dependency.LETTUCE,
                 Dependency.MONGODB_DRIVER_BSON,
                 Dependency.MONGODB_DRIVER_CORE,
                 Dependency.MONGODB_DRIVER_SYNC,
                 Dependency.SQLITE_DRIVER,
-                Dependency.H2_DRIVER,
-                Dependency.JSOUP
+                Dependency.H2_DRIVER
         );
     }
 

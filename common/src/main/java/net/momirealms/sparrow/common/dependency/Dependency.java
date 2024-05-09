@@ -212,14 +212,6 @@ public enum Dependency {
             return Dependency.MONGODB_DRIVER_CORE.getVersion();
         }
     },
-    JEDIS(
-            "redis{}clients",
-            "jedis",
-            "maven",
-            "jedis",
-            Relocation.of("jedis", "redis{}clients{}jedis"),
-            Relocation.of("commonspool2", "org{}apache{}commons{}pool2")
-    ),
     COMMONS_POOL_2(
             "org{}apache{}commons",
             "commons-pool2",
@@ -272,13 +264,6 @@ public enum Dependency {
             "maven",
             "lettuce-core",
             Relocation.of("lettuce", "io{}lettuce")
-    ),
-    JSOUP(
-            "org{}jsoup",
-            "jsoup",
-            "maven",
-            "jsoup",
-            Relocation.of("jsoup", "org{}jsoup")
     );
 
     private final List<Relocation> relocations;

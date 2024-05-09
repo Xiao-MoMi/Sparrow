@@ -14,8 +14,4 @@ public class Skin {
     public int views;
     public int accountId;
     public DelayInfo delayInfo;
-
-    @Deprecated
-    public double nextRequest;
-
 }

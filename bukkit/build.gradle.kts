@@ -44,14 +44,12 @@ tasks {
         relocate ("com.mysql", "net.momirealms.sparrow.libraries.mysql")
         relocate ("org.mariadb", "net.momirealms.sparrow.libraries.mariadb")
         relocate ("com.zaxxer.hikari", "net.momirealms.sparrow.libraries.hikari")
-        relocate ("redis.clients.jedis", "net.momirealms.sparrow.libraries.jedis")
         relocate ("com.mongodb", "net.momirealms.sparrow.libraries.mongodb")
         relocate ("org.bson", "net.momirealms.sparrow.libraries.bson")
         relocate ("org.bstats", "net.momirealms.sparrow.libraries.bstats")
         relocate ("io.lettuce", "net.momirealms.sparrow.libraries.lettuce")
         relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
         relocate ("com.github.benmanes.caffeine", "net.momirealms.sparrow.libraries.caffeine")
-        relocate ("org.jsoup", "net.momirealms.sparrow.libraries.jsoup")
     }
 }
 
