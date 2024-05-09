@@ -23,11 +23,11 @@ public class URLHeadCommand extends AbstractCommandFeature<CommandSender> {
                 .required("url", URLParser.urlParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.get("player");
-                    URL url = commandContext.get("url");
-                    boolean silent = commandContext.flags().hasFlag("silent");
-                    var players = selector.values();
+//                    MultiplePlayerSelector selector = commandContext.get("player");
+//                    URL url = commandContext.get("url");
+//                    boolean silent = commandContext.flags().hasFlag("silent");
+//                    var players = selector.values();
 
-                })
+                });
     }
 }
