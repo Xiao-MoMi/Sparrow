@@ -15,12 +15,12 @@ repositories {
 dependencies {
     implementation(project(":common"))
     compileOnly(project(":loader"))
+    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
     compileOnly("dev.folia:folia-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
     compileOnly("net.kyori:adventure-platform-bukkit:${rootProject.properties["adventure_platform_version"]}")
     compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
     compileOnly("de.tr7zw:item-nbt-api:${rootProject.properties["nbt_api_version"]}")
-    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
 }
 

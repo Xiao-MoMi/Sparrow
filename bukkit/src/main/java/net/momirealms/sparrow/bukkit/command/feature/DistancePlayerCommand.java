@@ -53,7 +53,7 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                         if (!commandContext.flags().hasFlag("disable-highlight")) {
                             int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 5;
                             NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (NamedTextColor) commandContext.flags().getValue("highlight-color").get() : NamedTextColor.GREEN;
-                            var highlighted = SparrowNMSProxy.getInstance().highlightBlocks(player, net.momirealms.sparrow.heart.argument.NamedTextColor.NAMES.value(color.toString()), block.getLocation());
+                            var highlighted = SparrowNMSProxy.getInstance().highlightBlocks(player, net.momirealms.sparrow.heart.argument.NamedTextColor.namedColor(color.value()), block.getLocation());
                             SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
                                 if (player.isOnline()) {
                                     highlighted.destroy(player);
