@@ -51,6 +51,8 @@ public final class CustomEnchantmentParser<C> implements ArgumentParser<C, Encha
         if (enchantment == null) {
             return ArgumentParseResult.failure(new EnchantmentParseException(input, commandContext));
         }
+        commandInput.readString();
+
         return ArgumentParseResult.success(enchantment);
     }
 
