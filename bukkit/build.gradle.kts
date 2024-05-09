@@ -51,6 +51,7 @@ tasks {
         relocate ("io.lettuce", "net.momirealms.sparrow.libraries.lettuce")
         relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
         relocate ("com.github.benmanes.caffeine", "net.momirealms.sparrow.libraries.caffeine")
+        relocate ("org.jsoup", "net.momirealms.sparrow.libraries.jsoup")
     }
 }
 

@@ -272,6 +272,13 @@ public enum Dependency {
             "maven",
             "lettuce-core",
             Relocation.of("lettuce", "io{}lettuce")
+    ),
+    JSOUP(
+            "org{}jsoup",
+            "jsoup",
+            "maven",
+            "jsoup",
+            Relocation.of("jsoup", "org{}jsoup")
     );
 
     private final List<Relocation> relocations;

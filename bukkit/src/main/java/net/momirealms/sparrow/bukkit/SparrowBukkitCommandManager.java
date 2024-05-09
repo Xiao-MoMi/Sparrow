@@ -73,6 +73,7 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
             new BurnAdminCommand(),
             new ExtinguishAdminCommand(),
             new HeadAdminCommand(),
+            new URLHeadAdminCommand(),
             new HeadPlayerCommand(),
             new MoreAdminCommand(),
             new MorePlayerCommand(),

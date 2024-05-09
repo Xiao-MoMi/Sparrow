@@ -76,7 +76,8 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.MONGODB_DRIVER_CORE,
                 Dependency.MONGODB_DRIVER_SYNC,
                 Dependency.SQLITE_DRIVER,
-                Dependency.H2_DRIVER
+                Dependency.H2_DRIVER,
+                Dependency.JSOUP
         );
     }
 
