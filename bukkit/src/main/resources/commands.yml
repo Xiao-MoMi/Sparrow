@@ -364,6 +364,13 @@ head_admin:
     - /sparrow head
     - /spa head
 
+urlhead_admin:
+  enable: true
+  permission: sparrow.command.admin.urlhead
+  usage:
+    - /sparrow urlhead
+    - /spa urlhead
+
 head_player:
   enable: true
   permission: sparrow.command.player.head

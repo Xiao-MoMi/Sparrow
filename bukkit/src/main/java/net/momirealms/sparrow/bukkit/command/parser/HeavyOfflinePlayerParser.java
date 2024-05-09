@@ -29,7 +29,7 @@ public class HeavyOfflinePlayerParser<C> implements ArgumentParser<C, OfflinePla
 
     @Override
     public @NonNull ArgumentParseResult<@NonNull OfflinePlayer> parse(@NonNull CommandContext<@NonNull C> commandContext, @NonNull CommandInput commandInput) {
-        final String input = commandInput.readString();
+        final String input = commandInput.peekString();
         if (input.length() > 16) {
             return ArgumentParseResult.failure(new OfflinePlayerParser.OfflinePlayerParseException(input, commandContext));
         }
@@ -40,6 +40,7 @@ public class HeavyOfflinePlayerParser<C> implements ArgumentParser<C, OfflinePla
         } catch (final Exception e) {
             return ArgumentParseResult.failure(new OfflinePlayerParser.OfflinePlayerParseException(input, commandContext));
         }
+        commandInput.readString();
 
         return ArgumentParseResult.success(player);
     }

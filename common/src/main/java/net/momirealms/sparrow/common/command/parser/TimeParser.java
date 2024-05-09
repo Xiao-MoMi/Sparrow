@@ -46,7 +46,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
 
     @Override
     public @NonNull ArgumentParseResult<@NonNull Long> parse(@NonNull CommandContext<@NonNull C> commandContext, @NonNull CommandInput commandInput) {
-        final String input = commandInput.readString();
+        final String input = commandInput.peekString();
 
         final Matcher matcher = TIME_PATTERN.matcher(input);
 
@@ -63,6 +63,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
                 }
             }
         }
+        commandInput.readString();
 
         return ArgumentParseResult.success(ticks);
     }
@@ -80,7 +81,7 @@ public class TimeParser<C> implements ArgumentParser<C, Long>,
             return Collections.emptyList();
         }
 
-        final String string = input.readString();
+        final String string = input.peekString();
         return Stream.of("d", "h", "m", "s", "t")
                 .filter(unit -> !string.contains(unit))
                 .map(unit -> string + unit)
