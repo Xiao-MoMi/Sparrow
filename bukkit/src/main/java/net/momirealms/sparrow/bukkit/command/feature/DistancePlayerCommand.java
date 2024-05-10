@@ -74,7 +74,6 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                                         true
                                 );
                     }
-
                 });
     }
 }
