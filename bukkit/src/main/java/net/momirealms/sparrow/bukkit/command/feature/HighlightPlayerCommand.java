@@ -254,7 +254,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                             if (selectedBlockLocation.getBlockX() == lowerX || selectedBlockLocation.getBlockX() == lowerX + deltaX) {
                                 return true;
                             }
-                            if (selectedBlockLocation.getBlockY() == lowerY || selectedBlockLocation.getBlockX() == lowerY + deltaY) {
+                            if (selectedBlockLocation.getBlockY() == lowerY || selectedBlockLocation.getBlockY() == lowerY + deltaY) {
                                 return true;
                             }
                             if (selectedBlockLocation.getBlockZ() == lowerZ || selectedBlockLocation.getBlockZ() == lowerZ + deltaZ) {
