@@ -235,7 +235,6 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                     int lowerZ = Math.min(selectedLocation.getBlockZ(), arg.firstPoint.getBlockZ());
 
                     SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
-                        long time1 = System.currentTimeMillis();
                         Location location = new Location(world, lowerX, lowerY, lowerZ);
                         ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
                         for (int i = 0; i <= deltaX; i++) {
@@ -277,7 +276,6 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                                 }, arg.duration, TimeUnit.SECONDS);
                             }
                         }
-                        System.out.println(System.currentTimeMillis() - time1);
                     });
                 }
             }
