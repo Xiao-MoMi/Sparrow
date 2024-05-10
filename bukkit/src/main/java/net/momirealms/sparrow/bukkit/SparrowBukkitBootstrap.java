@@ -25,14 +25,14 @@
 
 package net.momirealms.sparrow.bukkit;
 
-import net.momirealms.sparrow.common.config.plugin.Platform;
-import net.momirealms.sparrow.common.config.plugin.bootstrap.BootstrappedWithLoader;
-import net.momirealms.sparrow.common.config.plugin.bootstrap.SparrowBootstrap;
-import net.momirealms.sparrow.common.config.plugin.classpath.ClassPathAppender;
-import net.momirealms.sparrow.common.config.plugin.classpath.JarInJarClassPathAppender;
-import net.momirealms.sparrow.common.config.plugin.logging.JavaPluginLogger;
-import net.momirealms.sparrow.common.config.plugin.logging.PluginLogger;
-import net.momirealms.sparrow.common.config.plugin.scheduler.SchedulerAdapter;
+import net.momirealms.sparrow.common.plugin.plugin.Platform;
+import net.momirealms.sparrow.common.plugin.bootstrap.BootstrappedWithLoader;
+import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
+import net.momirealms.sparrow.common.plugin.classpath.ClassPathAppender;
+import net.momirealms.sparrow.common.plugin.classpath.JarInJarClassPathAppender;
+import net.momirealms.sparrow.common.plugin.logging.JavaPluginLogger;
+import net.momirealms.sparrow.common.plugin.logging.PluginLogger;
+import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 import net.momirealms.sparrow.loader.LoaderBootstrap;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

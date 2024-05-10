@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.common.event.gen;
 
 import net.momirealms.sparrow.common.event.SparrowEvent;
-import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.invoke.MethodHandles;

@@ -23,9 +23,9 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.config.plugin.scheduler;
+package net.momirealms.sparrow.common.plugin.scheduler;
 
-import net.momirealms.sparrow.common.config.plugin.bootstrap.SparrowBootstrap;
+import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Arrays;

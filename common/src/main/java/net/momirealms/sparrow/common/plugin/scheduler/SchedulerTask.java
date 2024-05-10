@@ -23,36 +23,16 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.config.plugin.classpath;
+package net.momirealms.sparrow.common.plugin.scheduler;
 
-import net.momirealms.sparrow.common.config.plugin.bootstrap.SparrowBootstrap;
+/**
+ * Represents a scheduled task
+ */
+public interface SchedulerTask {
 
-import java.net.MalformedURLException;
-import java.net.URLClassLoader;
-import java.nio.file.Path;
-
-public class ReflectionClassPathAppender implements ClassPathAppender {
-    private final URLClassLoaderAccess classLoaderAccess;
-
-    public ReflectionClassPathAppender(ClassLoader classLoader) throws IllegalStateException {
-        if (classLoader instanceof URLClassLoader) {
-            this.classLoaderAccess = URLClassLoaderAccess.create((URLClassLoader) classLoader);
-        } else {
-            throw new IllegalStateException("ClassLoader is not instance of URLClassLoader");
-        }
-    }
-
-    public ReflectionClassPathAppender(SparrowBootstrap bootstrap) throws IllegalStateException {
-        this(bootstrap.getClass().getClassLoader());
-    }
-
-    @Override
-    public void addJarToClasspath(Path file) {
-        try {
-            this.classLoaderAccess.addURL(file.toUri().toURL());
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    /**
+     * Cancels the task.
+     */
+    void cancel();
 
 }

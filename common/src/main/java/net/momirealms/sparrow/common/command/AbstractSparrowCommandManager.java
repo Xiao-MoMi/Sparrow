@@ -5,7 +5,7 @@ import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
 import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
-import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.ArrayUtils;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;

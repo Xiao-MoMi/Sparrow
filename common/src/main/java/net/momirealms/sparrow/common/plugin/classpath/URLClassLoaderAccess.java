@@ -23,7 +23,7 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.config.plugin.classpath;
+package net.momirealms.sparrow.common.plugin.classpath;
 
 import org.jetbrains.annotations.NotNull;
 

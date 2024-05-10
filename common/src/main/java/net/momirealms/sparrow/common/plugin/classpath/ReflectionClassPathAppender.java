@@ -23,24 +23,36 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.config.plugin.logging;
+package net.momirealms.sparrow.common.plugin.classpath;
 
-/**
- * Represents the logger instance being used by Sparrow on the platform.
- *
- * <p>Messages sent using the logger are sent prefixed with the Sparrow tag,
- * and on some implementations will be colored depending on the message type.</p>
- */
-public interface PluginLogger {
+import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
 
-    void info(String s);
+import java.net.MalformedURLException;
+import java.net.URLClassLoader;
+import java.nio.file.Path;
 
-    void warn(String s);
+public class ReflectionClassPathAppender implements ClassPathAppender {
+    private final URLClassLoaderAccess classLoaderAccess;
 
-    void warn(String s, Throwable t);
+    public ReflectionClassPathAppender(ClassLoader classLoader) throws IllegalStateException {
+        if (classLoader instanceof URLClassLoader) {
+            this.classLoaderAccess = URLClassLoaderAccess.create((URLClassLoader) classLoader);
+        } else {
+            throw new IllegalStateException("ClassLoader is not instance of URLClassLoader");
+        }
+    }
 
-    void severe(String s);
+    public ReflectionClassPathAppender(SparrowBootstrap bootstrap) throws IllegalStateException {
+        this(bootstrap.getClass().getClassLoader());
+    }
 
-    void severe(String s, Throwable t);
+    @Override
+    public void addJarToClasspath(Path file) {
+        try {
+            this.classLoaderAccess.addURL(file.toUri().toURL());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

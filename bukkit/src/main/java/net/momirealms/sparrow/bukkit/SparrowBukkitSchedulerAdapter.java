@@ -25,8 +25,8 @@
 
 package net.momirealms.sparrow.bukkit;
 
-import net.momirealms.sparrow.common.config.plugin.scheduler.AbstractJavaScheduler;
-import net.momirealms.sparrow.common.config.plugin.scheduler.RegionExecutor;
+import net.momirealms.sparrow.common.plugin.scheduler.AbstractJavaScheduler;
+import net.momirealms.sparrow.common.plugin.scheduler.RegionExecutor;
 import org.bukkit.Location;
 
 public class SparrowBukkitSchedulerAdapter extends AbstractJavaScheduler<Location> {

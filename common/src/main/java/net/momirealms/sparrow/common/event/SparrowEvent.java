@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.common.event;
 
-import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
 import org.jetbrains.annotations.NotNull;
 
 public interface SparrowEvent {

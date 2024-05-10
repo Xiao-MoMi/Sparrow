@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.common.storage;
 
-import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
 
 public class StorageFactory {
 

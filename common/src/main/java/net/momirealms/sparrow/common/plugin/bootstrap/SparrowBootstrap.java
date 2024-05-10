@@ -1,9 +1,9 @@
-package net.momirealms.sparrow.common.config.plugin.bootstrap;
+package net.momirealms.sparrow.common.plugin.bootstrap;
 
-import net.momirealms.sparrow.common.config.plugin.Platform;
-import net.momirealms.sparrow.common.config.plugin.classpath.ClassPathAppender;
-import net.momirealms.sparrow.common.config.plugin.logging.PluginLogger;
-import net.momirealms.sparrow.common.config.plugin.scheduler.SchedulerAdapter;
+import net.momirealms.sparrow.common.plugin.plugin.Platform;
+import net.momirealms.sparrow.common.plugin.classpath.ClassPathAppender;
+import net.momirealms.sparrow.common.plugin.logging.PluginLogger;
+import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
