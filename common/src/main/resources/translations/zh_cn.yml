@@ -174,7 +174,7 @@ commands.admin.enchantmenttable.success.single: "<gray>为<white><arg:0></white>
 commands.admin.enchantmenttable.success.multiple: "<gray>为<white><arg:0></white>个玩家打开了附魔台</gray>"
 commands.player.enchantmenttable.success: "<gray>你打开了附魔台</gray>"
 commands.player.distance.failed: "<red>无法在<arg:0>距离内获取目标方块的距离</red>"
-commands.player.distance.success: "<gray>直线距离:<white><arg:0></white><newline>方块距离:<white><arg:1></white></gray>"
+commands.player.distance.success: "<gray><hover:show_text:'<yellow>欧拉距离'>直线距离</hover>:<white><arg:0></white><newline><hover:show_text:'<yellow>曼哈顿距离'>方块距离</hover>:<white><arg:1></white></gray>"
 commands.player.highlight.selected.first: "<gray>已选择第一个点<gold><arg:0>，<arg:1>，<arg:2></gold></gray>"
 commands.player.highlight.selected.second: "<gray>已选择第二个点<yellow><arg:0>，<arg:1>，<arg:2></yellow></gray>"
 commands.player.highlight.success: "<gray>高亮方块已显示给<white><arg:0></white>个玩家</gray>"
