@@ -4,7 +4,7 @@ import dev.dejvokep.boostedyaml.YamlDocument;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.translation.Translator;
-import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.util.Pair;
 import org.jetbrains.annotations.Nullable;

@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.plugin.version;
+package net.momirealms.sparrow.common.config.version;
 
 import dev.dejvokep.boostedyaml.dvs.Pattern;
 import dev.dejvokep.boostedyaml.dvs.segment.Segment;

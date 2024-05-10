@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.plugin.plugin;
+package net.momirealms.sparrow.common.plugin;
 
 public enum Platform {
     BUKKIT("Bukkit"),

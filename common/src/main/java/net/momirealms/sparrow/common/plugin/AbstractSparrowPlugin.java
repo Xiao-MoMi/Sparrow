@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.plugin.plugin;
+package net.momirealms.sparrow.common.plugin;
 
 import net.momirealms.sparrow.common.config.ConfigManager;
 import net.momirealms.sparrow.common.config.ConfigManagerImpl;

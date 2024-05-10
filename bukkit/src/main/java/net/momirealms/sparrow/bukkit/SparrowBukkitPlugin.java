@@ -6,7 +6,7 @@ import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.NBTUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.dependency.Dependency;
-import net.momirealms.sparrow.common.plugin.plugin.AbstractSparrowPlugin;
+import net.momirealms.sparrow.common.plugin.AbstractSparrowPlugin;
 import net.momirealms.sparrow.common.sender.SenderFactory;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.command.CommandSender;

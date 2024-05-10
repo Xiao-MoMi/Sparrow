@@ -28,7 +28,7 @@ package net.momirealms.sparrow.common.dependency;
 import net.momirealms.sparrow.common.dependency.classloader.IsolatedClassLoader;
 import net.momirealms.sparrow.common.dependency.relocation.Relocation;
 import net.momirealms.sparrow.common.dependency.relocation.RelocationHandler;
-import net.momirealms.sparrow.common.plugin.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.plugin.classpath.ClassPathAppender;
 import net.momirealms.sparrow.common.util.FileUtils;
 
