@@ -54,6 +54,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                 .required("viewers", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,300)).build())
                 .flag(manager.flagBuilder("highlight-color").withAliases("c").withComponent(NamedTextColorParser.namedTextColorParser()).build())
+                .flag(manager.flagBuilder("solid-only").build())
                 .handler(commandContext -> {
                     final Player player = commandContext.sender();
                     if (argMap.containsKey(player.getUniqueId())) {
@@ -73,7 +74,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                     MultiplePlayerSelector playerSelector = commandContext.get("viewers");
                     Collection<Player> players = playerSelector.values();
                     long time = System.currentTimeMillis();
-                    HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, time);
+                    HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, commandContext.flags().hasFlag("solid-only"), time);
                     argMap.put(player.getUniqueId(), args);
                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                             .wrap(commandContext.sender())
@@ -114,11 +115,13 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
         private final Collection<Player> viewers;
         private final long timeStamp;
         private Location firstPoint;
-        public HighlightArguments(int duration, NamedTextColor color, Collection<Player> viewers, long timeStamp) {
+        private final boolean solidOnly;
+        public HighlightArguments(int duration, NamedTextColor color, Collection<Player> viewers, boolean solidOnly, long timeStamp) {
             this.duration = duration;
             this.color = color;
             this.viewers = viewers;
             this.timeStamp = timeStamp;
+            this.solidOnly = solidOnly;
         }
         public int getDuration() {
             return duration;
@@ -137,6 +140,9 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
         }
         public void setFirstPoint(Location firstPoint) {
             this.firstPoint = firstPoint;
+        }
+        public boolean isSolidOnly() {
+            return solidOnly;
         }
     }
 
@@ -235,7 +241,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                     int lowerZ = Math.min(selectedLocation.getBlockZ(), arg.firstPoint.getBlockZ());
 
                     SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
-                        Location location = new Location(world, lowerX, lowerY, lowerZ);
+                        Location location = new Location(world, lowerX + 0.5, lowerY, lowerZ + 0.5);
                         ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
                         for (int i = 0; i <= deltaX; i++) {
                             for (int j = 0; j <= deltaY; j++) {
@@ -245,27 +251,25 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                             }
                         }
                         List<BlockFace> faces = List.of(BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN);
-                        Location[] locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
-                            Block block = selectedBlockLocation.getBlock();
-                            if (block.isPassable()) {
-                                return false;
-                            }
-                            if (selectedBlockLocation.getBlockX() == lowerX || selectedBlockLocation.getBlockX() == lowerX + deltaX) {
-                                return true;
-                            }
-                            if (selectedBlockLocation.getBlockY() == lowerY || selectedBlockLocation.getBlockY() == lowerY + deltaY) {
-                                return true;
-                            }
-                            if (selectedBlockLocation.getBlockZ() == lowerZ || selectedBlockLocation.getBlockZ() == lowerZ + deltaZ) {
-                                return true;
-                            }
-                            for (BlockFace face : faces) {
-                                if (block.getRelative(face).isPassable()) {
-                                    return true;
+                        Location[] locationsArray;
+                        if (arg.solidOnly) {
+                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
+                                Block block = selectedBlockLocation.getBlock();
+                                if (block.isPassable()) {
+                                    return false;
                                 }
-                            }
-                            return false;
-                        }).toList().toArray(new Location[0]);
+                                if (isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation))
+                                    return true;
+                                for (BlockFace face : faces) {
+                                    if (block.getRelative(face).isPassable()) {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }).toList().toArray(new Location[0]);
+                        } else {
+                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation)).toList().toArray(new Location[0]);
+                        }
                         List<Location[]> split = ArrayUtils.splitArray(locationsArray, 1024);
                         for (Player rp : remaining) {
                             for (Location[] l : split) {
@@ -281,6 +285,18 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
             }
         }
 
+        private boolean isBoundary(int deltaX, int deltaY, int deltaZ, int lowerX, int lowerY, int lowerZ, Location selectedBlockLocation) {
+            if (selectedBlockLocation.getBlockX() == lowerX || selectedBlockLocation.getBlockX() == lowerX + deltaX) {
+                return true;
+            }
+            if (selectedBlockLocation.getBlockY() == lowerY || selectedBlockLocation.getBlockY() == lowerY + deltaY) {
+                return true;
+            }
+            if (selectedBlockLocation.getBlockZ() == lowerZ || selectedBlockLocation.getBlockZ() == lowerZ + deltaZ) {
+                return true;
+            }
+            return false;
+        }
 
         @EventHandler (ignoreCancelled = true)
         private void onPlayerQuit(PlayerQuitEvent event) {

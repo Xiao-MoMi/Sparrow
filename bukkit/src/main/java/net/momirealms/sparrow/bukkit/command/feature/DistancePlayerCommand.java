@@ -2,21 +2,21 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.util.LocationUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
-import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
-
-import java.util.concurrent.TimeUnit;
 
 public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender> {
 
@@ -30,9 +30,9 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
         return builder
                 .senderType(Player.class)
                 .flag(manager.flagBuilder("max-distance").withAliases("m").withComponent(IntegerParser.integerParser(0,512)).build())
-                .flag(manager.flagBuilder("disable-highlight").build())
-                .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,60)).build())
-                .flag(manager.flagBuilder("highlight-color").withAliases("c").withComponent(NamedTextColorParser.namedTextColorParser()).build())
+                .flag(manager.flagBuilder("disable-marker").build())
+                .flag(manager.flagBuilder("marker-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,60)).build())
+                .flag(manager.flagBuilder("marker-color").withAliases("c").withComponent(TextColorParser.textColorParser()).build())
                 .handler(commandContext -> {
                     final Player player = commandContext.sender();
                     boolean distanceFlag = commandContext.flags().hasFlag("max-distance");
@@ -51,14 +51,11 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                                 );
                     } else {
                         if (!commandContext.flags().hasFlag("disable-highlight")) {
-                            int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 5;
-                            NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (NamedTextColor) commandContext.flags().getValue("highlight-color").get() : NamedTextColor.GREEN;
-                            var highlighted = SparrowNMSProxy.getInstance().highlightBlocks(player, net.momirealms.sparrow.heart.argument.NamedTextColor.namedColor(color.value()), block.getLocation());
-                            SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
-                                if (player.isOnline()) {
-                                    highlighted.destroy(player);
-                                }
-                            }, duration, TimeUnit.SECONDS);
+                            Location location = block.getLocation();
+                            int duration = commandContext.flags().hasFlag("marker-duration") ? (int) commandContext.flags().getValue("marker-duration").get() : 5;
+                            TextColor color = commandContext.flags().hasFlag("marker-color") ? (TextColor) commandContext.flags().getValue("marker-color").get() : NamedTextColor.GREEN;
+                            int argb = 0x64000000 | color.value();
+                            SparrowNMSProxy.getInstance().sendDebugMarker(player, location, "x:" + location.getBlockX() + ", y:" + location.getBlockY() + ", z:" + location.getBlockZ(), duration * 1000, argb);
                         }
                         SparrowBukkitPlugin.getInstance().getSenderFactory()
                                 .wrap(commandContext.sender())

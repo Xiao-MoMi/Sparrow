@@ -93,6 +93,16 @@ public class SparrowNMSProxy {
     }
 
     public HighlightBlocks highlightBlocks(Player player, NamedTextColor color, Location... locations) {
+        requireNonNull(player, "player");
+        requireNonNull(color, "color");
+        requireNonNull(locations, "locations");
         return heart.highlightBlocks(player, color, locations);
+    }
+
+    public void sendDebugMarker(Player player, Location location, String message, int duration, int color) {
+        requireNonNull(player, "player");
+        requireNonNull(message, "message");
+        requireNonNull(location, "location");
+        heart.sendDebugMarker(player, location, message, duration, color);
     }
 }
