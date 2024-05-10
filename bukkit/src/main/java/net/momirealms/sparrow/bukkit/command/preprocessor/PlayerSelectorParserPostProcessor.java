@@ -32,7 +32,8 @@ public class PlayerSelectorParserPostProcessor implements CommandPostprocessor<C
             return;
         }
 
-        if (selector.get().values().isEmpty()) {
+        var players = selector.get().values();
+        if (players.isEmpty()) {
             if (!silent) {
                 SparrowBukkitPlugin.getInstance().getSenderFactory()
                         .wrap(context.sender())
