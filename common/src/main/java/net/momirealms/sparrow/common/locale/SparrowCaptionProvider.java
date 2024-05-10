@@ -10,6 +10,8 @@ public final class SparrowCaptionProvider<C> extends DelegatingCaptionProvider<C
             .putCaption(SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_URL, "")
             .putCaption(SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_TIME, "")
             .putCaption(SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_NAMEDTEXTCOLOR, "")
+            .putCaption(SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_UUID, "")
+            .putCaption(SparrowCaptionKeys.ARGUMENT_PARSE_FAILURE_SIGHT, "")
             .build();
 
     @SuppressWarnings("unchecked")

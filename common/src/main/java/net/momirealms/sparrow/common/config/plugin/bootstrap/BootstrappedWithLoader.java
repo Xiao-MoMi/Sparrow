@@ -1,4 +1,4 @@
-package net.momirealms.sparrow.common.plugin.bootstrap;
+package net.momirealms.sparrow.common.config.plugin.bootstrap;
 
 public interface BootstrappedWithLoader {
 

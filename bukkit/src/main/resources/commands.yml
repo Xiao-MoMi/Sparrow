@@ -414,18 +414,18 @@ demo_player:
   usage:
     - /demo
 
-enchantmenttable_player:
-  enable: true
-  permission: sparrow.command.player.enchantmenttable
-  usage:
-    - /enchantmenttable
-
 enchantmenttable_admin:
   enable: true
   permission: sparrow.command.admin.enchantmenttable
   usage:
     - /sparrow enchantmenttable
     - /spa enchantmenttable
+
+enchantmenttable_player:
+  enable: true
+  permission: sparrow.command.player.enchantmenttable
+  usage:
+    - /enchantmenttable
 
 distance_player:
   enable: true
@@ -442,3 +442,24 @@ highlight_player:
     - /sparrow highlight
     - /spa highlight
     - /highlight
+
+condense_admin:
+  enable: true
+  permission: sparrow.command.admin.condense
+  usage:
+    - /sparrow condense
+    - /spa condense
+
+condense_player:
+  enable: true
+  permission: sparrow.command.player.condense
+  usage:
+    - /condense
+
+look_admin:
+  enable: true
+  permission: sparrow.command.admin.look
+  usage:
+    - /sparrow look
+    - /spa look
+

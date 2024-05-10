@@ -25,7 +25,7 @@
 
 package net.momirealms.sparrow.common.sender;
 
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
 
 import java.util.UUID;
 

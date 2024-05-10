@@ -1,9 +1,9 @@
-package net.momirealms.sparrow.common.plugin;
+package net.momirealms.sparrow.common.config.plugin;
 
 import net.momirealms.sparrow.common.config.ConfigManager;
 import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.event.EventManager;
-import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
+import net.momirealms.sparrow.common.config.plugin.bootstrap.SparrowBootstrap;
 
 public interface SparrowPlugin {
 

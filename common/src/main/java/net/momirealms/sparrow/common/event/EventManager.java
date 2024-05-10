@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.common.event;
 
 import net.momirealms.sparrow.common.event.bus.EventBus;
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
 
 import java.util.OptionalInt;
 

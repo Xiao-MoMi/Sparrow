@@ -23,19 +23,39 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.plugin.classpath;
+package net.momirealms.sparrow.common.config.plugin.logging;
 
-import java.nio.file.Path;
+import org.apache.logging.log4j.Logger;
 
-/**
- * Interface which allows access to add URLs to the plugin classpath at runtime.
- */
-public interface ClassPathAppender extends AutoCloseable {
+public class Log4jPluginLogger implements PluginLogger {
+    private final Logger logger;
 
-    void addJarToClasspath(Path file);
+    public Log4jPluginLogger(Logger logger) {
+        this.logger = logger;
+    }
 
     @Override
-    default void close() {
+    public void info(String s) {
+        this.logger.info(s);
+    }
 
+    @Override
+    public void warn(String s) {
+        this.logger.warn(s);
+    }
+
+    @Override
+    public void warn(String s, Throwable t) {
+        this.logger.warn(s, t);
+    }
+
+    @Override
+    public void severe(String s) {
+        this.logger.error(s);
+    }
+
+    @Override
+    public void severe(String s, Throwable t) {
+        this.logger.error(s, t);
     }
 }

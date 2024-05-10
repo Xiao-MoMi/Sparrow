@@ -8,7 +8,7 @@ import net.momirealms.sparrow.common.feature.skull.argument.UUIDSkullArgument;
 import net.momirealms.sparrow.common.feature.skull.fetcher.FetcherProviderRegistry;
 import net.momirealms.sparrow.common.feature.skull.fetcher.SkullFetcher;
 import net.momirealms.sparrow.common.feature.skull.fetcher.provider.FetcherProvider;
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Either;
 import net.momirealms.sparrow.common.util.Pair;
 import org.jetbrains.annotations.NotNull;

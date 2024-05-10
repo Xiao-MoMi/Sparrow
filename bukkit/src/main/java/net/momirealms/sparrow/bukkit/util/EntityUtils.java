@@ -15,6 +15,50 @@ public final class EntityUtils {
 
     private EntityUtils() {}
 
+    public static void look(@NotNull Entity self, @NotNull Entity target) {
+        Location selfLocation = self.getLocation();
+        Location targetLocation;
+
+        if (target instanceof LivingEntity) {
+            targetLocation = ((LivingEntity) target).getEyeLocation();
+        } else {
+            targetLocation = target.getLocation();
+        }
+
+        double deltaX = targetLocation.getX() - selfLocation.getX();
+        double deltaY = targetLocation.getY() - (selfLocation.getY() + ((LivingEntity) self).getEyeHeight());
+        double deltaZ = targetLocation.getZ() - selfLocation.getZ();
+
+        double yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90;
+
+        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        double pitch = -Math.toDegrees(Math.atan(deltaY / distanceXZ));
+
+        selfLocation.setYaw((float) yaw);
+        selfLocation.setPitch((float) pitch);
+
+        self.teleport(selfLocation);
+    }
+    public static void look(@NotNull Entity self, @NotNull Location location) {
+        Location selfLocation = self.getLocation();
+
+        double eyeHeight = (self instanceof LivingEntity) ? ((LivingEntity) self).getEyeHeight() : 0;
+
+        double deltaX = location.getX() - selfLocation.getX();
+        double deltaY = location.getY() - (selfLocation.getY() + eyeHeight);
+        double deltaZ = location.getZ() - selfLocation.getZ();
+
+        double yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90;
+
+        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        double pitch = -Math.toDegrees(Math.atan(deltaY / distanceXZ));
+
+        selfLocation.setYaw((float) yaw);
+        selfLocation.setPitch((float) pitch);
+
+        self.teleport(selfLocation);
+    }
+
     /**
      * Heals the entity to full health.
      * If the entity is dead, they will be resurrected.

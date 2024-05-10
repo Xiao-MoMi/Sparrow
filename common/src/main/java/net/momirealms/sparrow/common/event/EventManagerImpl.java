@@ -5,7 +5,7 @@ import net.momirealms.sparrow.common.event.bus.SimpleEventBus;
 import net.momirealms.sparrow.common.event.gen.EventGenerator;
 import net.momirealms.sparrow.common.event.registry.EventRegistry;
 import net.momirealms.sparrow.common.event.registry.SimpleEventRegistry;
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
 
 import java.util.OptionalInt;
 

@@ -23,7 +23,7 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.plugin.logging;
+package net.momirealms.sparrow.common.config.plugin.logging;
 
 import org.slf4j.Logger;
 

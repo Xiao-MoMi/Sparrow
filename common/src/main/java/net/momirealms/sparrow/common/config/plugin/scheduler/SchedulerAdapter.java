@@ -23,7 +23,7 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.plugin.scheduler;
+package net.momirealms.sparrow.common.config.plugin.scheduler;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;

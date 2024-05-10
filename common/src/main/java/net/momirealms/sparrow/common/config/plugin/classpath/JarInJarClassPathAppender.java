@@ -23,40 +23,40 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.plugin.logging;
+package net.momirealms.sparrow.common.config.plugin.classpath;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import net.momirealms.sparrow.loader.JarInJarClassLoader;
 
-public class JavaPluginLogger implements PluginLogger {
-    private final Logger logger;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
 
-    public JavaPluginLogger(Logger logger) {
-        this.logger = logger;
+public class JarInJarClassPathAppender implements ClassPathAppender {
+    private final JarInJarClassLoader classLoader;
+
+    public JarInJarClassPathAppender(ClassLoader classLoader) {
+        if (!(classLoader instanceof JarInJarClassLoader)) {
+            throw new IllegalArgumentException("Loader is not a JarInJarClassLoader: " + classLoader.getClass().getName());
+        }
+        this.classLoader = (JarInJarClassLoader) classLoader;
     }
 
     @Override
-    public void info(String s) {
-        this.logger.info(s);
+    public void addJarToClasspath(Path file) {
+        try {
+            this.classLoader.addJarToClasspath(file.toUri().toURL());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
-    public void warn(String s) {
-        this.logger.warning(s);
-    }
-
-    @Override
-    public void warn(String s, Throwable t) {
-        this.logger.log(Level.WARNING, s, t);
-    }
-
-    @Override
-    public void severe(String s) {
-        this.logger.severe(s);
-    }
-
-    @Override
-    public void severe(String s, Throwable t) {
-        this.logger.log(Level.SEVERE, s, t);
+    public void close() {
+        this.classLoader.deleteJarResource();
+        try {
+            this.classLoader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

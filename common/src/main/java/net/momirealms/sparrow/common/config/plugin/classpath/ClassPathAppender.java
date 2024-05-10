@@ -23,24 +23,19 @@
  *  SOFTWARE.
  */
 
-package net.momirealms.sparrow.common.plugin.logging;
+package net.momirealms.sparrow.common.config.plugin.classpath;
+
+import java.nio.file.Path;
 
 /**
- * Represents the logger instance being used by Sparrow on the platform.
- *
- * <p>Messages sent using the logger are sent prefixed with the Sparrow tag,
- * and on some implementations will be colored depending on the message type.</p>
+ * Interface which allows access to add URLs to the plugin classpath at runtime.
  */
-public interface PluginLogger {
+public interface ClassPathAppender extends AutoCloseable {
 
-    void info(String s);
+    void addJarToClasspath(Path file);
 
-    void warn(String s);
+    @Override
+    default void close() {
 
-    void warn(String s, Throwable t);
-
-    void severe(String s);
-
-    void severe(String s, Throwable t);
-
+    }
 }

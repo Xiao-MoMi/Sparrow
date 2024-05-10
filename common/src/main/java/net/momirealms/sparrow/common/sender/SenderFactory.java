@@ -27,7 +27,7 @@ package net.momirealms.sparrow.common.sender;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.common.plugin.SparrowPlugin;
+import net.momirealms.sparrow.common.config.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.util.Tristate;
 
 import java.util.Objects;
