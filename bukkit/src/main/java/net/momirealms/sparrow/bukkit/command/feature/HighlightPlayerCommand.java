@@ -216,7 +216,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                 int deltaX = Math.abs(selectedLocation.getBlockX() - arg.firstPoint.getBlockX());
                 int deltaY = Math.abs(selectedLocation.getBlockY() - arg.firstPoint.getBlockY());
                 int deltaZ = Math.abs(selectedLocation.getBlockZ() - arg.firstPoint.getBlockZ());
-                int volume = deltaX * deltaY * deltaZ;
+                long volume = (long) deltaX * deltaY * deltaZ;
                 if (volume > 16 * 16 * 16 * 8) {
                     SparrowBukkitPlugin.getInstance().getSenderFactory()
                             .wrap(player)

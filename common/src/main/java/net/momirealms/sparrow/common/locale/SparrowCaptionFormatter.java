@@ -9,6 +9,7 @@ import org.incendo.cloud.minecraft.extras.caption.ComponentCaptionFormatter;
 import java.util.List;
 
 public class SparrowCaptionFormatter<C> implements ComponentCaptionFormatter<C> {
+
     @Override
     public @NonNull Component formatCaption(@NonNull Caption captionKey, @NonNull C recipient, @NonNull String caption, @NonNull List<@NonNull CaptionVariable> variables) {
         Component component = ComponentCaptionFormatter.translatable().formatCaption(captionKey, recipient, caption, variables);

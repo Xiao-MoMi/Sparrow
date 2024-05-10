@@ -49,9 +49,9 @@ public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender>
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("viewers", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
-                .required("loc1", LocationParser.locationParser())
-                .required("loc2", LocationParser.locationParser())
+                .required("viewers", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .required("location1", LocationParser.locationParser())
+                .required("location2", LocationParser.locationParser())
                 .optional("world", WorldParser.worldParser())
                 .flag(manager.flagBuilder("silent").withAliases("s"))
                 .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,300)).build())
@@ -63,8 +63,8 @@ public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender>
                     NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
                     MultiplePlayerSelector playerSelector = commandContext.get("viewers");
                     Collection<Player> players = playerSelector.values();
-                    Location location1 = commandContext.get("loc1");
-                    Location location2 = commandContext.get("loc2");
+                    Location location1 = commandContext.get("location1");
+                    Location location2 = commandContext.get("location2");
                     boolean silent = commandContext.flags().hasFlag("silent");
                     boolean solidOnly = commandContext.flags().hasFlag("solid-only");
                     Optional<World> optionalWorld = commandContext.optional("world");
@@ -91,7 +91,7 @@ public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender>
                     int deltaX = Math.abs(location1.getBlockX() - location2.getBlockX());
                     int deltaY = Math.abs(location1.getBlockY() - location2.getBlockY());
                     int deltaZ = Math.abs(location1.getBlockZ() - location2.getBlockZ());
-                    int volume = deltaX * deltaY * deltaZ;
+                    long volume = (long) deltaX * deltaY * deltaZ;
                     if (volume > 16 * 16 * 16 * 8) {
                         if (!silent)
                             SparrowBukkitPlugin.getInstance().getSenderFactory()
