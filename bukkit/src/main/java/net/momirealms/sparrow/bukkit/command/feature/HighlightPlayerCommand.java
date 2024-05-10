@@ -37,6 +37,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
+@SuppressWarnings("DuplicatedCode")
 public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender> {
 
     private final HighlightListener listener = new HighlightListener();

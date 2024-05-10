@@ -137,4 +137,8 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE = Component.translatable().key("commands.player.highlight.cancel.positive");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_CANCEL_TIMEOUT = Component.translatable().key("commands.player.highlight.cancel.timeout");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_TIP = Component.translatable().key("commands.player.highlight.tip");
+    TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_FAILED_WORLD = Component.translatable().key("commands.admin.highlight.failed.world");
+    TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.admin.highlight.failed.toolarge");
+    TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.admin.highlight.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.highlight.success.multiple");
 }

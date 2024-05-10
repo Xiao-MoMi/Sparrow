@@ -439,6 +439,11 @@ highlight_player:
   enable: true
   permission: sparrow.command.player.highlight
   usage:
+    - /highlight
+
+highlight_admin:
+  enable: true
+  permission: sparrow.command.admin.highlight
+  usage:
     - /sparrow highlight
     - /spa highlight
-    - /highlight

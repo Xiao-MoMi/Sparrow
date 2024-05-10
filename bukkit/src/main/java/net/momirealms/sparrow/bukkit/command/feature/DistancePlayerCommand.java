@@ -52,7 +52,7 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                     } else {
                         if (!commandContext.flags().hasFlag("disable-highlight")) {
                             Location location = block.getLocation();
-                            int duration = commandContext.flags().hasFlag("marker-duration") ? (int) commandContext.flags().getValue("marker-duration").get() : 5;
+                            int duration = commandContext.flags().hasFlag("marker-duration") ? (int) commandContext.flags().getValue("marker-duration").get() : 10;
                             TextColor color = commandContext.flags().hasFlag("marker-color") ? (TextColor) commandContext.flags().getValue("marker-color").get() : NamedTextColor.GREEN;
                             int argb = 0x64000000 | color.value();
                             SparrowNMSProxy.getInstance().sendDebugMarker(player, location, "x:" + location.getBlockX() + ", y:" + location.getBlockY() + ", z:" + location.getBlockZ(), duration * 1000, argb);
