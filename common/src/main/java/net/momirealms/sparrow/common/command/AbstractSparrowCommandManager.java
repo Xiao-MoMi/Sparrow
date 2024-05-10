@@ -3,6 +3,7 @@ package net.momirealms.sparrow.common.command;
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
 import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
@@ -10,6 +11,8 @@ import net.momirealms.sparrow.common.util.ArrayUtils;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.component.CommandComponent;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.exception.ArgumentParseException;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 
 import java.util.ArrayList;
@@ -36,7 +39,15 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
 
     private void injectLocales() {
         MinecraftExceptionHandler.<C>create(this::wrapAudience)
-                .defaultHandlers()
+                .handler(ArgumentParseException.class, (formatter, exceptionContext) -> {
+                    CommandContext<C> context = exceptionContext.context();
+                    System.out.println(1);
+                    if (context.flags().hasFlag("silent")) {
+                        return Component.text("");
+                    }
+                    System.out.println(2);
+                    return Component.text("An error occurred while executing the command.");
+                })
                 .captionFormatter(new SparrowCaptionFormatter<>())
                 .registerTo(getCommandManager());
         getCommandManager().captionRegistry().registerProvider(new SparrowCaptionProvider<>());

@@ -5,6 +5,7 @@ import net.kyori.adventure.text.TranslatableComponent;
 
 public interface MessageConstants {
 
+    TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_CARTOGRAPHY_TABLE_SUCCESS = Component.translatable().key("commands.player.cartography_table.success");
     TranslatableComponent.Builder COMMANDS_ADMIN_CARTOGRAPHY_TABLE_SUCCESS_SINGLE = Component.translatable().key("commands.admin.cartography_table.success.single");

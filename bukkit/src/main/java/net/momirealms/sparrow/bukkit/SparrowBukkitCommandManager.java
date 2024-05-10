@@ -5,6 +5,7 @@ import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
+import net.momirealms.sparrow.bukkit.command.preprocessor.PlayerSelectorParserPostProcessor;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
 import net.momirealms.sparrow.common.command.CommandFeature;
 import org.bukkit.World;
@@ -106,6 +107,11 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
                 SenderMapper.identity()
         ));
         this.registerMappings();
+        this.registerCommandPostProcessors();
+    }
+
+    private void registerCommandPostProcessors() {
+        this.commandManager.registerCommandPostProcessor(PlayerSelectorParserPostProcessor.instance());
     }
 
     private void registerMappings() {
