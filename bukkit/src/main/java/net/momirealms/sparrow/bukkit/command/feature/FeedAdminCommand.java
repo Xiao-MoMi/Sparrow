@@ -25,7 +25,7 @@ public class FeedAdminCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
-                .flag(manager.flagBuilder(SparrowFlagKeys.SILENT).withAliases("s"))
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .meta(SparrowMetaKeys.SELECTOR_SUCCESS_SINGLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_SINGLE)
                 .meta(SparrowMetaKeys.SELECTOR_SUCCESS_MULTIPLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_MULTIPLE)
                 .handler(commandContext -> {

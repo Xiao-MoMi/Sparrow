@@ -1,9 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.handler.PlayerMessagingHandler;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -20,16 +21,11 @@ public class AnvilPlayerCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
+                .meta(SparrowMetaKeys.PLAYER_SUCCESS_MESSAGE, MessageConstants.COMMANDS_PLAYER_ANVIL_SUCCESS)
                 .handler(commandContext -> {
                     commandContext.sender().openAnvil(null, true);
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(commandContext.sender())
-                            .sendMessage(
-                                    TranslationManager.render(
-                                            MessageConstants.COMMANDS_PLAYER_ANVIL_SUCCESS.build()
-                                    ),
-                                    true
-                            );
-                });
+                    commandContext.store(SparrowArgumentKeys.IS_CALLBACK, true);
+                })
+                .appendHandler(PlayerMessagingHandler.instance());
     }
 }
