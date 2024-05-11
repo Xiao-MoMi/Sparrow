@@ -5,7 +5,8 @@ import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.audience.Audience;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.bukkit.command.preprocessor.PlayerSelectorParserPostProcessor;
+import net.momirealms.sparrow.bukkit.command.preprocessor.MultipleEntitySelectorPostProcessor;
+import net.momirealms.sparrow.bukkit.command.preprocessor.MultiplePlayerSelectorPostProcessor;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
 import net.momirealms.sparrow.common.command.CommandFeature;
 import org.bukkit.World;
@@ -111,7 +112,8 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
     }
 
     private void registerCommandPostProcessors() {
-        this.commandManager.registerCommandPostProcessor(PlayerSelectorParserPostProcessor.instance());
+        this.commandManager.registerCommandPostProcessor(MultiplePlayerSelectorPostProcessor.instance());
+        this.commandManager.registerCommandPostProcessor(MultipleEntitySelectorPostProcessor.instance());
     }
 
     private void registerMappings() {

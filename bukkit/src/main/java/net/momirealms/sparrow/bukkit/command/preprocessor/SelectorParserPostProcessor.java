@@ -1,13 +1,12 @@
 package net.momirealms.sparrow.bukkit.command.preprocessor;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.key.ArgumentKeys;
-import net.momirealms.sparrow.bukkit.command.key.FlagKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
+import org.incendo.cloud.bukkit.data.Selector;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.execution.postprocessor.CommandPostprocessingContext;
 import org.incendo.cloud.execution.postprocessor.CommandPostprocessor;
@@ -15,19 +14,13 @@ import org.incendo.cloud.services.type.ConsumerService;
 
 import java.util.Optional;
 
-public class PlayerSelectorParserPostProcessor implements CommandPostprocessor<CommandSender> {
-
-    private static final PlayerSelectorParserPostProcessor INSTANCE = new PlayerSelectorParserPostProcessor();
-
-    public static PlayerSelectorParserPostProcessor instance() {
-        return INSTANCE;
-    }
+public abstract class SelectorParserPostProcessor<S extends Selector<?>> implements CommandPostprocessor<CommandSender> {
 
     @Override
     public void accept(@NonNull CommandPostprocessingContext<CommandSender> commandSenderCommandPostprocessingContext) {
         CommandContext<@NonNull CommandSender> context = commandSenderCommandPostprocessingContext.commandContext();
-        boolean silent = context.flags().hasFlag(FlagKeys.SILENT);
-        Optional<MultiplePlayerSelector> selector = context.optional(ArgumentKeys.PLAYER_SELECTOR);
+        boolean silent = context.flags().hasFlag(SparrowFlagKeys.SILENT);
+        Optional<S> selector = parseSelector(commandSenderCommandPostprocessingContext);
         if (selector.isEmpty()) {
             return;
         }
@@ -47,4 +40,6 @@ public class PlayerSelectorParserPostProcessor implements CommandPostprocessor<C
             ConsumerService.interrupt();
         }
     }
+
+    protected abstract Optional<S> parseSelector(CommandPostprocessingContext<CommandSender> commandSenderCommandPostprocessingContext);
 }

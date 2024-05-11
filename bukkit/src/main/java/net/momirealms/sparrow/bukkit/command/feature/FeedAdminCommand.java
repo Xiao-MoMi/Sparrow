@@ -1,9 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.command.handler.PlayerSelectorParserMessagingHandler;
-import net.momirealms.sparrow.bukkit.command.key.ArgumentKeys;
-import net.momirealms.sparrow.bukkit.command.key.FlagKeys;
-import net.momirealms.sparrow.bukkit.command.key.MetaKeys;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
+import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -23,17 +24,18 @@ public class FeedAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required(ArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
-                .flag(manager.flagBuilder(FlagKeys.SILENT).withAliases("s"))
-                .meta(MetaKeys.SUCCESS_SINGLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_SINGLE)
-                .meta(MetaKeys.SUCCESS_MULTIPLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_MULTIPLE)
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .flag(manager.flagBuilder(SparrowFlagKeys.SILENT).withAliases("s"))
+                .meta(SparrowMetaKeys.SELECTOR_SUCCESS_SINGLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_SINGLE)
+                .meta(SparrowMetaKeys.SELECTOR_SUCCESS_MULTIPLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_MULTIPLE)
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.get(ArgumentKeys.PLAYER_SELECTOR);
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
                     for (Player player : players) {
                         player.setFoodLevel(20);
                         player.setSaturation(10f);
                     }
+                    commandContext.store(SparrowArgumentKeys.IS_CALLBACK, true);
                 })
                 .appendHandler(PlayerSelectorParserMessagingHandler.instance());
     }
