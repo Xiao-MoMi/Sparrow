@@ -2,9 +2,8 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.Color;
@@ -18,7 +17,7 @@ import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 
 import java.util.List;
 
-public class DyePlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class DyePlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -48,7 +47,6 @@ public class DyePlayerCommand extends AbstractCommandFeature<CommandSender> {
                     meta.setColor(Color.fromRGB(textColor.red(), textColor.green(), textColor.blue()));
                     itemStack.setItemMeta(meta);
                     commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DYE_SUCCESS);
-                })
-                .appendHandler(SparrowMessagingHandler.instance());
+                });
     }
 }

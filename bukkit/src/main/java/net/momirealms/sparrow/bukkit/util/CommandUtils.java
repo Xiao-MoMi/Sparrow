@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class CommandUtils {
     private CommandUtils() {
@@ -23,8 +23,8 @@ public final class CommandUtils {
             Pair<TranslatableComponent.Builder, TranslatableComponent.Builder> message
     ) {
         storeSelectorMessage(context, selector, message, Pair.of(
-                s -> List.of(Component.text(s.values().iterator().next().getName())),
-                s -> List.of(Component.text(s.values().size()))
+                () -> List.of(Component.text(selector.values().iterator().next().getName())),
+                () -> List.of(Component.text(selector.values().size()))
         ));
     }
 
@@ -32,7 +32,7 @@ public final class CommandUtils {
             CommandContext<C> context,
             @NotNull S selector,
             Pair<TranslatableComponent.Builder, TranslatableComponent.Builder> message,
-            Pair<Function<S, List<Component>>, Function<S, List<Component>>> argumentMapper
+            Pair<Supplier<List<Component>>, Supplier<List<Component>>> argumentMapper
     ) {
         Collection<?> values = selector.values();
         if (values.isEmpty()) {
@@ -41,10 +41,10 @@ public final class CommandUtils {
 
         if (values.size() == 1) {
             context.store(SparrowArgumentKeys.MESSAGE, message.left());
-            context.store(SparrowArgumentKeys.MESSAGE_ARGS, argumentMapper.left().apply(selector));
+            context.store(SparrowArgumentKeys.MESSAGE_ARGS, argumentMapper.left().get());
         } else {
             context.store(SparrowArgumentKeys.MESSAGE, message.right());
-            context.store(SparrowArgumentKeys.MESSAGE_ARGS, argumentMapper.right().apply(selector));
+            context.store(SparrowArgumentKeys.MESSAGE_ARGS, argumentMapper.right().get());
         }
     }
 }

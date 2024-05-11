@@ -1,8 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -10,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
-public class CreditsPlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class CreditsPlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -24,7 +23,6 @@ public class CreditsPlayerCommand extends AbstractCommandFeature<CommandSender> 
                 .handler(commandContext -> {
                     SparrowNMSProxy.getInstance().sendCredits(commandContext.sender());
                     commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_CREDITS_SUCCESS);
-                })
-                .appendHandler(SparrowMessagingHandler.instance());
+                });
     }
 }

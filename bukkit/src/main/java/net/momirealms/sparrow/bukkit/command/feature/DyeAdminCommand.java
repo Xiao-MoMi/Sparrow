@@ -50,35 +50,35 @@ public class DyeAdminCommand extends AbstractCommandFeature<CommandSender> {
                     int i = 0;
                     Color color = Color.fromRGB(textColor.red(), textColor.green(), textColor.blue());
                     for (Entity entity : entities) {
-                        if (!(entity instanceof LivingEntity livingEntity)) {
-                            continue;
-                        }
-                        EntityEquipment entityEquipment = livingEntity.getEquipment();
-                        if (entityEquipment == null) {
-                            continue;
-                        }
-                        ItemStack itemStack = entityEquipment.getItem(slot);
-                        if (!itemStack.isEmpty()) {
-                            if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
-                                if (entities.size() != 1) continue;
-                                commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE);
-                                commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                        Component.translatable(itemStack.translationKey())
-                                ));
-                                return;
-                            }
-                            meta.setColor(color);
-                            itemStack.setItemMeta(meta);
-                            entityEquipment.setItem(slot, itemStack);
-                            ++i;
-                            continue;
-                        }
-                        if (entities.size() != 1) continue;
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                Component.text(livingEntity.getName())
-                        ));
+                        if (entity instanceof LivingEntity livingEntity) {
 
+                            EntityEquipment entityEquipment = livingEntity.getEquipment();
+                            if (entityEquipment == null) {
+                                continue;
+                            }
+                            ItemStack itemStack = entityEquipment.getItem(slot);
+                            if (!itemStack.isEmpty()) {
+                                if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                                    if (entities.size() != 1) continue;
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE);
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                            Component.translatable(itemStack.translationKey())
+                                    ));
+                                    return;
+                                }
+                                meta.setColor(color);
+                                itemStack.setItemMeta(meta);
+                                entityEquipment.setItem(slot, itemStack);
+                                ++i;
+                                continue;
+                            }
+
+                            if (entities.size() != 1) continue;
+                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS);
+                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                    Component.text(livingEntity.getName())
+                            ));
+                        }
                         if (entities.size() != 1) continue;
                         commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ENTITY);
                         commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(

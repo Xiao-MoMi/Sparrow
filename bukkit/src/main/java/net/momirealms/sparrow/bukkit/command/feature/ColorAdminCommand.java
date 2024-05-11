@@ -2,8 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -17,7 +16,7 @@ import org.incendo.cloud.CommandManager;
 
 import java.util.List;
 
-public class ColorAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class ColorAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -49,7 +48,6 @@ public class ColorAdminCommand extends AbstractCommandFeature<CommandSender> {
                             Component.text(color.asRGB()),
                             Component.text(hex).color(TextColor.color(color.asRGB()))
                     ));
-                })
-                .appendHandler(SparrowMessagingHandler.instance());
+                });
     }
 }

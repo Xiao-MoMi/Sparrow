@@ -1,10 +1,9 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.parser.TimeParser;
@@ -19,7 +18,7 @@ import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 
 import java.util.List;
 
-public class BurnAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class BurnAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -43,7 +42,6 @@ public class BurnAdminCommand extends AbstractCommandFeature<CommandSender> {
                             Pair.of(MessageConstants.COMMANDS_ADMIN_BURN_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_BURN_SUCCESS_MULTIPLE)
                     );
                     commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(ticks)));
-                })
-                .appendHandler(SparrowMessagingHandler.instance());
+                });
     }
 }

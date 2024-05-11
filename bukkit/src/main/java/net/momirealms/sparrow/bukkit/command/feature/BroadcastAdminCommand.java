@@ -1,13 +1,13 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -16,7 +16,7 @@ import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
-public class BroadcastAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class BroadcastAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -40,12 +40,9 @@ public class BroadcastAdminCommand extends AbstractCommandFeature<CommandSender>
                                 legacy ? AdventureHelper.legacyToMiniMessage(message) : message
                         ));
                     }
-                    if (players.size() == 1) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE,MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_SINGLE);
-                    } else {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_MULTIPLE);
-                    }
-                })
-                .appendHandler(SparrowMessagingHandler.instance());
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_MULTIPLE)
+                    );
+                });
     }
 }
