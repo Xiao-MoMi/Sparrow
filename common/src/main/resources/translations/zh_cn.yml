@@ -190,3 +190,4 @@ commands.admin.highlight.failed.world: "<red>在控制台执行命令时，你�
 commands.admin.highlight.failed.toolarge: "<red>无法高亮方块，因为所选区域太大（<arg:0>）</red>"
 commands.admin.highlight.success.single: "<gray>高亮方块已显示给<white><arg:0></white></gray>"
 commands.admin.highlight.success.multiple: "<gray>高亮方块已显示给<white><arg:0></white>个玩家</gray>"
+commands.player.look.success: "<green>看向坐标 <white><arg:0></white></green>"

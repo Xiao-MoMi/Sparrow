@@ -133,8 +133,7 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_DISTANCE_SUCCESS = Component.translatable().key("commands.player.distance.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SELECTED_FIRST = Component.translatable().key("commands.player.highlight.selected.first");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SELECTED_SECOND = Component.translatable().key("commands.player.highlight.selected.second");
-    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.player.highlight.success.multiple");
-    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.player.highlight.success.single");
+    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS = Component.translatable().key("commands.player.highlight.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.player.highlight.failed.toolarge");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_FAILED_WORLD = Component.translatable().key("commands.player.highlight.failed.world");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE = Component.translatable().key("commands.player.highlight.cancel.positive");
@@ -144,17 +143,4 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.admin.highlight.failed.toolarge");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.admin.highlight.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.highlight.success.multiple");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_DATA = Component.translatable().key("commands.player.item.data");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.query.custommodeldata.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_FAILURE = Component.translatable().key("commands.player.item.query.custommodeldata.failure");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.edit.custommodeldata.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.query.displayname.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_FAILURE = Component.translatable().key("commands.player.item.query.displayname.failure");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.edit.displayname.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_LORE_SUCCESS = Component.translatable().key("commands.player.item.query.lore.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_SUCCESS = Component.translatable().key("commands.player.item.edit.lore.success");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_FLAG = Component.translatable().key("commands.player.item.edit.lore.failure.flag");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_BOUND = Component.translatable().key("commands.player.item.edit.lore.failure.bound");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_INVALID = Component.translatable().key("commands.player.item.edit.lore.failure.invalid");
-    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS = Component.translatable().key("commands.player.item.failure.itemless");
 }

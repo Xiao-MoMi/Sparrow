@@ -16,6 +16,45 @@ public final class EntityUtils {
     private EntityUtils() {}
 
     /**
+     * Set rotation to look at other entity.
+     * If the entity is living entity, look at their eyes.
+     * If the entity is not living entity, look at origin.
+     * @param self the entity to set rotation
+     * @param target the target entity
+     */
+    public static void look(@NotNull Entity self, @NotNull Entity target) {
+        if (self == target) return;
+
+        Location targetLocation = (target instanceof LivingEntity) ?
+                ((LivingEntity) target).getEyeLocation() :
+                target.getLocation();
+        orientTowards(self, targetLocation);
+    }
+
+    /**
+     * Set rotation to look at certain location
+     * @param self the entity to set rotation
+     * @param location the target location
+     */
+    public static void look(@NotNull Entity self, @NotNull Location location) {
+        orientTowards(self, location);
+    }
+
+    private static void orientTowards(@NotNull Entity self, @NotNull Location targetLocation) {
+        Location selfLocation = self.getLocation();
+        double eyeHeight = self instanceof LivingEntity ? ((LivingEntity) self).getEyeHeight() : 0;
+        double deltaX = targetLocation.getX() - selfLocation.getX();
+        double deltaY = targetLocation.getY() - (selfLocation.getY() + eyeHeight);
+        double deltaZ = targetLocation.getZ() - selfLocation.getZ();
+
+        double yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90;
+        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        double pitch = -Math.toDegrees(Math.atan(deltaY / distanceXZ));
+
+        self.setRotation((float) yaw, (float) pitch);
+    }
+
+    /**
      * Heals the entity to full health.
      * If the entity is dead, they will be resurrected.
      * If the entity is a player, their food level and saturation will also be set to full.
