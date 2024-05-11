@@ -1,12 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.handler.PlayerSelectorParserMessagingHandler;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
-import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -31,8 +30,6 @@ public class BroadcastAdminCommand extends AbstractCommandFeature<CommandSender>
                 .required("message", StringParser.greedyFlagYieldingStringParser())
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
-                .meta(SparrowMetaKeys.SELECTOR_SUCCESS_SINGLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_SINGLE)
-                .meta(SparrowMetaKeys.SELECTOR_SUCCESS_MULTIPLE_MESSAGE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_MULTIPLE)
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
@@ -43,8 +40,12 @@ public class BroadcastAdminCommand extends AbstractCommandFeature<CommandSender>
                                 legacy ? AdventureHelper.legacyToMiniMessage(message) : message
                         ));
                     }
-                    commandContext.store(SparrowArgumentKeys.IS_CALLBACK, true);
+                    if (players.size() == 1) {
+                        commandContext.store(SparrowArgumentKeys.MESSAGE,MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_SINGLE);
+                    } else {
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_MULTIPLE);
+                    }
                 })
-                .appendHandler(PlayerSelectorParserMessagingHandler.instance());
+                .appendHandler(SparrowMessagingHandler.instance());
     }
 }

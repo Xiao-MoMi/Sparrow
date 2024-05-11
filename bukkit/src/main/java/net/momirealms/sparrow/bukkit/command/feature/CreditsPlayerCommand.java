@@ -1,10 +1,10 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -23,14 +23,8 @@ public class CreditsPlayerCommand extends AbstractCommandFeature<CommandSender> 
                 .senderType(Player.class)
                 .handler(commandContext -> {
                     SparrowNMSProxy.getInstance().sendCredits(commandContext.sender());
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(commandContext.sender())
-                            .sendMessage(
-                                    TranslationManager.render(
-                                            MessageConstants.COMMANDS_PLAYER_CREDITS_SUCCESS.build()
-                                    ),
-                                    true
-                            );
-                });
+                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_CREDITS_SUCCESS);
+                })
+                .appendHandler(SparrowMessagingHandler.instance());
     }
 }

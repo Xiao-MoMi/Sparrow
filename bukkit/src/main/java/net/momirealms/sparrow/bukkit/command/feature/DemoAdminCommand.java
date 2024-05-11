@@ -1,11 +1,13 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -23,40 +25,18 @@ public class DemoAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.get("player");
-                    boolean silent = commandContext.flags().hasFlag("silent");
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
                     for (Player player : players) {
                         SparrowNMSProxy.getInstance().sendDemo(player);
                     }
-                    if (!silent) {
-                        if (players.size() == 1) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_SINGLE
-                                                            .arguments(Component.text(players.iterator().next().getName()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        } else {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(players.size()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
-                    }
-                });
+                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_MULTIPLE)
+                    );
+                })
+                .appendHandler(SparrowMessagingHandler.instance());
     }
 }
