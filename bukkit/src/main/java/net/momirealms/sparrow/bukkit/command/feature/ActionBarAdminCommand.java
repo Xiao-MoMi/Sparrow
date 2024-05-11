@@ -44,7 +44,7 @@ public class ActionBarAdminCommand extends AbstractCommandFeature<CommandSender>
                                 player, json
                         );
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_ACTIONBAR_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_ACTIONBAR_SUCCESS_MULTIPLE)
                     );
                 })

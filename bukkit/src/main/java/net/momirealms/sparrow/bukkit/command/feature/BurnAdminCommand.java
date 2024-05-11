@@ -39,7 +39,7 @@ public class BurnAdminCommand extends AbstractCommandFeature<CommandSender> {
                     for (Entity entity : entities) {
                         entity.setFireTicks((int) ticks);
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_BURN_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_BURN_SUCCESS_MULTIPLE)
                     );
                     commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(ticks)));

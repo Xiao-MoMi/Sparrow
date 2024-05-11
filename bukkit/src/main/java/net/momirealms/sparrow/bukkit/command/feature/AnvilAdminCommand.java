@@ -47,7 +47,7 @@ public class AnvilAdminCommand extends AbstractCommandFeature<CommandSender> {
                             );
                         }
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_ANVIL_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_ANVIL_SUCCESS_MULTIPLE)
                     );
                 })

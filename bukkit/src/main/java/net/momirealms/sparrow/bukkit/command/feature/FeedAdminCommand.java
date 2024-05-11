@@ -33,7 +33,7 @@ public class FeedAdminCommand extends AbstractCommandFeature<CommandSender> {
                         player.setFoodLevel(20);
                         player.setSaturation(10f);
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_FEED_SUCCESS_MULTIPLE)
                     );
                 })

@@ -33,7 +33,7 @@ public class DemoAdminCommand extends AbstractCommandFeature<CommandSender> {
                     for (Player player : players) {
                         SparrowNMSProxy.getInstance().sendDemo(player);
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_DEMO_SUCCESS_MULTIPLE)
                     );
                 })

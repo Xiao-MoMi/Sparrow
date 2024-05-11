@@ -47,7 +47,7 @@ public class CartographyTableAdminCommand extends AbstractCommandFeature<Command
                             );
                         }
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_CARTOGRAPHY_TABLE_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_CARTOGRAPHY_TABLE_SUCCESS_MULTIPLE)
                     );
                 })

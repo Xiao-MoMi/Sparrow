@@ -33,7 +33,7 @@ public class CreditsAdminCommand extends AbstractCommandFeature<CommandSender> {
                     for (Player player : players) {
                         SparrowNMSProxy.getInstance().sendCredits(player);
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
                             Pair.of(MessageConstants.COMMANDS_ADMIN_CREDITS_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_CREDITS_SUCCESS_MULTIPLE)
                     );
                 })
