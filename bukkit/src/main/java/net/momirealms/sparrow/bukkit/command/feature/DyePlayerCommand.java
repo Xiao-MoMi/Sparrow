@@ -2,10 +2,10 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,7 +15,9 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 
-public class DyePlayerCommand extends AbstractCommandFeature<CommandSender> {
+import java.util.List;
+
+public class DyePlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -26,47 +28,25 @@ public class DyePlayerCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .required("color", TextColorParser.textColorParser())
+                .required(SparrowBukkitArgumentKeys.TEXT_COLOR, TextColorParser.textColorParser())
                 .handler(commandContext -> {
-                    TextColor textColor = commandContext.get("color");
+                    TextColor textColor = commandContext.get(SparrowBukkitArgumentKeys.TEXT_COLOR);
                     ItemStack itemStack = commandContext.sender().getInventory().getItemInMainHand();
                     if (itemStack.isEmpty()) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_DYE_FAILED_ITEMLESS
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DYE_FAILED_ITEMLESS);
                         return;
                     }
                     if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_DYE_FAILED_INCOMPATIBLE
-                                                        .arguments(Component.translatable(itemStack.translationKey()))
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DYE_FAILED_INCOMPATIBLE);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                Component.translatable(itemStack.translationKey())
+                        ));
                         return;
                     }
 
                     meta.setColor(Color.fromRGB(textColor.red(), textColor.green(), textColor.blue()));
                     itemStack.setItemMeta(meta);
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(commandContext.sender())
-                            .sendMessage(
-                                    TranslationManager.render(
-                                            MessageConstants.COMMANDS_PLAYER_DYE_SUCCESS
-                                                    .build()
-                                    ),
-                                    true
-                            );
+                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DYE_SUCCESS);
                 });
     }
 }

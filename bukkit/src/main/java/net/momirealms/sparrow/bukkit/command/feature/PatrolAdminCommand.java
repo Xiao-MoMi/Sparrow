@@ -3,14 +3,15 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.feature.patrol.SparrowBukkitPatrolManager;
 import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class PatrolAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     private static final String BYPASS = "sparrow.bypass.patrol";
     private final PatrolListener listener;
@@ -59,28 +60,18 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("players", multiplePlayerSelectorParser())
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .required("players", patrolMultiplePlayerSelectorParser())
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .senderType(Player.class)
                 .handler(commandContext -> {
                     final HashSet<Player> players = commandContext.get("players");
                     final Player patrollingPlayer = commandContext.sender();
                     final List<UUID> playersToCheck = players.stream().map(Player::getUniqueId).toList();
-                    boolean silent = commandContext.flags().hasFlag("silent");
 
                     PatrolManager patrolManager = SparrowBukkitPatrolManager.getInstance();
                     @Nullable Patrolable target = patrolManager.selectNextPatrolable(patrolable -> playersToCheck.contains(patrolable.getUniqueId()));
                     if (target == null) {
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_PATROL_FAILED_TARGET.build()
-                                            ),
-                                            true
-                                    );
-                        }
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_PATROL_FAILED_TARGET);
                         return;
                     }
 
@@ -90,23 +81,13 @@ public class PatrolAdminCommand extends AbstractCommandFeature<CommandSender> {
 
                     patrolManager.finishPatrol(target);
                     patrollingPlayer.teleport(Objects.requireNonNull(targetUser.getPlayer()));
-                    if (!silent) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_ADMIN_PATROL_SUCCESS
-                                                        .arguments(Component.text(targetUser.getPlayer().getName()))
-                                                        .build()
-                                        ),
-                                        true
-                                );
-                    }
+                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_PATROL_SUCCESS);
+                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(targetUser.getPlayer().getName())));
                 });
     }
 
     @NotNull
-    private ParserDescriptor<Object, HashSet<Player>> multiplePlayerSelectorParser() {
+    private ParserDescriptor<Object, HashSet<Player>> patrolMultiplePlayerSelectorParser() {
         return MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false)
                 .flatMapSuccess(
                         new TypeToken<>() {

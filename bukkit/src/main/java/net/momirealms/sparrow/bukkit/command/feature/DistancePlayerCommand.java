@@ -3,12 +3,11 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.util.LocationUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
@@ -18,7 +17,9 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender> {
+import java.util.List;
+
+public class DistancePlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -39,16 +40,8 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                     int maxDistance = distanceFlag ? (int) commandContext.flags().getValue("max-distance").get() : 256;
                     Block block = player.getTargetBlockExact(maxDistance);
                     if (block == null) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_DISTANCE_FAILED
-                                                        .arguments(Component.text(maxDistance))
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DISTANCE_FAILED);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(maxDistance)));
                     } else {
                         if (!commandContext.flags().hasFlag("disable-highlight")) {
                             Location location = block.getLocation();
@@ -57,19 +50,12 @@ public class DistancePlayerCommand extends AbstractCommandFeature<CommandSender>
                             int argb = 0x64000000 | color.value();
                             SparrowNMSProxy.getInstance().sendDebugMarker(player, location, "x:" + location.getBlockX() + ", y:" + location.getBlockY() + ", z:" + location.getBlockZ(), duration * 1000, argb);
                         }
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_DISTANCE_SUCCESS
-                                                        .arguments(
-                                                                Component.text(String.format("%.2f", LocationUtils.euclideanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation())))),
-                                                                Component.text(String.format("%.2f", LocationUtils.manhattanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation()))))
-                                                        )
-                                                        .build()
-                                        ),
-                                        true
-                                );
+
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DISTANCE_SUCCESS);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                Component.text(String.format("%.2f", LocationUtils.euclideanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation())))),
+                                Component.text(String.format("%.2f", LocationUtils.manhattanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation()))))
+                        ));
                     }
                 });
     }

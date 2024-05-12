@@ -1,13 +1,14 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
 import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import net.momirealms.sparrow.common.util.Either;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -36,14 +37,7 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
                     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
                     futureSkull.thenAcceptAsync(skullData -> {
                         if (skullData == null) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_PLAYER_HEAD_FAILED_SKULL.build()
-                                            ),
-                                            true
-                                    );
+                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HEAD_FAILED_SKULL);
                             return;
                         }
 
@@ -53,15 +47,8 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
                                     PlayerUtils.dropItem(player, itemStack, false, true, false);
                                 }, player.getLocation()
                         );
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_HEAD_SUCCESS.build()
-                                        ),
-                                        true
-                                );
-                    });
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HEAD_SUCCESS);
+                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.<Player>instance().execute(commandContext));
                 });
     }
 }

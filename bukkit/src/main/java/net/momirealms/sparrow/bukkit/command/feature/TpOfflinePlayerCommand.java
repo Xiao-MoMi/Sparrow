@@ -1,10 +1,9 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -13,9 +12,10 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.parser.standard.StringParser;
 
+import java.util.List;
 import java.util.Optional;
 
-public class TpOfflinePlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class TpOfflinePlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -30,30 +30,14 @@ public class TpOfflinePlayerCommand extends AbstractCommandFeature<CommandSender
                 .handler(commandContext -> {
                     OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(commandContext.get("player"));
                     if (player == null || player.getLocation() == null) {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED
-                                                        .arguments(Component.text((String) commandContext.get("player")))
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text((String) commandContext.get("player"))));
                         return;
                     }
 
                     commandContext.sender().teleport(player.getLocation());
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(commandContext.sender())
-                            .sendMessage(
-                                    TranslationManager.render(
-                                            MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS
-                                                    .arguments(Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId()))))
-                                                    .build()
-                                    ),
-                                    true
-                            );
+                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS);
+                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId())))));
                 });
     }
 }

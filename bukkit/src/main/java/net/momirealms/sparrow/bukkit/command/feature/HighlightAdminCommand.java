@@ -3,43 +3,37 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import net.momirealms.sparrow.common.util.ArrayUtils;
+import net.momirealms.sparrow.common.util.Pair;
 import net.momirealms.sparrow.heart.argument.NamedTextColor;
 import net.momirealms.sparrow.heart.feature.highlight.HighlightBlocks;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.WorldParser;
-import org.incendo.cloud.bukkit.parser.location.LocationCoordinateParser;
 import org.incendo.cloud.bukkit.parser.location.LocationParser;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DuplicatedCode")
-public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class HighlightAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -49,34 +43,27 @@ public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender>
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("viewers", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("location1", LocationParser.locationParser())
                 .required("location2", LocationParser.locationParser())
                 .optional("world", WorldParser.worldParser())
-                .flag(manager.flagBuilder("silent").withAliases("s"))
-                .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,300)).build())
+                .flag(SparrowFlagKeys.SILENT_FLAG)
+                .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0, 300)).build())
                 .flag(manager.flagBuilder("highlight-color").withAliases("c").withComponent(NamedTextColorParser.namedTextColorParser()).build())
                 .flag(manager.flagBuilder("solid-only").build())
                 .handler(commandContext -> {
                     int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 30;
                     net.kyori.adventure.text.format.NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (net.kyori.adventure.text.format.NamedTextColor) commandContext.flags().getValue("highlight-color").get() : net.kyori.adventure.text.format.NamedTextColor.GREEN;
                     NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
-                    MultiplePlayerSelector playerSelector = commandContext.get("viewers");
+                    MultiplePlayerSelector playerSelector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     Collection<Player> players = playerSelector.values();
                     Location location1 = commandContext.get("location1");
                     Location location2 = commandContext.get("location2");
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     boolean solidOnly = commandContext.flags().hasFlag("solid-only");
                     Optional<World> optionalWorld = commandContext.optional("world");
-                    if (commandContext.sender() instanceof ConsoleCommandSender consoleCommandSender) {
+                    if (commandContext.sender() instanceof ConsoleCommandSender) {
                         if (optionalWorld.isEmpty()) {
-                            if (!silent)
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(consoleCommandSender)
-                                        .sendMessage(
-                                                TranslationManager.render(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_WORLD.build()),
-                                                true
-                                        );
+                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_WORLD);
                             return;
                         }
                     }
@@ -93,36 +80,12 @@ public class HighlightAdminCommand extends AbstractCommandFeature<CommandSender>
                     int deltaZ = Math.abs(location1.getBlockZ() - location2.getBlockZ());
                     long volume = (long) deltaX * deltaY * deltaZ;
                     if (volume > 16 * 16 * 16 * 8) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE
-                                                    .arguments(Component.text(volume))
-                                                    .build()),
-                                            true
-                                    );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(volume)));
                     } else {
-                        if (!silent)
-                            if (players.size() == 1) {
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(commandContext.sender())
-                                        .sendMessage(
-                                                TranslationManager.render(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE
-                                                        .arguments(Component.text(players.iterator().next().getName()))
-                                                        .build()),
-                                                true
-                                        );
-                            } else {
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(commandContext.sender())
-                                        .sendMessage(
-                                                TranslationManager.render(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE
-                                                        .arguments(Component.text(players.size()))
-                                                        .build()),
-                                                true
-                                        );
-                            }
+                        CommandUtils.storeEntitySelectorMessage(commandContext, playerSelector,
+                                Pair.of(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE)
+                        );
 
                         int lowerX = Math.min(location1.getBlockX(), location2.getBlockX());
                         int lowerY = Math.min(location1.getBlockY(), location2.getBlockY());

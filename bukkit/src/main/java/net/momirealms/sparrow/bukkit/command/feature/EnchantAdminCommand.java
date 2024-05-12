@@ -2,11 +2,14 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -22,9 +25,10 @@ import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
-public class EnchantAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class EnchantAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -34,37 +38,31 @@ public class EnchantAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
+                .required(SparrowBukkitArgumentKeys.ENTITY_SELECTOR, MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
                 .required("enchantment", CustomEnchantmentParser.enchantmentParser())
                 .optional("level", IntegerParser.integerParser(1))
                 .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(manager.flagBuilder("ignore-level"))
                 .flag(manager.flagBuilder("ignore-conflict"))
                 .flag(manager.flagBuilder("ignore-incompatible"))
                 .handler(commandContext -> {
                     Enchantment enchantment = commandContext.get("enchantment");
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     int level = commandContext.getOrDefault("level", 1);
                     Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
                     EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL
-                                                            .arguments(Component.text(level), Component.text(enchantment.getMaxLevel()))
-                                                            .build()
-                                            )
-                                    );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                Component.text(level),
+                                Component.text(enchantment.getMaxLevel())
+                        ));
                         return;
                     }
                     int i = 0;
                     boolean ignoreIncompatible = commandContext.flags().hasFlag("ignore-incompatible");
                     boolean ignoreConflict = commandContext.flags().hasFlag("ignore-conflict");
-                    MultipleEntitySelector selector = commandContext.get("entity");
+                    MultipleEntitySelector selector = commandContext.get(SparrowBukkitArgumentKeys.ENTITY_SELECTOR);
                     Collection<Entity> targets = selector.values();
                     for (Entity entity : targets) {
                         if (entity instanceof LivingEntity livingEntity) {
@@ -74,15 +72,10 @@ public class EnchantAdminCommand extends AbstractCommandFeature<CommandSender> {
                                 if (!itemStack.isEmpty()) {
                                     if ((!enchantment.canEnchantItem(itemStack) && !ignoreIncompatible) || (hasConflicts(enchantment, itemStack) && !ignoreConflict)) {
                                         if (targets.size() != 1) continue;
-                                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                                .wrap(commandContext.sender())
-                                                .sendMessage(
-                                                        TranslationManager.render(
-                                                                MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE
-                                                                        .arguments(Component.translatable(itemStack.translationKey()))
-                                                                        .build()
-                                                        )
-                                                );
+                                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE);
+                                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                                Component.translatable(itemStack.translationKey())
+                                        ));
                                         return;
                                     }
                                     itemStack.addUnsafeEnchantment(enchantment, level);
@@ -91,67 +84,34 @@ public class EnchantAdminCommand extends AbstractCommandFeature<CommandSender> {
                                     continue;
                                 }
                                 if (targets.size() != 1) continue;
-                                if (!silent)
-                                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                            .wrap(commandContext.sender())
-                                            .sendMessage(
-                                                    TranslationManager.render(
-                                                            MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS
-                                                                    .arguments(Component.text(livingEntity.getName()))
-                                                                    .build()
-                                                    )
-                                            );
+                                commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS);
+                                commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                        Component.text(livingEntity.getName())
+                                ));
                                 return;
                             }
                         }
                         if (targets.size() != 1) continue;
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY
-                                                            .arguments(Component.text(entity.getName()))
-                                                            .build()
-                                            )
-                                    );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                Component.text(entity.getName())
+                        ));
                         return;
                     }
                     if (i == 0) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED
-                                                            .build()
-                                            )
-                                    );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED);
                         return;
                     }
-                    if (targets.size() == 1) {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE
-                                                            .arguments(getFullName(enchantment, level), Component.text(targets.iterator().next().getName()))
-                                                            .build()
-                                            )
-                                    );
-                    } else {
-                        if (!silent)
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE
-                                                            .arguments(getFullName(enchantment, level), Component.text(targets.size()))
-                                                            .build()
-                                            )
-                                    );
-                    }
+
+                    CommandUtils.storeSelectorMessage(
+                            commandContext,
+                            selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE),
+                            Pair.of(
+                                    () -> List.of(getFullName(enchantment, level), Component.text(targets.iterator().next().getName())),
+                                    () -> List.of(getFullName(enchantment, level), Component.text(targets.size())
+                            )
+                    ));
                 });
     }
 
