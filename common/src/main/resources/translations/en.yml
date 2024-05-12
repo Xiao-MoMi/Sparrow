@@ -189,3 +189,7 @@ commands.admin.highlight.failed.world: "<red>You have to specify the world when 
 commands.admin.highlight.failed.toolarge: "<red>Failed to highlight the blocks because the selected area is too large (<arg:0>)</red>"
 commands.admin.highlight.success.single: "<gray>Highlight blocks are shown to <white><arg:0></white></gray>"
 commands.admin.highlight.success.multiple: "<gray>Highlight blocks are shown to <white><arg:0></white> players</gray>"
+commands.player.look.success: "<gray>Look at location <white><arg:0></white></gray>"
+commands.admin.look.failed.uuid: "<red>UUID is not belong to any entity</red>"
+commands.admin.look.success.single: "<gray>Target is looked by <white><arg:0></white> entity</gray>"
+commands.admin.look.success.multiple: "<gray>Target is looked by <white><arg:0></white> entities</gray>"

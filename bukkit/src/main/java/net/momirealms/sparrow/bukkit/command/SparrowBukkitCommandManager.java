@@ -112,7 +112,9 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             new ItemDataPlayerCommand(this),
             new ItemCustomModelDataPlayerCommand(this),
             new ItemDisplayNamePlayerCommand(this),
-            new ItemLorePlayerCommand(this)
+            new ItemLorePlayerCommand(this),
+            new LookAdminCommand(this),
+            new LookPlayerCommand(this)
     );
 
     private final Index<String, CommandFeature<CommandSender>> INDEX = Index.create(CommandFeature::getFeatureID, FEATURES);
