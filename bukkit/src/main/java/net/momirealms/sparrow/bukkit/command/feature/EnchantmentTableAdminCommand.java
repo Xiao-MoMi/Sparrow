@@ -6,6 +6,7 @@ import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
+import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -31,6 +32,7 @@ public class EnchantmentTableAdminCommand extends BukkitCommandFeature<CommandSe
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .meta(SparrowMetaKeys.ALLOW_EMPTY_PLAYER_SELECTOR, false)
                 .flag(manager.flagBuilder("shelves").withComponent(IntegerParser.integerParser(0)))
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.TITLE_FLAG)

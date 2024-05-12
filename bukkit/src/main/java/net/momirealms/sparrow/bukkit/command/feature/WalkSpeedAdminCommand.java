@@ -1,9 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
+import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
+import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,6 +30,7 @@ public class WalkSpeedAdminCommand extends BukkitCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .meta(SparrowMetaKeys.ALLOW_EMPTY_PLAYER_SELECTOR, false)
                 .required("speed", FloatParser.floatParser(-1, 1))
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
@@ -38,7 +41,7 @@ public class WalkSpeedAdminCommand extends BukkitCommandFeature<CommandSender> {
                         player.setWalkSpeed(speed);
                     }
                     var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_WALK_SPEED_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_WALK_SPEED_SUCCESS_MULTIPLE);
-                    handleFeedback(commandContext, pair.left(), pair.right());
+                    handleFeedback(commandContext, pair.left(), pair.right(), Component.text(speed));
                 });
     }
 }

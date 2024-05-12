@@ -28,13 +28,11 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
+import org.incendo.cloud.bukkit.data.Selector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -57,7 +55,7 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .optional(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,300)).build())
                 .flag(manager.flagBuilder("highlight-color").withAliases("c").withComponent(NamedTextColorParser.namedTextColorParser()).build())
                 .flag(manager.flagBuilder("solid-only").build())
@@ -68,12 +66,11 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE);
                         return;
                     }
-
                     int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 30;
                     net.kyori.adventure.text.format.NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (net.kyori.adventure.text.format.NamedTextColor) commandContext.flags().getValue("highlight-color").get() : net.kyori.adventure.text.format.NamedTextColor.GREEN;
                     NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
-                    MultiplePlayerSelector playerSelector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
-                    Collection<Player> players = playerSelector.values();
+                    Optional<MultiplePlayerSelector> playerSelector = commandContext.optional(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
+                    Collection<Player> players = playerSelector.map(Selector::values).orElse(player.getWorld().getPlayers());
                     long time = System.currentTimeMillis();
                     HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, commandContext.flags().hasFlag("solid-only"), time);
                     argMap.put(player.getUniqueId(), args);

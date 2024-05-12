@@ -9,6 +9,7 @@ import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
+import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -61,6 +62,7 @@ public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required("players", patrolMultiplePlayerSelectorParser())
+                .meta(SparrowMetaKeys.ALLOW_EMPTY_PLAYER_SELECTOR, false)
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .senderType(Player.class)
                 .handler(commandContext -> {

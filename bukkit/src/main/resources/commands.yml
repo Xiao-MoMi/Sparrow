@@ -294,9 +294,9 @@ dye_admin:
     - /sparrow dye
     - /spa dye
 
-color_admin:
+color_player:
   enable: true
-  permission: sparrow.command.admin.color
+  permission: sparrow.command.player.color
   usage:
     - /sparrow color
     - /spa color

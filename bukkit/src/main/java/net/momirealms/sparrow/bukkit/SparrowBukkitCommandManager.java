@@ -5,8 +5,7 @@ import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.bukkit.command.preprocessor.MultipleEntitySelectorPostProcessor;
-import net.momirealms.sparrow.bukkit.command.preprocessor.MultiplePlayerSelectorPostProcessor;
+import net.momirealms.sparrow.bukkit.command.processor.SelectorPostProcessor;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
 import net.momirealms.sparrow.common.command.CommandFeature;
 import net.momirealms.sparrow.common.event.Cancellable;
@@ -68,7 +67,7 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             new BroadcastAdminCommand(this),
             new ServerAdminCommand(this),
             new ServerPlayerCommand(this),
-            new ColorAdminCommand(this),
+            new ColorPlayerCommand(this),
             new ReloadAdminCommand(this),
             new DyePlayerCommand(this),
             new DyeAdminCommand(this),
@@ -127,8 +126,7 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
     }
 
     private void registerCommandPostProcessors() {
-        this.commandManager.registerCommandPostProcessor(MultiplePlayerSelectorPostProcessor.instance());
-        this.commandManager.registerCommandPostProcessor(MultipleEntitySelectorPostProcessor.instance());
+        this.getCommandManager().registerCommandPostProcessor(new SelectorPostProcessor(this));
     }
 
     private void registerMappings() {

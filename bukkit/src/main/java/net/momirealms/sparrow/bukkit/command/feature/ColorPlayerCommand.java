@@ -14,15 +14,15 @@ import org.bukkit.inventory.meta.ColorableArmorMeta;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
-public class ColorAdminCommand extends BukkitCommandFeature<CommandSender> {
+public class ColorPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
-    public ColorAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+    public ColorPlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
         super(sparrowCommandManager);
     }
 
     @Override
     public String getFeatureID() {
-        return "color_admin";
+        return "color_player";
     }
 
     @Override
