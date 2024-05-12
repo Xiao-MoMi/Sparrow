@@ -63,7 +63,7 @@ public class SparrowBukkitSenderFactory extends SenderFactory<SparrowBukkitPlugi
     }
 
     @Override
-    protected Audience getAudience(CommandSender sender) {
+    public Audience getAudience(CommandSender sender) {
         return this.audiences.sender(sender);
     }
 

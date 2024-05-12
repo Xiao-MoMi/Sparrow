@@ -54,7 +54,7 @@ public abstract class SenderFactory<P extends SparrowPlugin, T> implements AutoC
 
     protected abstract String getName(T sender);
 
-    protected abstract Audience getAudience(T sender);
+    public abstract Audience getAudience(T sender);
 
     protected abstract void sendMessage(T sender, Component message);
 

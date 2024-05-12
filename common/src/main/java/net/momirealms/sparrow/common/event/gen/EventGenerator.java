@@ -39,6 +39,7 @@ import net.bytebuddy.matcher.ElementMatchers;
 import net.momirealms.sparrow.common.event.Cancellable;
 import net.momirealms.sparrow.common.event.Param;
 import net.momirealms.sparrow.common.event.SparrowEvent;
+import net.momirealms.sparrow.common.event.type.CommandFeedbackEvent;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.lang.invoke.MethodHandle;
@@ -120,7 +121,7 @@ public class EventGenerator {
                 // implement a toString method
                 .withToString();
 
-        if (eventClass.isAssignableFrom(Cancellable.class)) {
+        if (Cancellable.class.isAssignableFrom(eventClass)) {
             builder = builder
                     .defineField("cancelled", boolean.class, Visibility.PRIVATE)
                     .method(named("cancelled").and(returns(boolean.class)).and(takesArguments(0)))

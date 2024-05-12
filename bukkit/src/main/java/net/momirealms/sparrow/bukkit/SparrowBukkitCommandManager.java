@@ -2,10 +2,7 @@ package net.momirealms.sparrow.bukkit;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TranslatableComponent;
-import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
@@ -13,9 +10,10 @@ import net.momirealms.sparrow.bukkit.command.preprocessor.MultipleEntitySelector
 import net.momirealms.sparrow.bukkit.command.preprocessor.MultiplePlayerSelectorPostProcessor;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
 import net.momirealms.sparrow.common.command.CommandFeature;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.event.Cancellable;
+import net.momirealms.sparrow.common.event.SparrowEvent;
+import net.momirealms.sparrow.common.event.type.CommandFeedbackEvent;
 import net.momirealms.sparrow.common.sender.Sender;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.incendo.cloud.SenderMapper;
@@ -106,11 +104,6 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
     }
 
     @Override
-    protected Audience wrapAudience(CommandSender sender) {
-        return ((SparrowBukkitSenderFactory) ((SparrowBukkitPlugin) plugin).getSenderFactory()).getAudience(sender);
-    }
-
-    @Override
     protected Sender wrapSender(CommandSender sender) {
         return ((SparrowBukkitPlugin) plugin).getSenderFactory().wrap(sender);
     }
@@ -123,6 +116,15 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
         ));
         this.registerMappings();
         this.registerCommandPostProcessors();
+        this.setFeedbackConsumer((sender, node, component) -> {
+            SparrowEvent event = plugin.getEventManager().dispatch(CommandFeedbackEvent.class, node, component);
+            if (event instanceof Cancellable cancellable) {
+                if (cancellable.cancelled())
+                    return;
+            }
+            SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(sender)
+                    .sendMessage(component, true);
+        });
     }
 
     private void registerCommandPostProcessors() {

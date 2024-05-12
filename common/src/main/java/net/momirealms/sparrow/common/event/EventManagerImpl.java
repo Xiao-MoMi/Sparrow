@@ -37,15 +37,17 @@ public class EventManagerImpl implements EventManager {
     }
 
     @Override
-    public void dispatch(Class<? extends SparrowEvent> eventClass, Object... params) {
+    public SparrowEvent dispatch(Class<? extends SparrowEvent> eventClass, Object... params) {
         SparrowEvent event = generate(eventClass, params);
         this.eventBus.post(event, OptionalInt.empty());
+        return event;
     }
 
     @Override
-    public void dispatch(Class<? extends SparrowEvent> eventClass, OptionalInt order, Object... params) {
+    public SparrowEvent dispatch(Class<? extends SparrowEvent> eventClass, OptionalInt order, Object... params) {
         SparrowEvent event = generate(eventClass, params);
         this.eventBus.post(event, order);
+        return event;
     }
 
     @Override

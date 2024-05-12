@@ -22,10 +22,10 @@ public interface EventManager {
 
     <T extends SparrowEvent> EventSubscription<T> subscribe(Class<T> event, EventConfig config, EventSubscriber<? super T> subscriber);
 
-    void dispatch(Class<? extends SparrowEvent> eventClass, Object... params);
+    SparrowEvent dispatch(Class<? extends SparrowEvent> eventClass, Object... params);
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    void dispatch(Class<? extends SparrowEvent> eventClass, OptionalInt order, Object... params);
+    SparrowEvent dispatch(Class<? extends SparrowEvent> eventClass, OptionalInt order, Object... params);
 
     EventBus<?> getEventBus();
 }

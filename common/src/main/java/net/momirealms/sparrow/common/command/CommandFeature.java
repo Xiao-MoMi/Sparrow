@@ -2,12 +2,9 @@ package net.momirealms.sparrow.common.command;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TranslatableComponent;
-import org.apache.logging.log4j.util.TriConsumer;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.context.CommandContext;
-
-import java.util.List;
 
 public interface CommandFeature<C> {
 

@@ -2,8 +2,8 @@ package net.momirealms.sparrow.common.command;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
 import dev.dejvokep.boostedyaml.block.implementation.Section;
-import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.TranslatableComponent;
 import net.momirealms.sparrow.common.locale.SparrowCaptionFormatter;
 import net.momirealms.sparrow.common.locale.SparrowCaptionProvider;
@@ -12,16 +12,20 @@ import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 import net.momirealms.sparrow.common.sender.Sender;
 import net.momirealms.sparrow.common.util.ArrayUtils;
 import org.apache.logging.log4j.util.TriConsumer;
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.caption.Caption;
+import org.incendo.cloud.caption.StandardCaptionKeys;
 import org.incendo.cloud.component.CommandComponent;
+import org.incendo.cloud.exception.*;
+import org.incendo.cloud.exception.handling.ExceptionContext;
 import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 public abstract class AbstractSparrowCommandManager<C> implements SparrowCommandManager<C> {
 
@@ -29,38 +33,50 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
     protected final HashSet<CommandFeature<C>> registeredFeatures = new HashSet<>();
     protected final CommandManager<C> commandManager;
     protected final SparrowPlugin plugin;
-    private TriConsumer<C, TranslatableComponent.Builder, List<Component>> feedbackConsumer;
+    private final SparrowCaptionFormatter<C> captionFormatter = new SparrowCaptionFormatter<C>();
+    private final MinecraftExceptionHandler.Decorator<C> decorator = (formatter, ctx, msg) -> msg;
+
+    private TriConsumer<C, String, Component> feedbackConsumer;
 
     public AbstractSparrowCommandManager(SparrowPlugin plugin, CommandManager<C> commandManager) {
         this.commandManager = commandManager;
         this.plugin = plugin;
-        this.injectLocales();
+        this.inject();
         this.feedbackConsumer = defaultFeedbackConsumer();
     }
 
-    public void setFeedbackConsumer(@NotNull TriConsumer<C, TranslatableComponent.Builder, List<Component>> feedbackConsumer) {
+    @Override
+    public void setFeedbackConsumer(@NotNull TriConsumer<C, String, Component> feedbackConsumer) {
         this.feedbackConsumer = feedbackConsumer;
     }
 
-    public TriConsumer<C, TranslatableComponent.Builder, List<Component>> defaultFeedbackConsumer() {
-        return  ((sender, builder, components) -> {
+    @Override
+    public TriConsumer<C, String, Component> defaultFeedbackConsumer() {
+        return ((sender, node, component) -> {
             wrapSender(sender).sendMessage(
-                    TranslationManager.render(builder.arguments(components).build()),
-                    true
+                component, true
             );
         });
     }
 
-    protected abstract Audience wrapAudience(C c);
-
     protected abstract Sender wrapSender(C c);
 
-    private void injectLocales() {
-        MinecraftExceptionHandler.<C>create(this::wrapAudience)
-                .defaultHandlers()
-                .captionFormatter(new SparrowCaptionFormatter<>())
-                .registerTo(getCommandManager());
+    private void inject() {
         getCommandManager().captionRegistry().registerProvider(new SparrowCaptionProvider<>());
+        injectExceptionHandler(InvalidSyntaxException.class, MinecraftExceptionHandler.createDefaultInvalidSyntaxHandler(), StandardCaptionKeys.EXCEPTION_INVALID_SYNTAX);
+        injectExceptionHandler(InvalidCommandSenderException.class, MinecraftExceptionHandler.createDefaultInvalidSenderHandler(), StandardCaptionKeys.EXCEPTION_INVALID_SENDER);
+        injectExceptionHandler(NoPermissionException.class, MinecraftExceptionHandler.createDefaultNoPermissionHandler(), StandardCaptionKeys.EXCEPTION_NO_PERMISSION);
+        injectExceptionHandler(ArgumentParseException.class, MinecraftExceptionHandler.createDefaultArgumentParsingHandler(), StandardCaptionKeys.EXCEPTION_INVALID_ARGUMENT);
+        injectExceptionHandler(CommandExecutionException.class, MinecraftExceptionHandler.createDefaultCommandExecutionHandler(), StandardCaptionKeys.EXCEPTION_UNEXPECTED);
+    }
+
+    private void injectExceptionHandler(Class<? extends Throwable> type, MinecraftExceptionHandler.MessageFactory<C, ?> factory, Caption key) {
+        getCommandManager().exceptionController().registerHandler(type, ctx -> {
+            final @Nullable ComponentLike message = factory.message(captionFormatter, (ExceptionContext) ctx);
+            if (message != null) {
+                handleCommandFeedback(ctx.context().sender(), key.key(), decorator.decorate(captionFormatter, ctx, message.asComponent()).asComponent());
+            }
+        });
     }
 
     @Override
@@ -127,6 +143,12 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
 
     @Override
     public void handleCommandFeedback(C sender, TranslatableComponent.Builder key, Component... args) {
-        this.feedbackConsumer.accept(sender, key, List.of(args));
+        TranslatableComponent component = key.arguments(args).build();
+        this.feedbackConsumer.accept(sender, component.key(), TranslationManager.render(component));
+    }
+
+    @Override
+    public void handleCommandFeedback(C sender, String node, Component component) {
+        this.feedbackConsumer.accept(sender, node, component);
     }
 }
