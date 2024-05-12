@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -14,9 +14,11 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-import java.util.List;
-
 public class MoreAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public MoreAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -34,28 +36,23 @@ public class MoreAdminCommand extends BukkitCommandFeature<CommandSender> {
                     int amount = (int) commandContext.optional("amount").orElse(0);
                     ItemStack itemInHand = player.getInventory().getItemInMainHand();
                     if (itemInHand.isEmpty()) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
                         return;
                     }
                     int maxStack = itemInHand.getType().getMaxStackSize();
                     if (amount == 0) {
                         if (itemInHand.getAmount() == maxStack) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
                             return;
                         }
                         itemInHand.setAmount(maxStack);
                         amount = maxStack - itemInHand.getAmount();
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                Component.text(amount),
-                                Component.text(player.getName())
-                        ));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS, Component.text(amount), Component.text(player.getName()));
                     } else {
                         if (amount > maxStack * 100) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_TOO_MANY);
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_TOO_MANY);
                             return;
                         }
-
                         int amountToGive = amount;
                         while (amountToGive > 0) {
                             int perStackSize = Math.min(maxStack, amountToGive);
@@ -64,7 +61,7 @@ public class MoreAdminCommand extends BukkitCommandFeature<CommandSender> {
                             more.setAmount(perStackSize);
                             PlayerUtils.dropItem(player, more, false, true, false);
                         }
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS);
                     }
                 });
     }

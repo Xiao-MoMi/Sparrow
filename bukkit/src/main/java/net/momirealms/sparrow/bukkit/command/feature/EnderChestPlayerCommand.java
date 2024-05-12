@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -12,6 +12,10 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
 public class EnderChestPlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public EnderChestPlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -25,7 +29,7 @@ public class EnderChestPlayerCommand extends BukkitCommandFeature<CommandSender>
                 .handler(commandContext -> {
                     final Player player = commandContext.sender();
                     SparrowNMSProxy.getInstance().openCustomInventory(player, player.getEnderChest(), AdventureHelper.componentToJson(Component.translatable("container.enderchest")));
-                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_ENDER_CHEST_SUCCESS);
+                    handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ENDER_CHEST_SUCCESS);
                 });
     }
 }

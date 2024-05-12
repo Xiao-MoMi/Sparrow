@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -14,9 +14,11 @@ import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.BooleanParser;
 
-import java.util.List;
-
 public class FlyAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public FlyAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -36,23 +38,19 @@ public class FlyAdminCommand extends BukkitCommandFeature<CommandSender> {
                     if (players.size() == 1) {
                         final Player player = players.iterator().next();
                         if (player.getAllowFlight() && fly) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_FAILED_ON);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(player.getName())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_FAILED_ON, Component.text(player.getName()));
                             return;
                         }
                         if (!player.getAllowFlight() && !fly) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_FAILED_OFF);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(player.getName())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_FAILED_OFF, Component.text(player.getName()));
                             return;
                         }
                         player.setAllowFlight(fly);
                         player.setFlying(fly);
                         if (fly) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_SINGLE);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(player.getName())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_SINGLE, Component.text(player.getName()));
                         } else {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_SINGLE);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(player.getName())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_SINGLE, Component.text(player.getName()));
                         }
                     } else {
                         for (Player player : players) {
@@ -61,11 +59,9 @@ public class FlyAdminCommand extends BukkitCommandFeature<CommandSender> {
                         }
 
                         if (fly) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_MULTIPLE);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(players.size())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_ON_MULTIPLE, Component.text(players.size()));
                         } else {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_MULTIPLE);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(players.size())));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_FLY_SUCCESS_OFF_MULTIPLE, Component.text(players.size()));
                         }
                     }
                 });

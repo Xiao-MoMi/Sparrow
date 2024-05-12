@@ -5,13 +5,11 @@ import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.bukkit.util.CommandUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.util.ArrayUtils;
-import net.momirealms.sparrow.common.util.Pair;
 import net.momirealms.sparrow.heart.argument.NamedTextColor;
 import net.momirealms.sparrow.heart.feature.highlight.HighlightBlocks;
 import org.bukkit.Location;
@@ -38,6 +36,10 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings("DuplicatedCode")
 public class HighlightAdminCommand extends BukkitCommandFeature<CommandSender> {
 
+    public HighlightAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
+
     @Override
     public String getFeatureID() {
         return "highlight_admin";
@@ -58,15 +60,15 @@ public class HighlightAdminCommand extends BukkitCommandFeature<CommandSender> {
                     int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 30;
                     net.kyori.adventure.text.format.NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (net.kyori.adventure.text.format.NamedTextColor) commandContext.flags().getValue("highlight-color").get() : net.kyori.adventure.text.format.NamedTextColor.GREEN;
                     NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
-                    MultiplePlayerSelector playerSelector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
-                    Collection<Player> players = playerSelector.values();
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
+                    Collection<Player> players = selector.values();
                     Location location1 = commandContext.get("location1");
                     Location location2 = commandContext.get("location2");
                     boolean solidOnly = commandContext.flags().hasFlag("solid-only");
                     Optional<World> optionalWorld = commandContext.optional("world");
                     if (commandContext.sender() instanceof ConsoleCommandSender) {
                         if (optionalWorld.isEmpty()) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_WORLD);
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_WORLD);
                             return;
                         }
                     }
@@ -82,60 +84,60 @@ public class HighlightAdminCommand extends BukkitCommandFeature<CommandSender> {
                     int deltaY = Math.abs(location1.getBlockY() - location2.getBlockY());
                     int deltaZ = Math.abs(location1.getBlockZ() - location2.getBlockZ());
                     long volume = (long) deltaX * deltaY * deltaZ;
+
                     if (volume > 16 * 16 * 16 * 8) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(volume)));
-                    } else {
-                        CommandUtils.storeEntitySelectorMessage(commandContext, playerSelector,
-                                Pair.of(MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE)
-                        );
-
-                        int lowerX = Math.min(location1.getBlockX(), location2.getBlockX());
-                        int lowerY = Math.min(location1.getBlockY(), location2.getBlockY());
-                        int lowerZ = Math.min(location1.getBlockZ(), location2.getBlockZ());
-
-                        SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
-                            Location location = new Location(world, lowerX + 0.5, lowerY, lowerZ + 0.5);
-                            ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
-                            for (int i = 0; i <= deltaX; i++) {
-                                for (int j = 0; j <= deltaY; j++) {
-                                    for (int k = 0; k <= deltaZ; k++) {
-                                        locationsPrune.add(location.clone().add(i, j, k));
-                                    }
-                                }
-                            }
-                            List<BlockFace> faces = List.of(BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN);
-                            Location[] locationsArray;
-                            if (solidOnly) {
-                                locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
-                                    Block block = selectedBlockLocation.getBlock();
-                                    if (block.isPassable()) {
-                                        return false;
-                                    }
-                                    if (isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation))
-                                        return true;
-                                    for (BlockFace face : faces) {
-                                        if (block.getRelative(face).isPassable()) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                }).toList().toArray(new Location[0]);
-                            } else {
-                                locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation)).toList().toArray(new Location[0]);
-                            }
-                            List<Location[]> split = ArrayUtils.splitArray(locationsArray, 1024);
-                            for (Player rp : players) {
-                                for (Location[] l : split) {
-                                    HighlightBlocks blocks = SparrowNMSProxy.getInstance().highlightBlocks(rp, namedTextColor, l);
-                                    SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
-                                        if (rp.isOnline())
-                                            blocks.destroy(rp);
-                                    }, duration, TimeUnit.SECONDS);
-                                }
-                            }
-                        });
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE, Component.text(volume));
+                        return;
                     }
+
+                    var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE);
+                    handleFeedback(commandContext, pair.left(), pair.right());
+
+                    int lowerX = Math.min(location1.getBlockX(), location2.getBlockX());
+                    int lowerY = Math.min(location1.getBlockY(), location2.getBlockY());
+                    int lowerZ = Math.min(location1.getBlockZ(), location2.getBlockZ());
+
+                    SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
+                        Location location = new Location(world, lowerX + 0.5, lowerY, lowerZ + 0.5);
+                        ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
+                        for (int i = 0; i <= deltaX; i++) {
+                            for (int j = 0; j <= deltaY; j++) {
+                                for (int k = 0; k <= deltaZ; k++) {
+                                    locationsPrune.add(location.clone().add(i, j, k));
+                                }
+                            }
+                        }
+                        List<BlockFace> faces = List.of(BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN);
+                        Location[] locationsArray;
+                        if (solidOnly) {
+                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
+                                Block block = selectedBlockLocation.getBlock();
+                                if (block.isPassable()) {
+                                    return false;
+                                }
+                                if (isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation))
+                                    return true;
+                                for (BlockFace face : faces) {
+                                    if (block.getRelative(face).isPassable()) {
+                                        return true;
+                                    }
+                                }
+                                return false;
+                            }).toList().toArray(new Location[0]);
+                        } else {
+                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation)).toList().toArray(new Location[0]);
+                        }
+                        List<Location[]> split = ArrayUtils.splitArray(locationsArray, 1024);
+                        for (Player rp : players) {
+                            for (Location[] l : split) {
+                                HighlightBlocks blocks = SparrowNMSProxy.getInstance().highlightBlocks(rp, namedTextColor, l);
+                                SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
+                                    if (rp.isOnline())
+                                        blocks.destroy(rp);
+                                }, duration, TimeUnit.SECONDS);
+                            }
+                        }
+                    });
                 });
     }
 

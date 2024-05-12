@@ -5,10 +5,9 @@ import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import net.momirealms.sparrow.common.util.ArrayUtils;
 import net.momirealms.sparrow.heart.argument.NamedTextColor;
 import net.momirealms.sparrow.heart.feature.highlight.HighlightBlocks;
@@ -45,6 +44,10 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
     private final HighlightListener listener = new HighlightListener();
     private static final ConcurrentHashMap<UUID, HighlightArguments> argMap = new ConcurrentHashMap<>();
 
+    public HighlightPlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
+
     @Override
     public String getFeatureID() {
         return "highlight_player";
@@ -62,7 +65,7 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
                     final Player player = commandContext.sender();
                     if (argMap.containsKey(player.getUniqueId())) {
                         argMap.remove(player.getUniqueId());
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE);
                         return;
                     }
 
@@ -74,18 +77,13 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
                     long time = System.currentTimeMillis();
                     HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, commandContext.flags().hasFlag("solid-only"), time);
                     argMap.put(player.getUniqueId(), args);
-                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_TIP);
+                    handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_TIP);
                     SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
                         HighlightArguments arg = argMap.get(player.getUniqueId());
                         if (arg != null && arg.timeStamp == time) {
                             argMap.remove(player.getUniqueId());
                             if (player.isOnline()) {
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(commandContext.sender())
-                                        .sendMessage(
-                                                TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_TIMEOUT.build()),
-                                                true
-                                        );
+                                handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_TIMEOUT);
                             }
                         }
                     }, 30, TimeUnit.SECONDS);
@@ -116,30 +114,9 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
             this.timeStamp = timeStamp;
             this.solidOnly = solidOnly;
         }
-        public int getDuration() {
-            return duration;
-        }
-        public NamedTextColor getColor() {
-            return color;
-        }
-        public Collection<Player> getViewers() {
-            return viewers;
-        }
-        public long getTimeStamp() {
-            return timeStamp;
-        }
-        public Location getFirstPoint() {
-            return firstPoint;
-        }
-        public void setFirstPoint(Location firstPoint) {
-            this.firstPoint = firstPoint;
-        }
-        public boolean isSolidOnly() {
-            return solidOnly;
-        }
     }
 
-    public static class HighlightListener implements Listener {
+    public class HighlightListener implements Listener {
 
         @EventHandler
         private void onPlayerInteract(PlayerInteractEvent event) {
@@ -166,42 +143,21 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
 
             if (arg.firstPoint == null) {
                 arg.firstPoint = selectedLocation;
-                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                        .wrap(player)
-                        .sendMessage(
-                                TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SELECTED_FIRST
-                                        .arguments(
-                                                Component.text(arg.firstPoint.getBlockX()),
-                                                Component.text(arg.firstPoint.getBlockY()),
-                                                Component.text(arg.firstPoint.getBlockZ())
-                                        )
-                                        .build()),
-                                true
-                        );
+                handleFeedback(player, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SELECTED_FIRST,
+                        Component.text(arg.firstPoint.getBlockX()),
+                        Component.text(arg.firstPoint.getBlockY()),
+                        Component.text(arg.firstPoint.getBlockZ())
+                );
             } else {
                 argMap.remove(player.getUniqueId());
-                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                        .wrap(player)
-                        .sendMessage(
-                                TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SELECTED_SECOND
-                                        .arguments(
-                                                Component.text(selectedLocation.getBlockX()),
-                                                Component.text(selectedLocation.getBlockY()),
-                                                Component.text(selectedLocation.getBlockZ())
-                                        )
-                                        .build()),
-                                true
-                        );
-
+                handleFeedback(player, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SELECTED_SECOND,
+                        Component.text(selectedLocation.getBlockX()),
+                        Component.text(selectedLocation.getBlockY()),
+                        Component.text(selectedLocation.getBlockZ())
+                );
                 World world = selectedLocation.getWorld();
                 if (world != arg.firstPoint.getWorld()) {
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(player)
-                            .sendMessage(
-                                    TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_FAILED_WORLD
-                                            .build()),
-                                    true
-                            );
+                    handleFeedback(player, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_FAILED_WORLD);
                     return;
                 }
 
@@ -210,71 +166,60 @@ public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> 
                 int deltaZ = Math.abs(selectedLocation.getBlockZ() - arg.firstPoint.getBlockZ());
                 long volume = (long) deltaX * deltaY * deltaZ;
                 if (volume > 16 * 16 * 16 * 8) {
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(player)
-                            .sendMessage(
-                                    TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_FAILED_TOO_LARGE
-                                            .arguments(Component.text(volume))
-                                            .build()),
-                                    true
-                            );
-                } else {
-                    Collection<Player> remaining = arg.getViewers().stream().filter(OfflinePlayer::isOnline).toList();
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(player)
-                            .sendMessage(
-                                    TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SUCCESS
-                                            .arguments(Component.text(remaining.size()))
-                                            .build()),
-                                    true
-                            );
-
-                    int lowerX = Math.min(selectedLocation.getBlockX(), arg.firstPoint.getBlockX());
-                    int lowerY = Math.min(selectedLocation.getBlockY(), arg.firstPoint.getBlockY());
-                    int lowerZ = Math.min(selectedLocation.getBlockZ(), arg.firstPoint.getBlockZ());
-
-                    SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
-                        Location location = new Location(world, lowerX + 0.5, lowerY, lowerZ + 0.5);
-                        ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
-                        for (int i = 0; i <= deltaX; i++) {
-                            for (int j = 0; j <= deltaY; j++) {
-                                for (int k = 0; k <= deltaZ; k++) {
-                                    locationsPrune.add(location.clone().add(i, j, k));
-                                }
-                            }
-                        }
-                        List<BlockFace> faces = List.of(BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN);
-                        Location[] locationsArray;
-                        if (arg.solidOnly) {
-                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
-                                Block block = selectedBlockLocation.getBlock();
-                                if (block.isPassable()) {
-                                    return false;
-                                }
-                                if (isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation))
-                                    return true;
-                                for (BlockFace face : faces) {
-                                    if (block.getRelative(face).isPassable()) {
-                                        return true;
-                                    }
-                                }
-                                return false;
-                            }).toList().toArray(new Location[0]);
-                        } else {
-                            locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation)).toList().toArray(new Location[0]);
-                        }
-                        List<Location[]> split = ArrayUtils.splitArray(locationsArray, 1024);
-                        for (Player rp : remaining) {
-                            for (Location[] l : split) {
-                                HighlightBlocks blocks = SparrowNMSProxy.getInstance().highlightBlocks(rp, arg.color, l);
-                                SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
-                                    if (rp.isOnline())
-                                        blocks.destroy(rp);
-                                }, arg.duration, TimeUnit.SECONDS);
-                            }
-                        }
-                    });
+                    handleFeedback(player, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_FAILED_TOO_LARGE, Component.text(volume));
+                    return;
                 }
+
+                Collection<Player> remaining = arg.viewers.stream().filter(OfflinePlayer::isOnline).toList();
+
+                var pair = resolveSelector(remaining, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_SINGLE, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_MULTIPLE);
+                handleFeedback(player, pair.left(), pair.right());
+
+                int lowerX = Math.min(selectedLocation.getBlockX(), arg.firstPoint.getBlockX());
+                int lowerY = Math.min(selectedLocation.getBlockY(), arg.firstPoint.getBlockY());
+                int lowerZ = Math.min(selectedLocation.getBlockZ(), arg.firstPoint.getBlockZ());
+
+                SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().async().execute(() -> {
+                    Location location = new Location(world, lowerX + 0.5, lowerY, lowerZ + 0.5);
+                    ArrayList<Location> locationsPrune = new ArrayList<>((int) (volume / 0.75));
+                    for (int i = 0; i <= deltaX; i++) {
+                        for (int j = 0; j <= deltaY; j++) {
+                            for (int k = 0; k <= deltaZ; k++) {
+                                locationsPrune.add(location.clone().add(i, j, k));
+                            }
+                        }
+                    }
+                    List<BlockFace> faces = List.of(BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST, BlockFace.SOUTH, BlockFace.UP, BlockFace.DOWN);
+                    Location[] locationsArray;
+                    if (arg.solidOnly) {
+                        locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> {
+                            Block block = selectedBlockLocation.getBlock();
+                            if (block.isPassable()) {
+                                return false;
+                            }
+                            if (isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation))
+                                return true;
+                            for (BlockFace face : faces) {
+                                if (block.getRelative(face).isPassable()) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }).toList().toArray(new Location[0]);
+                    } else {
+                        locationsArray = locationsPrune.stream().filter(selectedBlockLocation -> isBoundary(deltaX, deltaY, deltaZ, lowerX, lowerY, lowerZ, selectedBlockLocation)).toList().toArray(new Location[0]);
+                    }
+                    List<Location[]> split = ArrayUtils.splitArray(locationsArray, 1024);
+                    for (Player rp : remaining) {
+                        for (Location[] l : split) {
+                            HighlightBlocks blocks = SparrowNMSProxy.getInstance().highlightBlocks(rp, arg.color, l);
+                            SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
+                                if (rp.isOnline())
+                                    blocks.destroy(rp);
+                            }, arg.duration, TimeUnit.SECONDS);
+                        }
+                    }
+                });
             }
         }
 

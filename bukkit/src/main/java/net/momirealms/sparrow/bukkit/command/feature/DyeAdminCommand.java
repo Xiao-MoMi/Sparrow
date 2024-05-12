@@ -4,11 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.bukkit.util.CommandUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.Color;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -24,10 +22,13 @@ import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 import org.incendo.cloud.parser.standard.EnumParser;
 
-import java.util.List;
 import java.util.Optional;
 
 public class DyeAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public DyeAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -60,10 +61,7 @@ public class DyeAdminCommand extends BukkitCommandFeature<CommandSender> {
                             if (!itemStack.isEmpty()) {
                                 if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
                                     if (entities.size() != 1) continue;
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE);
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                            Component.translatable(itemStack.translationKey())
-                                    ));
+                                    handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE, Component.translatable(itemStack.translationKey()));
                                     return;
                                 }
                                 meta.setColor(color);
@@ -74,27 +72,21 @@ public class DyeAdminCommand extends BukkitCommandFeature<CommandSender> {
                             }
 
                             if (entities.size() != 1) continue;
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS);
-                            commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                    Component.text(livingEntity.getName())
-                            ));
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ITEMLESS, Component.text(livingEntity.getName()));
+                            return;
                         }
                         if (entities.size() != 1) continue;
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ENTITY);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                Component.text(entity.getName())
-                        ));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_ENTITY, Component.text(entity.getName()));
                         return;
                     }
 
                     if (i == 0) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_DYE_FAILED);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_DYE_FAILED);
                         return;
                     }
 
-                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
-                            Pair.of(MessageConstants.COMMANDS_ADMIN_DYE_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_DYE_SUCCESS_MULTIPLE)
-                    );
+                    var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_DYE_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_DYE_SUCCESS_MULTIPLE);
+                    handleFeedback(commandContext, pair.left(), pair.right());
                 });
     }
 }

@@ -5,11 +5,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
-import net.momirealms.sparrow.bukkit.util.CommandUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -25,10 +23,13 @@ import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public EnchantAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -52,11 +53,7 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
                     Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
                     EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                Component.text(level),
-                                Component.text(enchantment.getMaxLevel())
-                        ));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL, Component.text(level), Component.text(enchantment.getMaxLevel()));
                         return;
                     }
                     int i = 0;
@@ -72,10 +69,7 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
                                 if (!itemStack.isEmpty()) {
                                     if ((!enchantment.canEnchantItem(itemStack) && !ignoreIncompatible) || (hasConflicts(enchantment, itemStack) && !ignoreConflict)) {
                                         if (targets.size() != 1) continue;
-                                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE);
-                                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                                Component.translatable(itemStack.translationKey())
-                                        ));
+                                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_INCOMPATIBLE, Component.translatable(itemStack.translationKey()));
                                         return;
                                     }
                                     itemStack.addUnsafeEnchantment(enchantment, level);
@@ -84,34 +78,20 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
                                     continue;
                                 }
                                 if (targets.size() != 1) continue;
-                                commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS);
-                                commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                        Component.text(livingEntity.getName())
-                                ));
+                                handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ITEMLESS, Component.text(livingEntity.getName()));
                                 return;
                             }
                         }
                         if (targets.size() != 1) continue;
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
-                                Component.text(entity.getName())
-                        ));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_ENTITY, Component.text(entity.getName()));
                         return;
                     }
                     if (i == 0) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED);
                         return;
                     }
-
-                    CommandUtils.storeSelectorMessage(
-                            commandContext,
-                            selector,
-                            Pair.of(MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE),
-                            Pair.of(
-                                    () -> List.of(getFullName(enchantment, level), Component.text(targets.iterator().next().getName())),
-                                    () -> List.of(getFullName(enchantment, level), Component.text(targets.size())
-                            )
-                    ));
+                    var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_ENCHANT_SUCCESS_MULTIPLE);
+                    handleFeedback(commandContext, pair.left(), getFullName(enchantment, level), pair.right());
                 });
     }
 

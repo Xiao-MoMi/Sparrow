@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.feature.enchant.EnchantManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -13,6 +13,10 @@ import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.permission.Permission;
 
 public class EnchantmentTablePlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public EnchantmentTablePlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -28,7 +32,7 @@ public class EnchantmentTablePlayerCommand extends BukkitCommandFeature<CommandS
                     boolean customShelves = commandContext.flags().hasFlag("shelves");
                     final Player player = commandContext.sender();
                     SparrowBukkitPlugin.getInstance().getEnchantManager().openEnchantmentTable(player, customShelves ? (int) commandContext.flags().getValue("shelves").get() : 0);
-                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_ENCHANTMENT_TABLE_SUCCESS);
+                    handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ENCHANTMENT_TABLE_SUCCESS);
                 });
     }
 }

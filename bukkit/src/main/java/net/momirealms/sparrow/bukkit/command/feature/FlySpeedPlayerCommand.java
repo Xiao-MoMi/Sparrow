@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,6 +11,10 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.parser.standard.FloatParser;
 
 public class FlySpeedPlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public FlySpeedPlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {

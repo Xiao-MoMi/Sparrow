@@ -3,11 +3,10 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -16,6 +15,10 @@ import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 
 public class WorkbenchAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public WorkbenchAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -46,9 +49,8 @@ public class WorkbenchAdminCommand extends BukkitCommandFeature<CommandSender> {
                             );
                         }
                     }
-                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
-                            Pair.of(MessageConstants.COMMANDS_ADMIN_WORKBENCH_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_WORKBENCH_SUCCESS_MULTIPLE)
-                    );
+                    var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_WORKBENCH_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_WORKBENCH_SUCCESS_MULTIPLE);
+                    handleFeedback(commandContext, pair.left(), pair.right());
                 });
     }
 }

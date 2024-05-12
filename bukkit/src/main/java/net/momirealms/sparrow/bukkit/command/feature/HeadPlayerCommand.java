@@ -2,12 +2,10 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.util.Either;
@@ -21,6 +19,10 @@ import org.incendo.cloud.CommandManager;
 import java.util.concurrent.CompletableFuture;
 
 public class HeadPlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public HeadPlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {

@@ -7,7 +7,7 @@ import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.feature.patrol.SparrowBukkitPatrolManager;
 import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.feature.patrol.PatrolManager;
 import net.momirealms.sparrow.common.feature.patrol.Patrolable;
@@ -36,10 +36,10 @@ import java.util.UUID;
 public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     private static final String BYPASS = "sparrow.bypass.patrol";
-    private final PatrolListener listener;
+    private final PatrolListener listener = new PatrolListener();
 
-    public PatrolAdminCommand() {
-        this.listener = new PatrolListener();
+    public PatrolAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
                     PatrolManager patrolManager = SparrowBukkitPatrolManager.getInstance();
                     @Nullable Patrolable target = patrolManager.selectNextPatrolable(patrolable -> playersToCheck.contains(patrolable.getUniqueId()));
                     if (target == null) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_PATROL_FAILED_TARGET);
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_PATROL_FAILED_TARGET);
                         return;
                     }
 
@@ -81,8 +81,7 @@ public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
 
                     patrolManager.finishPatrol(target);
                     patrollingPlayer.teleport(Objects.requireNonNull(targetUser.getPlayer()));
-                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_PATROL_SUCCESS);
-                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(targetUser.getPlayer().getName())));
+                    handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_PATROL_SUCCESS, Component.text(targetUser.getPlayer().getName()));
                 });
     }
 
@@ -114,14 +113,12 @@ public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
         @EventHandler
         private void onPlayerJoin(PlayerJoinEvent event) {
             BukkitOnlineUser user = userManager.getUser(event.getPlayer().getUniqueId());
-
             patrolManager.addPatrolable(user);
         }
 
         @EventHandler
         private void onPlayerQuit(PlayerQuitEvent event) {
             BukkitOnlineUser user = userManager.getUser(event.getPlayer().getUniqueId());
-
             patrolManager.removePatrolable(user);
         }
     }

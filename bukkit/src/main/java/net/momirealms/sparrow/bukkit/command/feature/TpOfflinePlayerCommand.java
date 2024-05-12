@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -12,10 +12,13 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.parser.standard.StringParser;
 
-import java.util.List;
 import java.util.Optional;
 
 public class TpOfflinePlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public TpOfflinePlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -30,14 +33,12 @@ public class TpOfflinePlayerCommand extends BukkitCommandFeature<CommandSender> 
                 .handler(commandContext -> {
                     OfflinePlayer player = Bukkit.getOfflinePlayerIfCached(commandContext.get("player"));
                     if (player == null || player.getLocation() == null) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text((String) commandContext.get("player"))));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_FAILED_NEVER_PLAYED, Component.text((String) commandContext.get("player")));
                         return;
                     }
 
                     commandContext.sender().teleport(player.getLocation());
-                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS);
-                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId())))));
+                    handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_TP_OFFLINE_SUCCESS, Component.text(Optional.ofNullable(player.getName()).orElse(String.valueOf(player.getUniqueId()))));
                 });
     }
 }

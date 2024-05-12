@@ -6,7 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.util.LocationUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -17,9 +17,11 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-import java.util.List;
-
 public class DistancePlayerCommand extends BukkitCommandFeature<CommandSender> {
+
+    public DistancePlayerCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -40,8 +42,7 @@ public class DistancePlayerCommand extends BukkitCommandFeature<CommandSender> {
                     int maxDistance = distanceFlag ? (int) commandContext.flags().getValue("max-distance").get() : 256;
                     Block block = player.getTargetBlockExact(maxDistance);
                     if (block == null) {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DISTANCE_FAILED);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(maxDistance)));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_DISTANCE_FAILED, Component.text(maxDistance));
                     } else {
                         if (!commandContext.flags().hasFlag("disable-highlight")) {
                             Location location = block.getLocation();
@@ -50,12 +51,10 @@ public class DistancePlayerCommand extends BukkitCommandFeature<CommandSender> {
                             int argb = 0x64000000 | color.value();
                             SparrowNMSProxy.getInstance().sendDebugMarker(player, location, "x:" + location.getBlockX() + ", y:" + location.getBlockY() + ", z:" + location.getBlockZ(), duration * 1000, argb);
                         }
-
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_DISTANCE_SUCCESS);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_DISTANCE_SUCCESS,
                                 Component.text(String.format("%.2f", LocationUtils.euclideanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation())))),
                                 Component.text(String.format("%.2f", LocationUtils.manhattanDistance(player.getLocation(), LocationUtils.toBlockCenter(block.getLocation()))))
-                        ));
+                        );
                     }
                 });
     }

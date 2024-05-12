@@ -4,10 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -16,9 +15,11 @@ import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
-import java.util.List;
-
 public class ServerAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public ServerAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
 
     @Override
     public String getFeatureID() {
@@ -38,12 +39,8 @@ public class ServerAdminCommand extends BukkitCommandFeature<CommandSender> {
                     for (Player player : players) {
                         SparrowBukkitPlugin.getInstance().getBungeeManager().connectServer(player, server);
                     }
-                    CommandUtils.storeSelectorMessage(commandContext, selector,
-                            Pair.of(MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_MULTIPLE),
-                            Pair.of(
-                                    () -> List.of(Component.text(players.iterator().next().getName()), Component.text(server)),
-                                    () -> List.of(Component.text(players.size()), Component.text(server))
-                            ));
+                    var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_SERVER_SUCCESS_MULTIPLE);
+                    handleFeedback(commandContext, pair.left(), pair.right(), Component.text(server));
                 });
     }
 }

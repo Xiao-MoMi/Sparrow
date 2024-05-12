@@ -3,12 +3,11 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
-import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
-import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -25,12 +24,16 @@ import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
 import org.incendo.cloud.parser.standard.UUIDParser;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class HeadAdminCommand extends BukkitCommandFeature<CommandSender> {
+
+    public HeadAdminCommand(SparrowCommandManager<CommandSender> sparrowCommandManager) {
+        super(sparrowCommandManager);
+    }
+
     @Override
     public String getFeatureID() {
         return "head_admin";
@@ -62,12 +65,7 @@ public class HeadAdminCommand extends BukkitCommandFeature<CommandSender> {
                     futureSkull.thenAcceptAsync(
                             skullData -> {
                                 if (skullData == null) {
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HEAD_FAILED_SKULL);
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS,
-                                            List.of(
-                                                    Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString)))
-                                            )
-                                    );
+                                    handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_HEAD_FAILED_SKULL, Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString))));
                                     return;
                                 }
 
@@ -81,36 +79,17 @@ public class HeadAdminCommand extends BukkitCommandFeature<CommandSender> {
                                     );
                                 });
 
-                                if (players.size() == 1) {
-                                    String receiverName = players.iterator().next().getName();
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_SINGLE);
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS,
-                                            List.of(
-                                                    Component.text(amount),
-                                                    Component.text(skullData.getOwner()),
-                                                    Component.text(receiverName)
-                                            )
-                                    );
-                                } else {
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_MULTIPLE);
-                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS,
-                                            List.of(
-                                                    Component.text(amount),
-                                                    Component.text(skullData.getOwner()),
-                                                    Component.text(players.size())
-                                            )
-                                    );
-                                }
+                                var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_HEAD_SUCCESS_MULTIPLE);
+                                handleFeedback(commandContext, pair.left(),
+                                        Component.text(amount),
+                                        Component.text(skullData.getOwner()),
+                                        pair.right()
+                                );
                             }
                     ).exceptionally(throwable -> {
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_HEAD_FAILED_SKULL);
-                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS,
-                                List.of(
-                                        Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString)))
-                                )
-                        );
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_HEAD_FAILED_SKULL, Component.text(Objects.requireNonNull(either.primaryOrMapFallback(UUID::toString))));
                         return null;
-                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.instance().execute(commandContext));
+                    });
                 });
     }
 }

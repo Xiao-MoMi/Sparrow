@@ -21,5 +21,7 @@ public interface CommandFeature<C> {
 
     void handleFeedback(CommandContext<?> context, TranslatableComponent.Builder key, Component... args);
 
-    void feedbackConsumer(TriConsumer<CommandContext<?>, TranslatableComponent.Builder, List<Component>> consumer);
+    void handleFeedback(C sender, TranslatableComponent.Builder key, Component... args);
+
+    SparrowCommandManager<C> getSparrowCommandManager();
 }

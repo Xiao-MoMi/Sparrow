@@ -133,7 +133,8 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_DISTANCE_SUCCESS = Component.translatable().key("commands.player.distance.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SELECTED_FIRST = Component.translatable().key("commands.player.highlight.selected.first");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SELECTED_SECOND = Component.translatable().key("commands.player.highlight.selected.second");
-    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS = Component.translatable().key("commands.player.highlight.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.player.highlight.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.player.highlight.success.single");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.player.highlight.failed.toolarge");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_FAILED_WORLD = Component.translatable().key("commands.player.highlight.failed.world");
     TranslatableComponent.Builder COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE = Component.translatable().key("commands.player.highlight.cancel.positive");
