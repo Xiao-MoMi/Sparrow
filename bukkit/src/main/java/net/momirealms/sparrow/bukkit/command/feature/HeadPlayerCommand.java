@@ -1,10 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
+import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -18,7 +19,7 @@ import org.incendo.cloud.CommandManager;
 
 import java.util.concurrent.CompletableFuture;
 
-public class HeadPlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -47,7 +48,7 @@ public class HeadPlayerCommand extends MessagingCommandFeature<CommandSender> {
                                 }, player.getLocation()
                         );
                         commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HEAD_SUCCESS);
-                    }).join();
+                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.<Player>instance().execute(commandContext));
                 });
     }
 }

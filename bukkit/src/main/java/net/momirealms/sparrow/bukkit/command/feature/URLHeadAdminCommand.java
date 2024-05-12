@@ -2,11 +2,12 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
+import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.parser.URLParser;
@@ -27,7 +28,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class URLHeadAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public String getFeatureID() {
         return "urlhead_admin";
@@ -87,7 +88,7 @@ public class URLHeadAdminCommand extends MessagingCommandFeature<CommandSender> 
                         commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_URLHEAD_FAILED_SKULL);
                         commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(url.toString())));
                         return null;
-                    }).join();
+                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.instance().execute(commandContext));
                 });
     }
 }

@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
@@ -109,7 +110,7 @@ public class HeadAdminCommand extends MessagingCommandFeature<CommandSender> {
                                 )
                         );
                         return null;
-                    }).join();
+                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.instance().execute(commandContext));
                 });
     }
 }
