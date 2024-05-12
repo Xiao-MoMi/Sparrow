@@ -1,21 +1,21 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
-import org.incendo.cloud.parser.standard.StringParser;
 
-public class StoneCutterAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class StoneCutterAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -25,20 +25,19 @@ public class StoneCutterAdminCommand extends AbstractCommandFeature<CommandSende
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
-                .flag(manager.flagBuilder("title").withAliases("t").withComponent(StringParser.greedyFlagYieldingStringParser()))
-                .flag(manager.flagBuilder("legacy-color").withAliases("l"))
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .flag(SparrowFlagKeys.SILENT_FLAG)
+                .flag(SparrowFlagKeys.TITLE_FLAG)
+                .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.get("player");
-                    boolean silent = commandContext.flags().hasFlag("silent");
-                    boolean legacy = commandContext.flags().hasFlag("legacy-color");
-                    boolean customTitle = commandContext.flags().hasFlag("title");
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
+                    boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
+                    boolean customTitle = commandContext.flags().hasFlag(SparrowFlagKeys.TITLE_FLAG);
                     var players = selector.values();
                     for (Player player : players) {
                         player.openStonecutter(null, true);
                         if (customTitle) {
-                            String containerTitle = (String) commandContext.flags().getValue("title").get();
+                            String containerTitle = commandContext.flags().getValue(SparrowFlagKeys.TITLE_FLAG).get();
                             String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                     legacy ? AdventureHelper.legacyToMiniMessage(containerTitle) : containerTitle
                             ));
@@ -47,31 +46,9 @@ public class StoneCutterAdminCommand extends AbstractCommandFeature<CommandSende
                             );
                         }
                     }
-                    if (!silent) {
-                        if (players.size() == 1) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_STONE_CUTTER_SUCCESS_SINGLE
-                                                            .arguments(Component.text(players.iterator().next().getName()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        } else {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_STONE_CUTTER_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(players.size()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
-                    }
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_STONE_CUTTER_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_STONE_CUTTER_SUCCESS_MULTIPLE)
+                    );
                 });
     }
 }

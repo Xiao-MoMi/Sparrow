@@ -32,12 +32,12 @@ public class CartographyTableAdminCommand extends MessagingCommandFeature<Comman
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
-                    boolean customTitle = commandContext.flags().hasFlag("title");
+                    boolean customTitle = commandContext.flags().hasFlag(SparrowFlagKeys.TITLE_FLAG);
                     var players = selector.values();
                     for (Player player : players) {
                         player.openCartographyTable(null, true);
                         if (customTitle) {
-                            String containerTitle = (String) commandContext.flags().getValue("title").get();
+                            String containerTitle = commandContext.flags().getValue(SparrowFlagKeys.TITLE_FLAG).get();
                             String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                     legacy ? AdventureHelper.legacyToMiniMessage(containerTitle) : containerTitle
                             ));

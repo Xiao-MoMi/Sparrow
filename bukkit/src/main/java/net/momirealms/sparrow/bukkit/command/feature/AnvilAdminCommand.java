@@ -33,11 +33,11 @@ public class AnvilAdminCommand extends MessagingCommandFeature<CommandSender> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
-                    boolean customTitle = commandContext.flags().hasFlag("title");
+                    boolean customTitle = commandContext.flags().hasFlag(SparrowFlagKeys.TITLE_FLAG);
                     for (Player player : players) {
                         player.openAnvil(null, true);
                         if (customTitle) {
-                            String containerTitle = (String) commandContext.flags().getValue("title").get();
+                            String containerTitle = commandContext.flags().getValue(SparrowFlagKeys.TITLE_FLAG).get();
                             String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                     legacy ? AdventureHelper.legacyToMiniMessage(containerTitle) : containerTitle
                             ));

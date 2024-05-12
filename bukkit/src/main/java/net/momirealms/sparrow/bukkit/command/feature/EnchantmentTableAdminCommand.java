@@ -41,7 +41,7 @@ public class EnchantmentTableAdminCommand extends MessagingCommandFeature<Comman
                     for (Player player : players) {
                         SparrowBukkitPlugin.getInstance().getEnchantManager().openEnchantmentTable(player, customShelves ? (int) commandContext.flags().getValue("shelves").get() : 0);
                         if (customTitle) {
-                            String containerTitle = (String) commandContext.flags().getValue("title").get();
+                            String containerTitle = commandContext.flags().getValue(SparrowFlagKeys.TITLE_FLAG).get();
                             String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                     legacy ? AdventureHelper.legacyToMiniMessage(containerTitle) : containerTitle
                             ));

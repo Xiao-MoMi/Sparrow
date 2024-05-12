@@ -2,16 +2,17 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.parser.URLParser;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.feature.skull.argument.URLSkullArgument;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
-import net.momirealms.sparrow.common.sender.Sender;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -23,9 +24,10 @@ import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class URLHeadAdminCommand extends MessagingCommandFeature<CommandSender> {
     @Override
     public String getFeatureID() {
         return "urlhead_admin";
@@ -34,15 +36,14 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("url", StringParser.<CommandSender>quotedStringParser().flatMap(URL.class, new URLParser<>()))
                 .optional("amount", IntegerParser.integerParser(1, 6400))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
                     int amount = commandContext.<Integer>optional("amount").orElse(1);
-                    MultiplePlayerSelector selector = commandContext.get("player");
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     final URL url = commandContext.get("url");
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     var players = selector.values();
                     SparrowBukkitSkullManager skullManager = SparrowBukkitPlugin.getInstance().getSkullManager();
                     CompletableFuture<SkullData> futureSkull = skullManager.getSkull(new URLSkullArgument(url));
@@ -50,16 +51,8 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                     futureSkull.thenAcceptAsync(
                             skullData -> {
                                 if (skullData == null) {
-                                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                            .wrap(commandContext.sender())
-                                            .sendMessage(
-                                                    TranslationManager.render(
-                                                            MessageConstants.COMMANDS_ADMIN_URLHEAD_FAILED_SKULL
-                                                                    .arguments(Component.text(url.toString()))
-                                                                    .build()
-                                                    ),
-                                                    true
-                                            );
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_URLHEAD_FAILED_SKULL);
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(url.toString())));
                                     return;
                                 }
 
@@ -73,54 +66,28 @@ public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
                                     );
                                 });
 
-                                if (!silent) {
-                                    if (players.size() == 1) {
-                                        String receiverName = players.iterator().next().getName();
-                                        Sender sender = SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                                .wrap(commandContext.sender());
-                                        sender.sendMessage(
-                                                TranslationManager.render(
-                                                        MessageConstants.COMMANDS_ADMIN_URLHEAD_SUCCESS_SINGLE
-                                                                .arguments(
-                                                                        Component.text(amount),
-                                                                        Component.text(skullData.getOwner()),
-                                                                        Component.text(receiverName)
-                                                                )
-                                                                .build()
-                                                ),
-                                                true
-                                        );
-                                    } else {
-                                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                                .wrap(commandContext.sender())
-                                                .sendMessage(
-                                                        TranslationManager.render(
-                                                                MessageConstants.COMMANDS_ADMIN_URLHEAD_SUCCESS_MULTIPLE
-                                                                        .arguments(
-                                                                                Component.text(amount),
-                                                                                Component.text(skullData.getOwner()),
-                                                                                Component.text(players.size())
-                                                                        )
-                                                                        .build()
-                                                        ),
-                                                        true
-                                                );
-                                    }
+                                if (players.size() == 1) {
+                                    String receiverName = players.iterator().next().getName();
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_URLHEAD_SUCCESS_SINGLE);
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                            Component.text(amount),
+                                            Component.text(skullData.getOwner()),
+                                            Component.text(receiverName)
+                                    ));
+                                } else {
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_URLHEAD_SUCCESS_MULTIPLE);
+                                    commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                            Component.text(amount),
+                                            Component.text(skullData.getOwner()),
+                                            Component.text(players.size())
+                                    ));
                                 }
                             }
                     ).exceptionally(throwable -> {
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_ADMIN_URLHEAD_FAILED_SKULL
-                                                        .arguments(Component.text(url.toString()))
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_URLHEAD_FAILED_SKULL);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(Component.text(url.toString())));
                         return null;
-                    });
+                    }).join();
                 });
     }
 }

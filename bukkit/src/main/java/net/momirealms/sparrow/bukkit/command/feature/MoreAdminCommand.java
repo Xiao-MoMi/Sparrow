@@ -1,11 +1,11 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.util.PlayerUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +14,9 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
 
-public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
+import java.util.List;
+
+public class MoreAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -26,69 +28,31 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
         return builder
                 .required("player", PlayerParser.playerParser())
                 .optional("amount", IntegerParser.integerParser(1, 6400))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     Player player = commandContext.get("player");
                     int amount = (int) commandContext.optional("amount").orElse(0);
                     ItemStack itemInHand = player.getInventory().getItemInMainHand();
                     if (itemInHand.isEmpty()) {
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE.build()
-                                            ),
-                                            true
-                                    );
-                        }
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
                         return;
                     }
                     int maxStack = itemInHand.getType().getMaxStackSize();
                     if (amount == 0) {
                         if (itemInHand.getAmount() == maxStack) {
-                            if (!silent) {
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(commandContext.sender())
-                                        .sendMessage(
-                                                TranslationManager.render(
-                                                        MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE.build()
-                                                ),
-                                                true
-                                        );
-                            }
+                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_NO_CHANGE);
                             return;
                         }
                         itemInHand.setAmount(maxStack);
-                        if (!silent) {
-                            amount = maxStack - itemInHand.getAmount();
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS
-                                                            .arguments(
-                                                                    Component.text(amount),
-                                                                    Component.text(player.getName())
-                                                            )
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
+                        amount = maxStack - itemInHand.getAmount();
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS);
+                        commandContext.store(SparrowArgumentKeys.MESSAGE_ARGS, List.of(
+                                Component.text(amount),
+                                Component.text(player.getName())
+                        ));
                     } else {
                         if (amount > maxStack * 100) {
-                            if (!silent) {
-                                SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                        .wrap(commandContext.sender())
-                                        .sendMessage(
-                                                TranslationManager.render(
-                                                        MessageConstants.COMMANDS_ADMIN_MORE_FAILED_TOO_MANY.build()
-                                                ),
-                                                true
-                                        );
-                            }
+                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_FAILED_TOO_MANY);
                             return;
                         }
 
@@ -100,21 +64,7 @@ public class MoreAdminCommand extends AbstractCommandFeature<CommandSender> {
                             more.setAmount(perStackSize);
                             PlayerUtils.dropItem(player, more, false, true, false);
                         }
-                        if (!silent) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS
-                                                            .arguments(
-                                                                    Component.text(amount),
-                                                                    Component.text(player.getName())
-                                                            )
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_ADMIN_MORE_SUCCESS);
                     }
                 });
     }

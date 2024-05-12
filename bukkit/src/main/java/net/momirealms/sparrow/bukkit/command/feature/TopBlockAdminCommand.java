@@ -1,11 +1,12 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.bukkit.util.EntityUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.incendo.cloud.Command;
@@ -13,7 +14,7 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 
-public class TopBlockAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class TopBlockAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -23,40 +24,17 @@ public class TopBlockAdminCommand extends AbstractCommandFeature<CommandSender> 
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("entity", MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
-                .flag(manager.flagBuilder("silent").withAliases("s"))
+                .required(SparrowBukkitArgumentKeys.ENTITY_SELECTOR, MultipleEntitySelectorParser.multipleEntitySelectorParser())
+                .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
-                    MultipleEntitySelector selector = commandContext.get("entity");
-                    boolean silent = commandContext.flags().hasFlag("silent");
+                    MultipleEntitySelector selector = commandContext.get(SparrowBukkitArgumentKeys.ENTITY_SELECTOR);
                     var entities = selector.values();
                     for (Entity entity : entities) {
                         EntityUtils.toTopBlockPosition(entity);
                     }
-                    if (!silent) {
-                        if (entities.size() == 1) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_SINGLE
-                                                            .arguments(Component.text(entities.iterator().next().getName()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        } else {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(entities.size()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
-                    }
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_TOP_BLOCK_SUCCESS_MULTIPLE)
+                    );
                 });
     }
 }

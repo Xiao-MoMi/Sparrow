@@ -2,9 +2,9 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -27,7 +27,7 @@ import org.incendo.cloud.parser.standard.EnumParser;
 import java.util.List;
 import java.util.Optional;
 
-public class DyeAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class DyeAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -38,11 +38,11 @@ public class DyeAdminCommand extends AbstractCommandFeature<CommandSender> {
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .required(SparrowBukkitArgumentKeys.ENTITY_SELECTOR, MultipleEntitySelectorParser.multipleEntitySelectorParser())
-                .required("color", TextColorParser.textColorParser())
+                .required(SparrowBukkitArgumentKeys.TEXT_COLOR, TextColorParser.textColorParser())
                 .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .handler(commandContext -> {
-                    TextColor textColor = commandContext.get("color");
+                    TextColor textColor = commandContext.get(SparrowBukkitArgumentKeys.TEXT_COLOR);
                     Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
                     EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
                     MultipleEntitySelector selector = commandContext.get(SparrowBukkitArgumentKeys.ENTITY_SELECTOR);

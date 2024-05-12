@@ -3,7 +3,9 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
@@ -38,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DuplicatedCode")
-public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class HighlightPlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     private final HighlightListener listener = new HighlightListener();
     private static final ConcurrentHashMap<UUID, HighlightArguments> argMap = new ConcurrentHashMap<>();
@@ -52,7 +54,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
                 .senderType(Player.class)
-                .required("viewers", MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .flag(manager.flagBuilder("highlight-duration").withAliases("d").withComponent(IntegerParser.integerParser(0,300)).build())
                 .flag(manager.flagBuilder("highlight-color").withAliases("c").withComponent(NamedTextColorParser.namedTextColorParser()).build())
                 .flag(manager.flagBuilder("solid-only").build())
@@ -60,12 +62,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                     final Player player = commandContext.sender();
                     if (argMap.containsKey(player.getUniqueId())) {
                         argMap.remove(player.getUniqueId());
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(player)
-                                .sendMessage(
-                                        TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE.build()),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_CANCEL_POSITIVE);
                         return;
                     }
 
@@ -77,12 +74,7 @@ public class HighlightPlayerCommand extends AbstractCommandFeature<CommandSender
                     long time = System.currentTimeMillis();
                     HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, commandContext.flags().hasFlag("solid-only"), time);
                     argMap.put(player.getUniqueId(), args);
-                    SparrowBukkitPlugin.getInstance().getSenderFactory()
-                            .wrap(commandContext.sender())
-                            .sendMessage(
-                                    TranslationManager.render(MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_TIP.build()),
-                                    true
-                            );
+                    commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HIGHLIGHT_TIP);
                     SparrowBukkitPlugin.getInstance().getBootstrap().getScheduler().asyncLater(() -> {
                         HighlightArguments arg = argMap.get(player.getUniqueId());
                         if (arg != null && arg.timeStamp == time) {

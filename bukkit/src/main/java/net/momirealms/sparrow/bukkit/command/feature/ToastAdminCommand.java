@@ -1,13 +1,14 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.CommandUtils;
+import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.gameplay.AdvancementType;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
+import net.momirealms.sparrow.common.util.Pair;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +21,7 @@ import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.StringParser;
 
-public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class ToastAdminCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -30,21 +31,20 @@ public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
     @Override
     public Command.Builder<? extends CommandSender> assembleCommand(CommandManager<CommandSender> manager, Command.Builder<CommandSender> builder) {
         return builder
-                .required("player", MultiplePlayerSelectorParser.multiplePlayerSelectorParser(false))
+                .required(SparrowBukkitArgumentKeys.PLAYER_SELECTOR, MultiplePlayerSelectorParser.multiplePlayerSelectorParser())
                 .required("type", EnumParser.enumParser(AdvancementType.class))
                 .required("item", ItemStackParser.itemStackParser())
                 .required("message", StringParser.greedyFlagYieldingStringParser())
-                .flag(manager.flagBuilder("silent").withAliases("s"))
-                .flag(manager.flagBuilder("legacy-color").withAliases("l"))
+                .flag(SparrowFlagKeys.SILENT_FLAG)
+                .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
                 .handler(commandContext -> {
-                    MultiplePlayerSelector selector = commandContext.get("player");
-                    boolean legacy = commandContext.flags().hasFlag("legacy-color");
+                    MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
+                    boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
                     var players = selector.values();
                     ProtoItemStack itemStack = commandContext.get("item");
                     ItemStack bukkitStack = itemStack.createItemStack(1, true);
                     String message = commandContext.get("message");
                     AdvancementType type = commandContext.get("type");
-                    boolean silent = commandContext.flags().hasFlag("silent");
                     for (Player player : players) {
                         SparrowNMSProxy.getInstance().sendToast(
                                 player,
@@ -55,31 +55,9 @@ public class ToastAdminCommand extends AbstractCommandFeature<CommandSender> {
                                 type
                         );
                     }
-                    if (!silent) {
-                        if (players.size() == 1) {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_TOAST_SUCCESS_SINGLE
-                                                            .arguments(Component.text(players.iterator().next().getName()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        } else {
-                            SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                    .wrap(commandContext.sender())
-                                    .sendMessage(
-                                            TranslationManager.render(
-                                                    MessageConstants.COMMANDS_ADMIN_TOAST_SUCCESS_MULTIPLE
-                                                            .arguments(Component.text(players.size()))
-                                                            .build()
-                                            ),
-                                            true
-                                    );
-                        }
-                    }
+                    CommandUtils.storeEntitySelectorMessage(commandContext, selector,
+                            Pair.of(MessageConstants.COMMANDS_ADMIN_TOAST_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_TOAST_SUCCESS_MULTIPLE)
+                    );
                 });
     }
 }

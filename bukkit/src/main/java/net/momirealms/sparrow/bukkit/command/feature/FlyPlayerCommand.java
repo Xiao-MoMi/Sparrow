@@ -1,15 +1,14 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.common.command.AbstractCommandFeature;
+import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
-import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
-public class FlyPlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class FlyPlayerCommand extends MessagingCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -25,27 +24,11 @@ public class FlyPlayerCommand extends AbstractCommandFeature<CommandSender> {
                     if (player.getAllowFlight()) {
                         player.setFlying(false);
                         player.setAllowFlight(false);
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_FLY_SUCCESS_OFF
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_FLY_SUCCESS_OFF);
                     } else {
                         player.setAllowFlight(true);
                         player.setFlying(true);
-                        SparrowBukkitPlugin.getInstance().getSenderFactory()
-                                .wrap(commandContext.sender())
-                                .sendMessage(
-                                        TranslationManager.render(
-                                                MessageConstants.COMMANDS_PLAYER_FLY_SUCCESS_ON
-                                                        .build()
-                                        ),
-                                        true
-                                );
+                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_FLY_SUCCESS_ON);
                     }
                 });
     }
