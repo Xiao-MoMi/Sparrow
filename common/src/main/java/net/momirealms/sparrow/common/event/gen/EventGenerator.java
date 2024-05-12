@@ -39,7 +39,6 @@ import net.bytebuddy.matcher.ElementMatchers;
 import net.momirealms.sparrow.common.event.Cancellable;
 import net.momirealms.sparrow.common.event.Param;
 import net.momirealms.sparrow.common.event.SparrowEvent;
-import net.momirealms.sparrow.common.event.type.CommandFeedbackEvent;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.lang.invoke.MethodHandle;

@@ -2,7 +2,6 @@ package net.momirealms.sparrow.bukkit;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
@@ -117,13 +116,13 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
         this.registerMappings();
         this.registerCommandPostProcessors();
         this.setFeedbackConsumer((sender, node, component) -> {
-            SparrowEvent event = plugin.getEventManager().dispatch(CommandFeedbackEvent.class, node, component);
+            SparrowEvent event = plugin.getEventManager().dispatch(CommandFeedbackEvent.class, sender, node, component);
             if (event instanceof Cancellable cancellable) {
                 if (cancellable.cancelled())
                     return;
             }
-            SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(sender)
-                    .sendMessage(component, true);
+            Sender wrapped = SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(sender);
+            wrapped.sendMessage(component, true);
         });
     }
 
