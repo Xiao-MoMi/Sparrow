@@ -7,6 +7,7 @@ import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
 public abstract class MessagingCommandFeature<C extends CommandSender> extends AbstractCommandFeature<C> {
+
     @Override
     @SuppressWarnings("unchecked")
     public Command<C> registerCommand(CommandManager<C> manager, Command.Builder<C> builder) {

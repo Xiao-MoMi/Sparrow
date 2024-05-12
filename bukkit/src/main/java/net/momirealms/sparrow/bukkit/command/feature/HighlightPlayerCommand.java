@@ -69,7 +69,7 @@ public class HighlightPlayerCommand extends MessagingCommandFeature<CommandSende
                     int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 30;
                     net.kyori.adventure.text.format.NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (net.kyori.adventure.text.format.NamedTextColor) commandContext.flags().getValue("highlight-color").get() : net.kyori.adventure.text.format.NamedTextColor.GREEN;
                     NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
-                    MultiplePlayerSelector playerSelector = commandContext.get("viewers");
+                    MultiplePlayerSelector playerSelector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     Collection<Player> players = playerSelector.values();
                     long time = System.currentTimeMillis();
                     HighlightArguments args = new HighlightArguments(duration, namedTextColor, players, commandContext.flags().hasFlag("solid-only"), time);

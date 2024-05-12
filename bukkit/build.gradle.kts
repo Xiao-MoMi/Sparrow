@@ -1,5 +1,5 @@
 plugins {
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.github.goooler.shadow") version "8.1.7"
 }
 
 repositories {
@@ -14,13 +14,19 @@ repositories {
 
 dependencies {
     implementation(project(":common"))
+    implementation("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
+    implementation("net.kyori:adventure-platform-bukkit:${rootProject.properties["adventure_platform_version"]}")
+    implementation("net.kyori:adventure-text-minimessage:${rootProject.properties["adventure_bundle_version"]}")
+    implementation("com.saicone.rtag:rtag:${rootProject.properties["rtag_version"]}")
+    implementation("com.saicone.rtag:rtag-item:${rootProject.properties["rtag_version"]}")
+
     compileOnly(project(":loader"))
-    compileOnly("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
+    compileOnly("org.incendo:cloud-core:${rootProject.properties["cloud_core_version"]}")
+    compileOnly("org.incendo:cloud-minecraft-extras:${rootProject.properties["cloud_minecraft_extras_version"]}")
+    compileOnly("dev.dejvokep:boosted-yaml:${rootProject.properties["boosted_yaml_version"]}")
     compileOnly("dev.folia:folia-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
-    compileOnly("net.kyori:adventure-platform-bukkit:${rootProject.properties["adventure_platform_version"]}")
     compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
-    compileOnly("de.tr7zw:item-nbt-api:${rootProject.properties["nbt_api_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
 }
 
@@ -32,9 +38,6 @@ tasks.withType<JavaCompile> {
 tasks {
     shadowJar {
         archiveFileName.set("sparrow-bukkit.jarinjar")
-        dependencies {
-            include(project(":common"))
-        }
         relocate("net.kyori", "net.momirealms.sparrow.libraries")
         relocate("org.incendo", "net.momirealms.sparrow.libraries")
         relocate("dev.dejvokep", "net.momirealms.sparrow.libraries")
@@ -50,6 +53,8 @@ tasks {
         relocate ("io.lettuce", "net.momirealms.sparrow.libraries.lettuce")
         relocate ("io.leangen.geantyref", "net.momirealms.sparrow.libraries.geantyref")
         relocate ("com.github.benmanes.caffeine", "net.momirealms.sparrow.libraries.caffeine")
+        relocate ("net.momirealms.sparrow.heart", "net.momirealms.sparrow.bukkit.nms")
+        relocate ("com.saicone.rtag", "net.momirealms.sparrow.libraries.rtag")
     }
 }
 

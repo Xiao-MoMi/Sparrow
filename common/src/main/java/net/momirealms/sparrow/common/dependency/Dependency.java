@@ -70,28 +70,6 @@ public enum Dependency {
             "maven",
             "sqlite-driver"
     ),
-    ADVENTURE_API(
-            "com.github.Xiao-MoMi",
-            "Adventure-Bundle",
-            "jitpack",
-            "adventure-bundle",
-            Relocation.of("adventure", "net{}kyori{}adventure"),
-            Relocation.of("option", "net{}kyori{}option"),
-            Relocation.of("examination", "net{}kyori{}examination")
-    ),
-    SPARROW_HEART(
-            "com.github.Xiao-MoMi",
-            "Sparrow-Heart",
-            "jitpack",
-            "sparrow-heart"
-    ),
-    NBT_API(
-            "de{}tr7zw",
-            "item-nbt-api",
-            "codemc",
-            "nbt-api",
-            Relocation.of("nbtapi", "de{}tr7zw{}changeme{}nbtapi")
-    ),
     CLOUD_CORE(
             "org{}incendo",
             "cloud-core",

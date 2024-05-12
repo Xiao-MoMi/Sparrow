@@ -55,15 +55,7 @@ public enum DependencyRepository {
     /**
      * Maven Central Mirror
      */
-    MAVEN_CENTRAL_MIRROR("maven", "https://maven.aliyun.com/repository/public/"),
-    /**
-     * Jitpack
-     */
-    JITPACK("jitpack", "https://jitpack.io/"),
-    /**
-     * CodeMC
-     */
-    CODE_MC("codemc", "https://repo.codemc.io/repository/maven-public/");
+    MAVEN_CENTRAL_MIRROR("maven", "https://maven.aliyun.com/repository/public/");
 
     private final String url;
     private final String id;

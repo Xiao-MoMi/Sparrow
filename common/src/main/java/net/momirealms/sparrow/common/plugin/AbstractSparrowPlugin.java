@@ -60,7 +60,6 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.GSON,
                 Dependency.CAFFEINE,
                 Dependency.GEANTY_REF,
-                Dependency.ADVENTURE_API,
                 Dependency.CLOUD_CORE,
                 Dependency.CLOUD_BRIGADIER,
                 Dependency.CLOUD_SERVICES,
