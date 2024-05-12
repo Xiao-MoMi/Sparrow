@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
@@ -20,7 +20,7 @@ import org.incendo.cloud.parser.standard.StringParser;
 
 import java.util.Optional;
 
-public class TitleAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class TitleAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

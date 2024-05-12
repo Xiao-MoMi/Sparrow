@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.common.command;
 
 import dev.dejvokep.boostedyaml.YamlDocument;
+import net.kyori.adventure.util.Index;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
@@ -8,11 +9,15 @@ import java.util.Collection;
 
 public interface SparrowCommandManager<C> {
 
-    void unregisterCommandFeatures();
+    String commandsFile = "commands.yml";
 
-    void registerCommand(CommandFeature<C> feature, CommandConfig<C> config);
+    void unregisterFeatures();
 
-    void registerCommandFeatures();
+    void registerFeature(CommandFeature<C> feature, CommandConfig<C> config);
+
+    void registerDefaultFeatures();
+
+    Index<String, CommandFeature<C>> getFeatures();
 
     CommandConfig<C> getCommandConfig(YamlDocument document, String featureID);
 

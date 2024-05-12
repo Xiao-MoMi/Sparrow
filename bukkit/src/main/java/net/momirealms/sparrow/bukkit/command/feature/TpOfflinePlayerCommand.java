@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.Bukkit;
@@ -15,7 +15,7 @@ import org.incendo.cloud.parser.standard.StringParser;
 import java.util.List;
 import java.util.Optional;
 
-public class TpOfflinePlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class TpOfflinePlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
@@ -14,7 +14,7 @@ import org.incendo.cloud.bukkit.data.MultiplePlayerSelector;
 import org.incendo.cloud.bukkit.parser.selector.MultiplePlayerSelectorParser;
 import org.incendo.cloud.parser.standard.FloatParser;
 
-public class WalkSpeedAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class WalkSpeedAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

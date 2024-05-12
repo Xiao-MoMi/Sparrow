@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
@@ -13,7 +13,7 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.Selector;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 
-public class ExtinguishAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class ExtinguishAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

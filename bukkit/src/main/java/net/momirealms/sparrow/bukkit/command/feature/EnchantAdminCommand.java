@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
@@ -28,7 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class EnchantAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

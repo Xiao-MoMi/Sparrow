@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.feature.enchant.EnchantManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -12,7 +12,7 @@ import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.parser.standard.IntegerParser;
 import org.incendo.cloud.permission.Permission;
 
-public class EnchantmentTablePlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class EnchantmentTablePlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

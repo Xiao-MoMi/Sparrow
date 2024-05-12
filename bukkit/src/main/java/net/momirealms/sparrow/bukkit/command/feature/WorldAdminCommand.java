@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.util.CommandUtils;
 import net.momirealms.sparrow.bukkit.util.EntityUtils;
@@ -19,7 +19,7 @@ import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 
 import java.util.List;
 
-public class WorldAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class WorldAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

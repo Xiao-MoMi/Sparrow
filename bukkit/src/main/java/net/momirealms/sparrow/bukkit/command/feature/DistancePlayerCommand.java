@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.util.LocationUtils;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -19,7 +19,7 @@ import org.incendo.cloud.parser.standard.IntegerParser;
 
 import java.util.List;
 
-public class DistancePlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class DistancePlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

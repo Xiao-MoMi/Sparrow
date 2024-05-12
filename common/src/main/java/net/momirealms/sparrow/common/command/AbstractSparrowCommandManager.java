@@ -15,7 +15,6 @@ import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 
 public abstract class AbstractSparrowCommandManager<C> implements SparrowCommandManager<C> {
 
@@ -29,8 +28,6 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
         this.plugin = plugin;
         this.injectLocales();
     }
-
-    protected abstract List<CommandFeature<C>> getFeatureList();
 
     protected abstract Audience wrapAudience(C c);
 
@@ -70,7 +67,7 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
     }
 
     @Override
-    public void registerCommand(CommandFeature<C> feature, CommandConfig<C> config) {
+    public void registerFeature(CommandFeature<C> feature, CommandConfig<C> config) {
         if (!config.isEnable()) throw new RuntimeException("Registering a disabled command feature is not allowed");
         for (Command.Builder<C> builder : buildCommandBuilders(config)) {
             Command<C> command = feature.registerCommand(commandManager, builder);
@@ -81,18 +78,18 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
     }
 
     @Override
-    public void registerCommandFeatures() {
-        YamlDocument document = plugin.getConfigManager().loadConfig("commands.yml");
-        this.getFeatureList().forEach(feature -> {
+    public void registerDefaultFeatures() {
+        YamlDocument document = plugin.getConfigManager().loadConfig(commandsFile);
+        this.getFeatures().values().forEach(feature -> {
             CommandConfig<C> config = getCommandConfig(document, feature.getFeatureID());
             if (config.isEnable()) {
-                registerCommand(feature, config);
+                registerFeature(feature, config);
             }
         });
     }
 
     @Override
-    public void unregisterCommandFeatures() {
+    public void unregisterFeatures() {
         this.registeredRootCommandComponents.forEach(component -> this.commandManager.commandRegistrationHandler().unregisterRootCommand(component));
         this.registeredRootCommandComponents.clear();
         this.registeredFeatures.forEach(CommandFeature::unregisterRelatedFunctions);

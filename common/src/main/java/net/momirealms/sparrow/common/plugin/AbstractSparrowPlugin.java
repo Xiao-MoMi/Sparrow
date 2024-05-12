@@ -7,7 +7,6 @@ import net.momirealms.sparrow.common.dependency.DependencyManager;
 import net.momirealms.sparrow.common.dependency.DependencyManagerImpl;
 import net.momirealms.sparrow.common.event.EventManager;
 import net.momirealms.sparrow.common.locale.TranslationManager;
-import net.momirealms.sparrow.common.storage.StorageFactory;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -19,20 +18,15 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
     private TranslationManager translationManager;
     private EventManager eventManager;
 
-    @Override
-    public DependencyManager getDependencyManager() {
-        return dependencyManager;
+    public void reload() {
+        this.translationManager.reload();
     }
 
     public final void load() {
         // load dependencies
         this.getBootstrap().getPluginLogger().info("Loading libraries. Please wait...");
-        this.dependencyManager = createDependencyManager();
+        this.setupDependencyManager();
         this.dependencyManager.loadDependencies(getGlobalDependencies());
-    }
-
-    public void reload() {
-        this.translationManager.reload();
     }
 
     public void enable() {
@@ -40,19 +34,50 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
         this.setupTranslations();
         this.setupSenderFactory();
         this.setupCommandManager();
-        StorageFactory storageFactory = new StorageFactory(this);
-        this.eventManager = EventManager.create(this);
-    }
-
-    protected void setupTranslations() {
-        this.translationManager = new TranslationManager(this);
+        this.setupEventManager();
     }
 
     public void disable() {
     }
 
-    protected DependencyManager createDependencyManager() {
-        return new DependencyManagerImpl(this);
+    protected abstract void setupSenderFactory();
+
+    protected abstract void setupCommandManager();
+
+    private void setupConfigManager() {
+        this.configManager = new ConfigManagerImpl(this);
+    }
+
+    private void setupEventManager() {
+        this.eventManager = EventManager.create(this);
+    }
+
+    private void setupDependencyManager() {
+        this.dependencyManager = new DependencyManagerImpl(this);
+    }
+
+    private void setupTranslations() {
+        this.translationManager = new TranslationManager(this);
+    }
+
+    @Override
+    public TranslationManager getTranslationManager() {
+        return translationManager;
+    }
+
+    @Override
+    public ConfigManager getConfigManager() {
+        return configManager;
+    }
+
+    @Override
+    public EventManager getEventManager() {
+        return this.eventManager;
+    }
+
+    @Override
+    public DependencyManager getDependencyManager() {
+        return dependencyManager;
     }
 
     protected Set<Dependency> getGlobalDependencies() {
@@ -78,23 +103,5 @@ public abstract class AbstractSparrowPlugin implements SparrowPlugin {
                 Dependency.SQLITE_DRIVER,
                 Dependency.H2_DRIVER
         );
-    }
-
-    protected abstract void setupSenderFactory();
-
-    protected abstract void setupCommandManager();
-
-    private void setupConfigManager() {
-        this.configManager = new ConfigManagerImpl(this);
-    }
-
-    @Override
-    public ConfigManager getConfigManager() {
-        return configManager;
-    }
-
-    @Override
-    public EventManager getEventDispatcher() {
-        return this.eventManager;
     }
 }

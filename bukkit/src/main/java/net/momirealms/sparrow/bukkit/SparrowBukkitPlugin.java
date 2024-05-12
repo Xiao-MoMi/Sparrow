@@ -13,7 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
 
-public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
+public final class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     private static SparrowBukkitPlugin plugin;
     private final SparrowBukkitBootstrap bootstrap;
@@ -54,7 +54,7 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
 
     @Override
     public void disable() {
-        this.commandManager.unregisterCommandFeatures();
+        this.commandManager.unregisterFeatures();
         this.bungeeManager.disable();
         this.enchantManager.disable();
         this.skullManager.disable();
@@ -69,7 +69,12 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
     @Override
     protected void setupCommandManager() {
         this.commandManager = new SparrowBukkitCommandManager(this);
-        this.commandManager.registerCommandFeatures();
+        this.commandManager.registerDefaultFeatures();
+    }
+
+    @Override
+    public SparrowBukkitBootstrap getBootstrap() {
+        return bootstrap;
     }
 
     public JavaPlugin getLoader() {
@@ -88,20 +93,15 @@ public class SparrowBukkitPlugin extends AbstractSparrowPlugin {
         return senderFactory;
     }
 
-    @Override
-    public SparrowBukkitBootstrap getBootstrap() {
-        return bootstrap;
-    }
-
-    public SparrowBukkitSkullManager getSkullManager() {
-        return skullManager;
-    }
-
     public SparrowCommandManager<CommandSender> getCommandManager() {
         return commandManager;
     }
 
     public SparrowBukkitEnchantManager getEnchantManager() {
         return enchantManager;
+    }
+
+    public SparrowBukkitSkullManager getSkullManager() {
+        return skullManager;
     }
 }

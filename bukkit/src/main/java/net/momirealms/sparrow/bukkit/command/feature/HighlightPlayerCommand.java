@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
@@ -40,7 +40,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("DuplicatedCode")
-public class HighlightPlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class HighlightPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     private final HighlightListener listener = new HighlightListener();
     private static final ConcurrentHashMap<UUID, HighlightArguments> argMap = new ConcurrentHashMap<>();

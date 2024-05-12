@@ -2,6 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
@@ -28,7 +29,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class URLHeadAdminCommand extends AbstractCommandFeature<CommandSender> {
+public class URLHeadAdminCommand extends BukkitCommandFeature<CommandSender> {
     @Override
     public String getFeatureID() {
         return "urlhead_admin";

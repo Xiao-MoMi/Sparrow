@@ -1,7 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
@@ -12,7 +12,7 @@ import org.incendo.cloud.parser.standard.FloatParser;
 
 import java.util.List;
 
-public class WalkSpeedPlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class WalkSpeedPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

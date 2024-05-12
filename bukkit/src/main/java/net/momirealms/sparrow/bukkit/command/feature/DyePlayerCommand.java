@@ -2,7 +2,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowArgumentKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
@@ -17,7 +17,7 @@ import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
 
 import java.util.List;
 
-public class DyePlayerCommand extends MessagingCommandFeature<CommandSender> {
+public class DyePlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {

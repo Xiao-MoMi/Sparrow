@@ -3,7 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.MessagingCommandFeature;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.feature.patrol.SparrowBukkitPatrolManager;
 import net.momirealms.sparrow.bukkit.user.BukkitOnlineUser;
 import net.momirealms.sparrow.bukkit.user.BukkitUserManager;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-public class PatrolAdminCommand extends MessagingCommandFeature<CommandSender> {
+public class PatrolAdminCommand extends BukkitCommandFeature<CommandSender> {
 
     private static final String BYPASS = "sparrow.bypass.patrol";
     private final PatrolListener listener;

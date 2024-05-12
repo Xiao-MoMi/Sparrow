@@ -1,6 +1,7 @@
 package net.momirealms.sparrow.bukkit.command.feature;
 
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.handler.SparrowMessagingHandler;
 import net.momirealms.sparrow.bukkit.feature.skull.SparrowBukkitSkullManager;
 import net.momirealms.sparrow.bukkit.util.ItemStackUtils;
@@ -19,7 +20,7 @@ import org.incendo.cloud.CommandManager;
 
 import java.util.concurrent.CompletableFuture;
 
-public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
+public class HeadPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
@@ -37,7 +38,7 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
                     ItemStack itemStack = new ItemStack(Material.PLAYER_HEAD);
                     futureSkull.thenAcceptAsync(skullData -> {
                         if (skullData == null) {
-                            commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HEAD_FAILED_SKULL);
+                            handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HEAD_FAILED_SKULL);
                             return;
                         }
 
@@ -47,8 +48,8 @@ public class HeadPlayerCommand extends AbstractCommandFeature<CommandSender> {
                                     PlayerUtils.dropItem(player, itemStack, false, true, false);
                                 }, player.getLocation()
                         );
-                        commandContext.store(SparrowArgumentKeys.MESSAGE, MessageConstants.COMMANDS_PLAYER_HEAD_SUCCESS);
-                    }).thenAcceptAsync(unused -> SparrowMessagingHandler.<Player>instance().execute(commandContext));
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_HEAD_SUCCESS);
+                    });
                 });
     }
 }

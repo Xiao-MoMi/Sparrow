@@ -3,6 +3,8 @@ package net.momirealms.sparrow.bukkit;
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.audience.Audience;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.bukkit.command.preprocessor.MultipleEntitySelectorPostProcessor;
@@ -23,7 +25,7 @@ import org.incendo.cloud.setting.ManagerSetting;
 
 import java.util.List;
 
-public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<CommandSender> {
+public final class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<CommandSender> {
 
     private static final List<CommandFeature<CommandSender>> FEATURES = List.of(
             new WorkbenchPlayerCommand(),
@@ -91,9 +93,11 @@ public class SparrowBukkitCommandManager extends AbstractSparrowCommandManager<C
             new HighlightAdminCommand()
     );
 
+    private static final Index<String, CommandFeature<CommandSender>> INDEX = Index.create(CommandFeature::getFeatureID, FEATURES);
+
     @Override
-    protected List<CommandFeature<CommandSender>> getFeatureList() {
-        return FEATURES;
+    public Index<String, CommandFeature<CommandSender>> getFeatures() {
+        return INDEX;
     }
 
     @Override
