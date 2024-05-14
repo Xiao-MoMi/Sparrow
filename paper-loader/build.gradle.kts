@@ -16,7 +16,10 @@ dependencies {
 
 tasks {
     shadowJar {
-        archiveFileName = "Sparrow-Bukkit-${rootProject.properties["project_version"]}-${commitID}.jar"
+        manifest {
+            attributes["paperweight-mappings-namespace"] = "mojang"
+        }
+        archiveFileName = "Sparrow-Paper-${rootProject.properties["project_version"]}-${commitID}.jar"
         destinationDirectory.set(file("$rootDir/target"))
         from(project(":bukkit").tasks.shadowJar.get().archiveFile)
     }
