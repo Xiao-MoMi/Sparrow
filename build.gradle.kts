@@ -31,11 +31,6 @@ subprojects {
             )
         }
     }
-
-    tasks.compileJava {
-        options.encoding = "UTF-8"
-        dependsOn(tasks.clean)
-    }
 }
 
 fun versionBanner(): String {

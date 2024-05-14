@@ -24,3 +24,17 @@ dependencies {
     compileOnly("io.lettuce:lettuce-core:${rootProject.properties["lettuce_version"]}")
     compileOnly("com.saicone.rtag:rtag:${rootProject.properties["rtag_version"]}")
 }
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.release.set(17)
+    dependsOn(tasks.clean)
+}
