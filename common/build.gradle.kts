@@ -1,5 +1,6 @@
 repositories {
     maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://jitpack.io/")
 }
 
 dependencies {
@@ -21,4 +22,5 @@ dependencies {
     compileOnly("net.bytebuddy:byte-buddy:${rootProject.properties["byte_buddy_version"]}")
     compileOnly("com.github.ben-manes.caffeine:caffeine:${rootProject.properties["caffeine_version"]}")
     compileOnly("io.lettuce:lettuce-core:${rootProject.properties["lettuce_version"]}")
+    compileOnly("com.saicone.rtag:rtag:${rootProject.properties["rtag_version"]}")
 }

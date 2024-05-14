@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.bukkit.command.processor;
 
-import net.momirealms.sparrow.bukkit.SparrowBukkitCommandManager;
+import net.momirealms.sparrow.bukkit.command.SparrowBukkitCommandManager;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;

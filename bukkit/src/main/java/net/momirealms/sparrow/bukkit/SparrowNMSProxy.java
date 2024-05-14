@@ -1,6 +1,6 @@
 package net.momirealms.sparrow.bukkit;
 
-import net.momirealms.sparrow.common.gameplay.AdvancementType;
+import net.momirealms.sparrow.common.feature.toast.AdvancementType;
 import net.momirealms.sparrow.heart.SparrowHeart;
 import net.momirealms.sparrow.heart.argument.HandSlot;
 import net.momirealms.sparrow.heart.argument.NamedTextColor;

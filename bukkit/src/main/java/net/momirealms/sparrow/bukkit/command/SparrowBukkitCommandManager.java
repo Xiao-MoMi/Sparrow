@@ -1,8 +1,9 @@
-package net.momirealms.sparrow.bukkit;
+package net.momirealms.sparrow.bukkit.command;
 
 import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.util.Index;
+import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.feature.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.bukkit.command.processor.SelectorPostProcessor;
@@ -138,7 +139,9 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             manager.brigadierManager().setNativeNumberSuggestions(true);
             BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(manager, manager.brigadierManager());
             switch (plugin.getBootstrap().getServerVersion()) {
-                case "1.17.1", "1.18.1", "1.18.2", "1.19.1", "1.19.2" -> mapper.mapSimpleNMS(new TypeToken<CustomEnchantmentParser<CommandSender>>() {}, "item_enchantment");
+                case "1.17", "1.17.1",
+                     "1.18", "1.18.1", "1.18.2",
+                     "1.19", "1.19.1", "1.19.2" -> mapper.mapSimpleNMS(new TypeToken<CustomEnchantmentParser<CommandSender>>() {}, "item_enchantment");
                 default -> mapper.mapNMS(
                         new TypeToken<CustomEnchantmentParser<CommandSender>>() {},
                         "resource_key",

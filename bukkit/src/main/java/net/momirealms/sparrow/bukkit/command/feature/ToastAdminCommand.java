@@ -5,7 +5,7 @@ import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
-import net.momirealms.sparrow.common.gameplay.AdvancementType;
+import net.momirealms.sparrow.common.feature.toast.AdvancementType;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
