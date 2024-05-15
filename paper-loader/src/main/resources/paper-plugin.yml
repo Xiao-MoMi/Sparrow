@@ -1,4 +1,4 @@
 name: Sparrow
-main: net.momirealms.sparrow.bukkit.loader.BukkitLoaderPlugin
+main: net.momirealms.sparrow.paper.loader.PaperLoaderPlugin
 version: ${project_version}
 api-version: '1.19'

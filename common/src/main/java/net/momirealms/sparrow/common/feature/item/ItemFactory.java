@@ -1,5 +1,6 @@
 package net.momirealms.sparrow.common.feature.item;
 
+import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.util.Objects;
@@ -21,6 +22,12 @@ public abstract class ItemFactory<P extends SparrowPlugin, R, I> {
     protected abstract void customModelData(R rtag, Integer data);
 
     protected abstract Optional<Integer> customModelData(R rtag);
+
+    protected abstract void displayName(R rtag, String json);
+
+    protected abstract Optional<String> displayName(R rtag);
+
+    protected abstract void skull(R rtag, SkullData skullData);
 
     protected abstract void update(R item);
 

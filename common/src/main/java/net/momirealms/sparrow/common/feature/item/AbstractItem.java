@@ -1,5 +1,6 @@
 package net.momirealms.sparrow.common.feature.item;
 
+import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
 import java.util.Optional;
@@ -25,6 +26,23 @@ public class AbstractItem<R, I> implements SparrowItem<I> {
     @Override
     public Optional<Integer> customModelData() {
         return factory.customModelData(item);
+    }
+
+    @Override
+    public Optional<String> displayName() {
+        return factory.displayName(item);
+    }
+
+    @Override
+    public SparrowItem<I> displayName(String displayName) {
+        factory.displayName(item, displayName);
+        return this;
+    }
+
+    @Override
+    public SparrowItem<I> skull(SkullData data) {
+        factory.skull(item, data);
+        return this;
     }
 
     @Override

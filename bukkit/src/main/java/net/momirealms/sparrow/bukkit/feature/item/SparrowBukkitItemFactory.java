@@ -6,9 +6,11 @@ import net.momirealms.sparrow.bukkit.feature.item.impl.ComponentItemFactory;
 import net.momirealms.sparrow.bukkit.feature.item.impl.UniversalItemFactory;
 import net.momirealms.sparrow.common.feature.item.ItemFactory;
 import net.momirealms.sparrow.common.feature.item.SparrowItem;
+import net.momirealms.sparrow.common.feature.skull.SkullData;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public abstract class SparrowBukkitItemFactory extends ItemFactory<SparrowBukkitPlugin, RtagItem, ItemStack> {
 
