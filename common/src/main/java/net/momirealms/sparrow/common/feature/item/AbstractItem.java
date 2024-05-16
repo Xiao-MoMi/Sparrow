@@ -3,6 +3,7 @@ package net.momirealms.sparrow.common.feature.item;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 import net.momirealms.sparrow.common.plugin.SparrowPlugin;
 
+import java.util.List;
 import java.util.Optional;
 
 public class AbstractItem<R, I> implements SparrowItem<I> {
@@ -34,6 +35,17 @@ public class AbstractItem<R, I> implements SparrowItem<I> {
     }
 
     @Override
+    public SparrowItem<I> lore(List<String> lore) {
+        factory.lore(item, lore);
+        return this;
+    }
+
+    @Override
+    public Optional<List<String>> lore() {
+        return factory.lore(item);
+    }
+
+    @Override
     public SparrowItem<I> displayName(String displayName) {
         factory.displayName(item, displayName);
         return this;
@@ -53,5 +65,10 @@ public class AbstractItem<R, I> implements SparrowItem<I> {
     @Override
     public I load() {
         return factory.load(item);
+    }
+
+    @Override
+    public I loadCopy() {
+        return factory.loadCopy(item);
     }
 }

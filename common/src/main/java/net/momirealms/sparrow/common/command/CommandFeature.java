@@ -21,4 +21,6 @@ public interface CommandFeature<C> {
     void handleFeedback(C sender, TranslatableComponent.Builder key, Component... args);
 
     SparrowCommandManager<C> getSparrowCommandManager();
+
+    CommandConfig<C> getCommandConfig();
 }

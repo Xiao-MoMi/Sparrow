@@ -1,20 +1,15 @@
 package net.momirealms.sparrow.bukkit.feature.item.impl;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.saicone.rtag.RtagItem;
 import com.saicone.rtag.data.ComponentType;
-import com.saicone.rtag.item.ItemObject;
-import com.saicone.rtag.tag.TagCompound;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.feature.item.SparrowBukkitItemFactory;
 import net.momirealms.sparrow.common.feature.item.ComponentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
-import net.momirealms.sparrow.common.util.UUIDUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ComponentItemFactory extends SparrowBukkitItemFactory {
@@ -76,5 +71,26 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
                 )
         );
         item.setComponent("minecraft:profile", profile);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected Optional<List<String>> lore(RtagItem item) {
+        if (item.getComponent(ComponentKeys.LORE) == null) return Optional.empty();
+        return Optional.ofNullable(
+                (List<String>) ComponentType.encodeJava(
+                        ComponentKeys.LORE,
+                        item.getComponent(ComponentKeys.LORE)
+                ).orElse(null)
+        );
+    }
+
+    @Override
+    protected void lore(RtagItem item, List<String> lore) {
+        if (lore == null || lore.isEmpty()) {
+            item.removeComponent(ComponentKeys.LORE);
+        } else {
+            item.setComponent(ComponentKeys.LORE, lore);
+        }
     }
 }

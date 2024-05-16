@@ -115,6 +115,7 @@ public abstract class AbstractSparrowCommandManager<C> implements SparrowCommand
         }
         feature.registerRelatedFunctions();
         this.registeredFeatures.add(feature);
+        ((AbstractCommandFeature<C>) feature).setCommandConfig(config);
     }
 
     @Override

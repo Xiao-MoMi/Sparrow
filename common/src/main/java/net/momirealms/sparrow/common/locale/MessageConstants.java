@@ -145,4 +145,15 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.admin.highlight.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.highlight.success.multiple");
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_DATA = Component.translatable().key("commands.player.item.data");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.query.custommodeldata.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_FAILURE = Component.translatable().key("commands.player.item.query.custommodeldata.failure");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.edit.custommodeldata.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.query.displayname.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_FAILURE = Component.translatable().key("commands.player.item.query.displayname.failure");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.edit.displayname.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_LORE_SUCCESS = Component.translatable().key("commands.player.item.query.lore.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_SUCCESS = Component.translatable().key("commands.player.item.edit.lore.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_FLAG = Component.translatable().key("commands.player.item.edit.lore.failure.flag");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_BOUND = Component.translatable().key("commands.player.item.edit.lore.failure.bound");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_INVALID = Component.translatable().key("commands.player.item.edit.lore.failure.invalid");
 }

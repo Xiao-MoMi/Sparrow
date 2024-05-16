@@ -450,7 +450,28 @@ highlight_admin:
 
 item_data_player:
   enable: true
-  permission: sparrow.command.player.nbt_query
+  permission: sparrow.command.player.item.data
   usage:
     - /sparrow item data
     - /spa item data
+
+item_custommodeldata_player:
+  enable: true
+  permission: sparrow.command.player.item.custommodeldata
+  usage:
+    - /sparrow item custommodeldata
+    - /spa item custommodeldata
+
+item_displayname_player:
+  enable: true
+  permission: sparrow.command.player.item.displayname
+  usage:
+    - /sparrow item displayname
+    - /spa item displayname
+
+item_lore_player:
+  enable: true
+  permission: sparrow.command.player.item.lore
+  usage:
+    - /sparrow item lore
+    - /spa item lore

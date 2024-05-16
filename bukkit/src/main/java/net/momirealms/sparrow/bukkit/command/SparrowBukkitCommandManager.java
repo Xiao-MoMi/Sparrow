@@ -4,7 +4,23 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
-import net.momirealms.sparrow.bukkit.command.feature.*;
+import net.momirealms.sparrow.bukkit.command.feature.container.*;
+import net.momirealms.sparrow.bukkit.command.feature.entity.BurnAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.entity.ExtinguishAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.entity.HealAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.entity.HealPlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.internal.ReloadAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.item.*;
+import net.momirealms.sparrow.bukkit.command.feature.item.editor.ItemCustomModelDataPlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.item.editor.ItemDisplayNamePlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.item.editor.ItemLorePlayerCommand;
+import net.momirealms.sparrow.bukkit.command.feature.message.ActionBarAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.message.BroadcastAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.message.TitleAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.message.ToastAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.misc.*;
+import net.momirealms.sparrow.bukkit.command.feature.player.*;
+import net.momirealms.sparrow.bukkit.command.feature.world.*;
 import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.bukkit.command.processor.SelectorPostProcessor;
 import net.momirealms.sparrow.common.command.AbstractSparrowCommandManager;
@@ -93,7 +109,10 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             new DistancePlayerCommand(this),
             new HighlightPlayerCommand(this),
             new HighlightAdminCommand(this),
-            new ItemDataPlayerCommand(this)
+            new ItemDataPlayerCommand(this),
+            new ItemCustomModelDataPlayerCommand(this),
+            new ItemDisplayNamePlayerCommand(this),
+            new ItemLorePlayerCommand(this)
     );
 
     private final Index<String, CommandFeature<CommandSender>> INDEX = Index.create(CommandFeature::getFeatureID, FEATURES);

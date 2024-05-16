@@ -11,6 +11,7 @@ import org.incendo.cloud.context.CommandContext;
 public abstract class AbstractCommandFeature<C> implements CommandFeature<C> {
 
     protected final SparrowCommandManager<C> sparrowCommandManager;
+    protected CommandConfig<C> commandConfig;
 
     public AbstractCommandFeature(SparrowCommandManager<C> sparrowCommandManager) {
         this.sparrowCommandManager = sparrowCommandManager;
@@ -55,5 +56,14 @@ public abstract class AbstractCommandFeature<C> implements CommandFeature<C> {
     @Override
     public SparrowCommandManager<C> getSparrowCommandManager() {
         return sparrowCommandManager;
+    }
+
+    @Override
+    public CommandConfig<C> getCommandConfig() {
+        return commandConfig;
+    }
+
+    public void setCommandConfig(CommandConfig<C> commandConfig) {
+        this.commandConfig = commandConfig;
     }
 }
