@@ -42,6 +42,10 @@ public class ItemDisplayNamePlayerCommand extends BukkitCommandFeature<CommandSe
                     boolean useJson = commandContext.flags().hasFlag("json");
                     Optional<String> optional = commandContext.optional("displayname");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
+                    if (itemInHand.isEmpty()) {
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
+                        return;
+                    }
                     if (optional.isPresent()) {
                         boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
                         Component name = useJson ? AdventureHelper.getGson().deserialize(optional.get()) : AdventureHelper.getMiniMessage().deserialize(

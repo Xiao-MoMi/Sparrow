@@ -7,6 +7,7 @@ import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 
@@ -28,7 +29,12 @@ public class ItemDataPlayerCommand extends BukkitCommandFeature<CommandSender> {
         return builder
                 .senderType(Player.class)
                 .handler(commandContext -> {
-                    Map<String, Object> readableMap = ItemStackUtils.toReadableMap(commandContext.sender().getInventory().getItemInMainHand());
+                    ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
+                    if (itemInHand.isEmpty()) {
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
+                        return;
+                    }
+                    Map<String, Object> readableMap = ItemStackUtils.toReadableMap(itemInHand);
                     readableMap.remove("rtagDataVersion");
                     List<String> readableList = mapToList(readableMap);
                     StringJoiner joiner = new StringJoiner("<newline><reset>");

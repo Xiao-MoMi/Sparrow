@@ -156,4 +156,5 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_FLAG = Component.translatable().key("commands.player.item.edit.lore.failure.flag");
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_BOUND = Component.translatable().key("commands.player.item.edit.lore.failure.bound");
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_INVALID = Component.translatable().key("commands.player.item.edit.lore.failure.invalid");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS = Component.translatable().key("commands.player.item.failure.itemless");
 }

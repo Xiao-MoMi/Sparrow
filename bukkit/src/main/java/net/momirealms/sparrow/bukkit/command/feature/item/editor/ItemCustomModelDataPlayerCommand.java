@@ -33,6 +33,10 @@ public class ItemCustomModelDataPlayerCommand extends BukkitCommandFeature<Comma
                 .handler(commandContext -> {
                     Optional<Integer> optional = commandContext.optional("custommodeldata");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
+                    if (itemInHand.isEmpty()) {
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
+                        return;
+                    }
                     if (optional.isPresent()) {
                         ItemStack modified = SparrowBukkitPlugin.getInstance().getItemFactory()
                                 .wrap(itemInHand)

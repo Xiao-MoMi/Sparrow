@@ -56,6 +56,10 @@ public class ItemLorePlayerCommand extends BukkitCommandFeature<CommandSender> {
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
                     boolean useJson = commandContext.flags().hasFlag("json");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
+                    if (itemInHand.isEmpty()) {
+                        handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
+                        return;
+                    }
                     SparrowItem<ItemStack> sparrowItem = SparrowBukkitPlugin.getInstance().getItemFactory().wrap(itemInHand.clone());
                     List<String> originalLore = new ArrayList<>(sparrowItem.lore().orElse(List.of()));
                     if (hasOps) {
