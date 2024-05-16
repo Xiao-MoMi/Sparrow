@@ -144,4 +144,5 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.admin.highlight.failed.toolarge");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.admin.highlight.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.highlight.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_DATA = Component.translatable().key("commands.player.item.data");
 }

@@ -92,7 +92,8 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             new EnchantmentTablePlayerCommand(this),
             new DistancePlayerCommand(this),
             new HighlightPlayerCommand(this),
-            new HighlightAdminCommand(this)
+            new HighlightAdminCommand(this),
+            new ItemDataPlayerCommand(this)
     );
 
     private final Index<String, CommandFeature<CommandSender>> INDEX = Index.create(CommandFeature::getFeatureID, FEATURES);

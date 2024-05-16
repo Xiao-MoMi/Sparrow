@@ -190,3 +190,4 @@ commands.admin.highlight.failed.world: "<red>You have to specify the world when 
 commands.admin.highlight.failed.toolarge: "<red>Failed to highlight the blocks because the selected area is too large (<arg:0>)</red>"
 commands.admin.highlight.success.single: "<gray>Highlight blocks are shown to <white><arg:0></white></gray>"
 commands.admin.highlight.success.multiple: "<gray>Highlight blocks are shown to <white><arg:0></white> players</gray>"
+commands.player.item.data: "<yellow><b>Item's data:</b></yellow><newline><arg:0>"

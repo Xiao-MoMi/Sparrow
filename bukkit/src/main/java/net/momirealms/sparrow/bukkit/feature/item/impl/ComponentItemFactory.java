@@ -1,15 +1,20 @@
 package net.momirealms.sparrow.bukkit.feature.item.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.saicone.rtag.RtagItem;
 import com.saicone.rtag.data.ComponentType;
+import com.saicone.rtag.item.ItemObject;
+import com.saicone.rtag.tag.TagCompound;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.feature.item.SparrowBukkitItemFactory;
 import net.momirealms.sparrow.common.feature.item.ComponentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
+import net.momirealms.sparrow.common.util.UUIDUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ComponentItemFactory extends SparrowBukkitItemFactory {
@@ -62,7 +67,7 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
     protected void skull(RtagItem item, SkullData skullData) {
         final Map<String, Object> profile = Map.of(
                 "name", skullData.getOwner(),
-                "id", skullData.getUUID(), // Maybe should be converted into 4-length int array
+//                "id", Arrays.stream(UUIDUtils.uuidToIntArray(skullData.getUUID())),
                 "properties", List.of(
                         Map.of(
                                 "name", "textures",

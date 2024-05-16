@@ -447,3 +447,10 @@ highlight_admin:
   usage:
     - /sparrow highlight
     - /spa highlight
+
+item_data_player:
+  enable: true
+  permission: sparrow.command.player.nbt_query
+  usage:
+    - /sparrow item data
+    - /spa item data

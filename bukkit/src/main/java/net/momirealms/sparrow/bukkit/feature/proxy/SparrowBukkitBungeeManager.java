@@ -30,13 +30,13 @@ public class SparrowBukkitBungeeManager implements PluginMessageListener, Listen
     }
 
     private void init() {
-        this.proxyEnabled = plugin.getLoader().getServer().spigot().getSpigotConfig().getBoolean("settings.bungeecord");
-        if (!this.proxyEnabled) {
-            try {
-                this.proxyEnabled = plugin.getLoader().getServer().spigot().getPaperConfig().getBoolean("proxies.velocity.enabled");
-            } catch (Exception ignored) {
-            }
-        }
+//        this.proxyEnabled = plugin.getLoader().getServer().spigot().getSpigotConfig().getBoolean("settings.bungeecord");
+//        if (!this.proxyEnabled) {
+//            try {
+//                this.proxyEnabled = plugin.getLoader().getServer().spigot().getPaperConfig().getBoolean("proxies.velocity.enabled");
+//            } catch (Exception ignored) {
+//            }
+//        }
 
         if (!this.proxyEnabled) {
             return;

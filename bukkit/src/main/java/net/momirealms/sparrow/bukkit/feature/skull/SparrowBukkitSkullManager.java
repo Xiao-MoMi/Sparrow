@@ -25,7 +25,11 @@ public final class SparrowBukkitSkullManager extends AbstractSkullManager {
     protected List<Pair<String, FetcherProvider>> getProviders() {
         ArrayList<Pair<String, FetcherProvider>> providers = new ArrayList<>();
         if (Bukkit.getServer().getOnlineMode()) {
-            providers.add(Pair.of("online", new OnlinePlayerFetcherProvider()));
+            try {
+                Class.forName("com.destroystokyo.paper.profile.PlayerProfile");
+                providers.add(Pair.of("online", new OnlinePlayerFetcherProvider()));
+            } catch (Exception ignore) {
+            }
         }
         providers.add(Pair.of("mineskin", new MineSkinFetcherProvider()));
         providers.add(Pair.of("api", new APIFetcherProvider()));

@@ -44,16 +44,15 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .meta(SparrowMetaKeys.ALLOW_EMPTY_ENTITY_SELECTOR, false)
                 .required("enchantment", CustomEnchantmentParser.enchantmentParser())
                 .optional("level", IntegerParser.integerParser(1))
-                .optional("slot", EnumParser.enumParser(EquipmentSlot.class))
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(manager.flagBuilder("ignore-level"))
                 .flag(manager.flagBuilder("ignore-conflict"))
                 .flag(manager.flagBuilder("ignore-incompatible"))
+                .flag(manager.flagBuilder("slot").withComponent(EnumParser.enumParser(EquipmentSlot.class)))
                 .handler(commandContext -> {
                     Enchantment enchantment = commandContext.get("enchantment");
                     int level = commandContext.getOrDefault("level", 1);
-                    Optional<EquipmentSlot> optionalEquipmentSlot = commandContext.optional("slot");
-                    EquipmentSlot slot = optionalEquipmentSlot.orElse(EquipmentSlot.HAND);
+                    EquipmentSlot slot = commandContext.flags().hasFlag("slot") ? (EquipmentSlot) commandContext.flags().getValue("slot").get() : EquipmentSlot.HAND;
                     if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_ENCHANT_FAILED_LEVEL, Component.text(level), Component.text(enchantment.getMaxLevel()));
                         return;
