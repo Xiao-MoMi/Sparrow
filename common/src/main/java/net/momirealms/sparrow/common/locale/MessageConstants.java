@@ -5,6 +5,10 @@ import net.kyori.adventure.text.TranslatableComponent;
 
 public interface MessageConstants {
 
+    TranslatableComponent.Builder NORTH = Component.translatable().key("north");
+    TranslatableComponent.Builder EAST = Component.translatable().key("east");
+    TranslatableComponent.Builder SOUTH = Component.translatable().key("south");
+    TranslatableComponent.Builder WEST = Component.translatable().key("west");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_ENTITY = Component.translatable().key("argument.entity.notfound.entity");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");
@@ -144,7 +148,21 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_FAILED_TOO_LARGE = Component.translatable().key("commands.admin.highlight.failed.toolarge");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_SINGLE = Component.translatable().key("commands.admin.highlight.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_HIGHLIGHT_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.highlight.success.multiple");
-    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_FAILED_UUID = Component.translatable().key("commands.admin.look.failed.uuid");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_DATA = Component.translatable().key("commands.player.item.data");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.query.custommodeldata.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_CUSTOM_MODEL_DATA_FAILURE = Component.translatable().key("commands.player.item.query.custommodeldata.failure");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_CUSTOM_MODEL_DATA_SUCCESS = Component.translatable().key("commands.player.item.edit.custommodeldata.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.query.displayname.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_DISPLAY_NAME_FAILURE = Component.translatable().key("commands.player.item.query.displayname.failure");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_DISPLAY_NAME_SUCCESS = Component.translatable().key("commands.player.item.edit.displayname.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_QUERY_LORE_SUCCESS = Component.translatable().key("commands.player.item.query.lore.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_SUCCESS = Component.translatable().key("commands.player.item.edit.lore.success");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_FLAG = Component.translatable().key("commands.player.item.edit.lore.failure.flag");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_BOUND = Component.translatable().key("commands.player.item.edit.lore.failure.bound");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_INVALID = Component.translatable().key("commands.player.item.edit.lore.failure.invalid");
+    TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS = Component.translatable().key("commands.player.item.failure.itemless");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_FAILURE_FLAG = Component.translatable().key("commands.admin.look.failure.flag");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_FAILURE_UUID = Component.translatable().key("commands.admin.look.failure.uuid");
     TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_SUCCESS_SINGLE = Component.translatable().key("commands.admin.look.success.single");
     TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.look.success.multiple");
     TranslatableComponent.Builder COMMANDS_PLAYER_LOOK_SUCCESS = Component.translatable().key("commands.player.look.success");

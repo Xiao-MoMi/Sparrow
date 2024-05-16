@@ -40,6 +40,25 @@ public final class EntityUtils {
         orientTowards(self, location);
     }
 
+    /**
+     * Makes the player look in one of the four directions.
+     * @param self the player entity
+     * @param face the direction to look at (north, east, south, or west)
+     */
+    public static void look(@NotNull Entity self, @NotNull String face) {
+        float yaw;
+        switch (face) {
+            case "north" -> yaw = -180;
+            case "east" -> yaw = -90;
+            case "south" -> yaw = 0;
+            case "west" -> yaw = 90;
+            default -> {
+                return;
+            }
+        }
+        self.setRotation(yaw, self.getPitch());
+    }
+
     private static void orientTowards(@NotNull Entity self, @NotNull Location targetLocation) {
         Location selfLocation = self.getLocation();
         double eyeHeight = self instanceof LivingEntity ? ((LivingEntity) self).getEyeHeight() : 0;
