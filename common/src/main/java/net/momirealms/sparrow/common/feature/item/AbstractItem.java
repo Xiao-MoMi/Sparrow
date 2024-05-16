@@ -71,4 +71,9 @@ public class AbstractItem<R, I> implements SparrowItem<I> {
     public I loadCopy() {
         return factory.loadCopy(item);
     }
+
+    @Override
+    public void update() {
+        factory.update(item);
+    }
 }

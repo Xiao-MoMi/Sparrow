@@ -41,4 +41,12 @@ public abstract class ItemFactory<P extends SparrowPlugin, R, I> {
     protected abstract Optional<List<String>> lore(R item);
 
     protected abstract void lore(R item, List<String> lore);
+
+    protected abstract boolean unbreakable(R item);
+
+    protected abstract void unbreakable(R item, boolean unbreakable);
+
+    protected abstract Optional<Boolean> glint(R item);
+
+    protected abstract void glint(R item, Boolean glint);
 }

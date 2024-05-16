@@ -7,6 +7,8 @@ import net.momirealms.sparrow.bukkit.feature.item.SparrowBukkitItemFactory;
 import net.momirealms.sparrow.common.feature.item.ComponentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -62,7 +64,7 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
     protected void skull(RtagItem item, SkullData skullData) {
         final Map<String, Object> profile = Map.of(
                 "name", skullData.getOwner(),
-//                "id", Arrays.stream(UUIDUtils.uuidToIntArray(skullData.getUUID())),
+//                "id", Arrays.stream(getIntArrayUUID(skullData.getUUID().toString())),
                 "properties", List.of(
                         Map.of(
                                 "name", "textures",
@@ -92,5 +94,25 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
         } else {
             item.setComponent(ComponentKeys.LORE, lore);
         }
+    }
+
+    @Override
+    protected boolean unbreakable(RtagItem item) {
+        return false;
+    }
+
+    @Override
+    protected void unbreakable(RtagItem item, boolean unbreakable) {
+
+    }
+
+    @Override
+    protected Optional<Boolean> glint(RtagItem item) {
+        return Optional.empty();
+    }
+
+    @Override
+    protected void glint(RtagItem item, Boolean glint) {
+
     }
 }

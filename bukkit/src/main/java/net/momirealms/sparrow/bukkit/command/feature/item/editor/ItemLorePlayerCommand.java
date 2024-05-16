@@ -13,6 +13,7 @@ import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.feature.item.SparrowItem;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class ItemLorePlayerCommand extends BukkitCommandFeature<CommandSender> {
 
     @Override
     public String getFeatureID() {
-        return "item_lore_player";
+        return "itemlore_player";
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ItemLorePlayerCommand extends BukkitCommandFeature<CommandSender> {
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
                     boolean useJson = commandContext.flags().hasFlag("json");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
-                    if (itemInHand.isEmpty()) {
+                    if (itemInHand.getType() == Material.AIR || itemInHand.getAmount() == 0) {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
                         return;
                     }

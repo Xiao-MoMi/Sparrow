@@ -448,30 +448,28 @@ highlight_admin:
     - /sparrow highlight
     - /spa highlight
 
-item_data_player:
+itemdata_player:
   enable: true
-  permission: sparrow.command.player.item.data
+  permission: sparrow.command.player.itemdata
   usage:
-    - /sparrow item data
-    - /spa item data
+    - /sparrow itemdata
+    - /spa itemdata
+    - /itemdata
 
-item_custommodeldata_player:
+custommodeldata_player:
   enable: true
-  permission: sparrow.command.player.item.custommodeldata
+  permission: sparrow.command.player.custommodeldata
   usage:
-    - /sparrow item custommodeldata
-    - /spa item custommodeldata
+    - /custommodeldata
 
-item_displayname_player:
+itemname_player:
   enable: true
-  permission: sparrow.command.player.item.displayname
+  permission: sparrow.command.player.itemname
   usage:
-    - /sparrow item displayname
-    - /spa item displayname
+    - /itemname
 
-item_lore_player:
+itemlore_player:
   enable: true
-  permission: sparrow.command.player.item.lore
+  permission: sparrow.command.player.itemlore
   usage:
-    - /sparrow item lore
-    - /spa item lore
+    - /itemlore

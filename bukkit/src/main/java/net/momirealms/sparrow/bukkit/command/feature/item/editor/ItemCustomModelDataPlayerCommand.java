@@ -5,6 +5,7 @@ import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +23,7 @@ public class ItemCustomModelDataPlayerCommand extends BukkitCommandFeature<Comma
 
     @Override
     public String getFeatureID() {
-        return "item_custommodeldata_player";
+        return "custommodeldata_player";
     }
 
     @Override
@@ -33,7 +34,7 @@ public class ItemCustomModelDataPlayerCommand extends BukkitCommandFeature<Comma
                 .handler(commandContext -> {
                     Optional<Integer> optional = commandContext.optional("custommodeldata");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
-                    if (itemInHand.isEmpty()) {
+                    if (itemInHand.getType() == Material.AIR || itemInHand.getAmount() == 0) {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
                         return;
                     }

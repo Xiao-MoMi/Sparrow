@@ -22,7 +22,7 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     protected Path resolveConfig(String filePath) {
-        if (filePath == null || filePath.equals("")) {
+        if (filePath == null || filePath.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be null or empty");
         }
 
@@ -76,8 +76,7 @@ public class ConfigManagerImpl implements ConfigManager {
                             .build()
             );
         } catch (IOException e) {
-            plugin.getBootstrap().getPluginLogger().severe("Failed to load config " + filePath);
-            e.printStackTrace();
+            plugin.getBootstrap().getPluginLogger().severe("Failed to load config " + filePath, e);
             return null;
         }
     }

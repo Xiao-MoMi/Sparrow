@@ -70,4 +70,24 @@ public class UniversalItemFactory extends SparrowBukkitItemFactory {
             item.set(lore, "display", "Lore");
         }
     }
+
+    @Override
+    protected boolean unbreakable(RtagItem item) {
+        return false;
+    }
+
+    @Override
+    protected void unbreakable(RtagItem item, boolean unbreakable) {
+
+    }
+
+    @Override
+    protected Optional<Boolean> glint(RtagItem item) {
+        return Optional.empty();
+    }
+
+    @Override
+    protected void glint(RtagItem item, Boolean glint) {
+
+    }
 }

@@ -26,4 +26,6 @@ public interface SparrowItem<I> {
     I load();
 
     I loadCopy();
+
+    void update();
 }

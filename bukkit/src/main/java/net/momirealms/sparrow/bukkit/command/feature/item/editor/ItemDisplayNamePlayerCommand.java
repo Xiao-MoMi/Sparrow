@@ -11,6 +11,7 @@ import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.helper.AdventureHelper;
 import net.momirealms.sparrow.common.locale.MessageConstants;
+import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +29,7 @@ public class ItemDisplayNamePlayerCommand extends BukkitCommandFeature<CommandSe
 
     @Override
     public String getFeatureID() {
-        return "item_displayname_player";
+        return "itemname_player";
     }
 
     @Override
@@ -42,7 +43,7 @@ public class ItemDisplayNamePlayerCommand extends BukkitCommandFeature<CommandSe
                     boolean useJson = commandContext.flags().hasFlag("json");
                     Optional<String> optional = commandContext.optional("displayname");
                     ItemStack itemInHand = commandContext.sender().getInventory().getItemInMainHand();
-                    if (itemInHand.isEmpty()) {
+                    if (itemInHand.getType() == Material.AIR || itemInHand.getAmount() == 0) {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS);
                         return;
                     }
