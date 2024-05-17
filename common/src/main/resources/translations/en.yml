@@ -16,9 +16,13 @@ config-version: "${config_version}"
 #     - Second line
 #
 north: "<white>north</white>"
+northeast: "<white>northeast</white>"
 east: "<white>east</white>"
+southeast: "<white>southeast</white>"
 south: "<white>south</white>"
+southwest: "<white>southwest</white>"
 west: "<white>west</white>"
+northwest: "<white>northwest</white>"
 exception.invalid_syntax: "<red>Invalid syntax. Correct syntax: <white><arg:0></white></red>"
 exception.invalid_argument: "<red>Invalid argument. Reason: <white><arg:0></white></red>"
 exception.invalid_sender: "<red><arg:0> is not allowed to execute that command. Must be of type <arg:1></red>"

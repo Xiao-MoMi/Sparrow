@@ -18,6 +18,7 @@ import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
 import org.incendo.cloud.bukkit.parser.PlayerParser;
 import org.incendo.cloud.bukkit.parser.location.LocationParser;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
+import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.UUIDParser;
 
 import java.util.UUID;
@@ -41,10 +42,7 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 				.flag(manager.flagBuilder("entity_uuid").withComponent(UUIDParser.uuidParser()))
 				.flag(manager.flagBuilder("player").withComponent(PlayerParser.playerParser()))
 				.flag(manager.flagBuilder("location").withComponent(LocationParser.locationParser()))
-				.flag(manager.flagBuilder("north"))
-				.flag(manager.flagBuilder("east"))
-				.flag(manager.flagBuilder("south"))
-				.flag(manager.flagBuilder("west"))
+				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(Face.class)))
 				.flag(manager.flagBuilder("silent").withAliases("s"))
 				.handler(commandContext -> {
 					boolean hasUUID = commandContext.flags().getValue("entity_uuid").isPresent();
@@ -52,15 +50,9 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 					boolean hasLocation = commandContext.flags().getValue("location").isPresent();
 					boolean silent = commandContext.flags().hasFlag("silent");
 
-					String face = null;
-					if (commandContext.flags().hasFlag("north")) {
-						face = "north";
-					} else if (commandContext.flags().hasFlag("east")) {
-						face = "east";
-					} else if (commandContext.flags().hasFlag("south")) {
-						face = "south";
-					} else if (commandContext.flags().hasFlag("west")) {
-						face = "west";
+					Face face = null;
+					if (commandContext.flags().getValue("face").isPresent()) {
+						face = (Face) commandContext.flags().getValue("face").get();
 					}
 
 					MultipleEntitySelector selector = commandContext.get(SparrowBukkitArgumentKeys.ENTITY_SELECTOR);
@@ -94,5 +86,16 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 							MessageConstants.COMMANDS_ADMIN_LOOK_SUCCESS_MULTIPLE,
 							Component.text(entities.size()));
 				});
+	}
+
+	public enum Face {
+		NORTH,
+		NORTHEAST,
+		EAST,
+		SOUTHEAST,
+		SOUTH,
+		SOUTHWEST,
+		WEST,
+		NORTHWEST
 	}
 }

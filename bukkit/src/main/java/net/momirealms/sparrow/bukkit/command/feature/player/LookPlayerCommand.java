@@ -9,12 +9,11 @@ import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.parser.location.LocationParser;
-import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.parser.standard.EnumParser;
 
 public class LookPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
@@ -32,13 +31,9 @@ public class LookPlayerCommand extends BukkitCommandFeature<CommandSender> {
 		return builder
 				.senderType(Player.class)
 				.flag(manager.flagBuilder("location").withComponent(LocationParser.locationParser()).build())
-				.flag(manager.flagBuilder("north").build())
-				.flag(manager.flagBuilder("east").build())
-				.flag(manager.flagBuilder("south").build())
-				.flag(manager.flagBuilder("west").build())
+				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(LookAdminCommand.Face.class)).build())
 				.handler(commandContext -> {
 					boolean hasLocation = commandContext.flags().getValue("location").isPresent();
-
 					if (hasLocation) {
 						Location location = (Location) commandContext.flags().getValue("location").get();
 						EntityUtils.look(commandContext.sender(), location);
@@ -47,29 +42,30 @@ public class LookPlayerCommand extends BukkitCommandFeature<CommandSender> {
 								)));
 						return;
 					}
-					if (handleDirectionFlag(commandContext, "north") ||
-							handleDirectionFlag(commandContext, "east") ||
-							handleDirectionFlag(commandContext, "south") ||
-							handleDirectionFlag(commandContext, "west")) {
+
+					boolean hasFace = commandContext.flags().getValue("face").isPresent();
+					if (hasFace) {
+						LookAdminCommand.Face face = (LookAdminCommand.Face) commandContext.flags().getValue("face").get();
+						TranslatableComponent.Builder component;
+						switch (face) {
+							case NORTH -> component = MessageConstants.NORTH;
+							case NORTHEAST -> component = MessageConstants.NORTHEAST;
+							case EAST -> component = MessageConstants.EAST;
+							case SOUTHEAST -> component = MessageConstants.SOUTHEAST;
+							case SOUTH -> component = MessageConstants.SOUTH;
+							case SOUTHWEST -> component = MessageConstants.SOUTHWEST;
+							case WEST -> component = MessageConstants.WEST;
+							case NORTHWEST -> component = MessageConstants.NORTHWEST;
+							default -> {
+								return;
+							}
+						}
+						EntityUtils.look(commandContext.sender(), face);
+						handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_LOOK_SUCCESS, TranslationManager.render(component.build()));
 						return;
 					}
 
 					handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_LOOK_FAILURE_FLAG);
 				});
-	}
-
-	private boolean handleDirectionFlag(CommandContext<?> commandContext, String direction) {
-		if (commandContext.flags().hasFlag(direction)) {
-			TranslatableComponent.Builder component = MessageConstants.NORTH;
-			switch (direction) {
-				case "east" -> component = MessageConstants.EAST;
-				case "south" -> component = MessageConstants.SOUTH;
-				case "west" -> component = MessageConstants.WEST;
-			}
-			EntityUtils.look((Entity) commandContext.sender(), direction);
-			handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_LOOK_SUCCESS, TranslationManager.render(component.build()));
-			return true;
-		}
-		return false;
 	}
 }

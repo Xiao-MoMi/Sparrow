@@ -1,5 +1,6 @@
 package net.momirealms.sparrow.bukkit.util;
 
+import net.momirealms.sparrow.bukkit.command.feature.player.LookAdminCommand;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
@@ -45,13 +46,17 @@ public final class EntityUtils {
      * @param self the player entity
      * @param face the direction to look at (north, east, south, or west)
      */
-    public static void look(@NotNull Entity self, @NotNull String face) {
+    public static void look(@NotNull Entity self, @NotNull LookAdminCommand.Face face) {
         float yaw;
         switch (face) {
-            case "north" -> yaw = -180;
-            case "east" -> yaw = -90;
-            case "south" -> yaw = 0;
-            case "west" -> yaw = 90;
+            case NORTH -> yaw = -180;
+            case NORTHEAST -> yaw = -135;
+            case EAST -> yaw = -90;
+            case SOUTHEAST -> yaw = -45;
+            case SOUTH -> yaw = 0;
+            case SOUTHWEST -> yaw = 45;
+            case WEST -> yaw = 90;
+            case NORTHWEST -> yaw = 135;
             default -> {
                 return;
             }

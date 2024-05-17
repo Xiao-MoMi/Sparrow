@@ -6,9 +6,13 @@ import net.kyori.adventure.text.TranslatableComponent;
 public interface MessageConstants {
 
     TranslatableComponent.Builder NORTH = Component.translatable().key("north");
+    TranslatableComponent.Builder NORTHEAST = Component.translatable().key("northeast");
     TranslatableComponent.Builder EAST = Component.translatable().key("east");
+    TranslatableComponent.Builder SOUTHEAST = Component.translatable().key("southeast");
     TranslatableComponent.Builder SOUTH = Component.translatable().key("south");
+    TranslatableComponent.Builder SOUTHWEST = Component.translatable().key("southwest");
     TranslatableComponent.Builder WEST = Component.translatable().key("west");
+    TranslatableComponent.Builder NORTHWEST = Component.translatable().key("northwest");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_ENTITY = Component.translatable().key("argument.entity.notfound.entity");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");

@@ -16,9 +16,13 @@ config-version: "${config_version}"
 #     - 第二行
 #
 north: "<white>北</white>"
+northeast: "<white>东北</white>"
 east: "<white>东</white>"
+southeast: "<white>东南</white>"
 south: "<white>南</white>"
+southwest: "<white>西南</white>"
 west: "<white>西</white>"
+northwest: "<white>西北</white>"
 exception.invalid_syntax: "<red>无效的语法。正确的语法: <white><arg:0></white></red>"
 exception.invalid_argument: "<red>无效的参数。原因: <white><arg:0></white></red>"
 exception.invalid_sender: "<red><arg:0>不允许执行该命令。必须是<arg:1>类型</red>"
