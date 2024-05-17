@@ -6,13 +6,24 @@ import net.kyori.adventure.text.TranslatableComponent;
 public interface MessageConstants {
 
     TranslatableComponent.Builder NORTH = Component.translatable().key("north");
-    TranslatableComponent.Builder NORTHEAST = Component.translatable().key("northeast");
+    TranslatableComponent.Builder NORTH_NORTH_WEST = Component.translatable().key("north.north.west");
+    TranslatableComponent.Builder NORTH_WEST = Component.translatable().key("north.west");
+    TranslatableComponent.Builder WEST_NORTH_WEST = Component.translatable().key("west.north.west");
+    TranslatableComponent.Builder NORTH_NORTH_EAST = Component.translatable().key("north.north.east");
+    TranslatableComponent.Builder NORTH_EAST = Component.translatable().key("north.east");
+    TranslatableComponent.Builder EAST_NORTH_EAST = Component.translatable().key("east.north.east");
     TranslatableComponent.Builder EAST = Component.translatable().key("east");
-    TranslatableComponent.Builder SOUTHEAST = Component.translatable().key("southeast");
+    TranslatableComponent.Builder EAST_SOUTH_EAST = Component.translatable().key("east.south.east");
+    TranslatableComponent.Builder SOUTH_EAST = Component.translatable().key("south.east");
+    TranslatableComponent.Builder SOUTH_SOUTH_EAST = Component.translatable().key("south.south.east");
     TranslatableComponent.Builder SOUTH = Component.translatable().key("south");
-    TranslatableComponent.Builder SOUTHWEST = Component.translatable().key("southwest");
+    TranslatableComponent.Builder SOUTH_SOUTH_WEST = Component.translatable().key("south.south.west");
+    TranslatableComponent.Builder SOUTH_WEST = Component.translatable().key("south.west");
+    TranslatableComponent.Builder WEST_SOUTH_WEST = Component.translatable().key("west.south.west");
     TranslatableComponent.Builder WEST = Component.translatable().key("west");
-    TranslatableComponent.Builder NORTHWEST = Component.translatable().key("northwest");
+    TranslatableComponent.Builder UP = Component.translatable().key("up");
+    TranslatableComponent.Builder DOWN = Component.translatable().key("down");
+    TranslatableComponent.Builder SELF = Component.translatable().key("self");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_ENTITY = Component.translatable().key("argument.entity.notfound.entity");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");

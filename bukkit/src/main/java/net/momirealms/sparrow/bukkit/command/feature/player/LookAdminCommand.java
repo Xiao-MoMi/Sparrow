@@ -9,6 +9,7 @@ import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 				.flag(manager.flagBuilder("entity_uuid").withComponent(UUIDParser.uuidParser()))
 				.flag(manager.flagBuilder("player").withComponent(PlayerParser.playerParser()))
 				.flag(manager.flagBuilder("location").withComponent(LocationParser.locationParser()))
-				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(Face.class)))
+				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(BlockFace.class)))
 				.flag(manager.flagBuilder("silent").withAliases("s"))
 				.handler(commandContext -> {
 					boolean hasUUID = commandContext.flags().getValue("entity_uuid").isPresent();
@@ -50,9 +51,9 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 					boolean hasLocation = commandContext.flags().getValue("location").isPresent();
 					boolean silent = commandContext.flags().hasFlag("silent");
 
-					Face face = null;
+					BlockFace face = null;
 					if (commandContext.flags().getValue("face").isPresent()) {
-						face = (Face) commandContext.flags().getValue("face").get();
+						face = (BlockFace) commandContext.flags().getValue("face").get();
 					}
 
 					MultipleEntitySelector selector = commandContext.get(SparrowBukkitArgumentKeys.ENTITY_SELECTOR);
@@ -86,16 +87,5 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 							MessageConstants.COMMANDS_ADMIN_LOOK_SUCCESS_MULTIPLE,
 							Component.text(entities.size()));
 				});
-	}
-
-	public enum Face {
-		NORTH,
-		NORTHEAST,
-		EAST,
-		SOUTHEAST,
-		SOUTH,
-		SOUTHWEST,
-		WEST,
-		NORTHWEST
 	}
 }

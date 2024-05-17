@@ -8,6 +8,7 @@ import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.locale.TranslationManager;
 import org.bukkit.Location;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.incendo.cloud.Command;
@@ -31,7 +32,7 @@ public class LookPlayerCommand extends BukkitCommandFeature<CommandSender> {
 		return builder
 				.senderType(Player.class)
 				.flag(manager.flagBuilder("location").withComponent(LocationParser.locationParser()).build())
-				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(LookAdminCommand.Face.class)).build())
+				.flag(manager.flagBuilder("face").withComponent(EnumParser.enumParser(BlockFace.class)).build())
 				.handler(commandContext -> {
 					boolean hasLocation = commandContext.flags().getValue("location").isPresent();
 					if (hasLocation) {
@@ -45,17 +46,28 @@ public class LookPlayerCommand extends BukkitCommandFeature<CommandSender> {
 
 					boolean hasFace = commandContext.flags().getValue("face").isPresent();
 					if (hasFace) {
-						LookAdminCommand.Face face = (LookAdminCommand.Face) commandContext.flags().getValue("face").get();
+						BlockFace face = (BlockFace) commandContext.flags().getValue("face").get();
 						TranslatableComponent.Builder component;
 						switch (face) {
 							case NORTH -> component = MessageConstants.NORTH;
-							case NORTHEAST -> component = MessageConstants.NORTHEAST;
+							case NORTH_NORTH_WEST -> component = MessageConstants.NORTH_NORTH_WEST;
+							case NORTH_WEST -> component = MessageConstants.NORTH_WEST;
+							case WEST_NORTH_WEST -> component = MessageConstants.WEST_NORTH_WEST;
+							case NORTH_NORTH_EAST -> component = MessageConstants.NORTH_NORTH_EAST;
+							case NORTH_EAST -> component = MessageConstants.NORTH_EAST;
+							case EAST_NORTH_EAST -> component = MessageConstants.EAST_NORTH_EAST;
 							case EAST -> component = MessageConstants.EAST;
-							case SOUTHEAST -> component = MessageConstants.SOUTHEAST;
+							case EAST_SOUTH_EAST -> component = MessageConstants.EAST_SOUTH_EAST;
+							case SOUTH_EAST -> component = MessageConstants.SOUTH_EAST;
+							case SOUTH_SOUTH_EAST -> component = MessageConstants.SOUTH_SOUTH_EAST;
 							case SOUTH -> component = MessageConstants.SOUTH;
-							case SOUTHWEST -> component = MessageConstants.SOUTHWEST;
+							case SOUTH_SOUTH_WEST -> component = MessageConstants.SOUTH_SOUTH_WEST;
+							case SOUTH_WEST -> component = MessageConstants.SOUTH_WEST;
+							case WEST_SOUTH_WEST -> component = MessageConstants.WEST_SOUTH_WEST;
 							case WEST -> component = MessageConstants.WEST;
-							case NORTHWEST -> component = MessageConstants.NORTHWEST;
+							case UP -> component = MessageConstants.UP;
+							case DOWN -> component = MessageConstants.DOWN;
+							case SELF -> component = MessageConstants.SELF;
 							default -> {
 								return;
 							}

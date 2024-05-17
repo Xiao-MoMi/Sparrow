@@ -1,10 +1,10 @@
 package net.momirealms.sparrow.bukkit.util;
 
-import net.momirealms.sparrow.bukkit.command.feature.player.LookAdminCommand;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -46,22 +46,33 @@ public final class EntityUtils {
      * @param self the player entity
      * @param face the direction to look at (north, east, south, or west)
      */
-    public static void look(@NotNull Entity self, @NotNull LookAdminCommand.Face face) {
-        float yaw;
+    public static void look(@NotNull Entity self, @NotNull BlockFace face) {
+        float yaw = self.getYaw();
+        float pitch = self.getPitch();
         switch (face) {
             case NORTH -> yaw = -180;
-            case NORTHEAST -> yaw = -135;
+            case NORTH_NORTH_WEST -> yaw = -157.5f;
+            case NORTH_WEST -> yaw = -135;
+            case WEST_NORTH_WEST -> yaw = -112.5f;
+            case NORTH_NORTH_EAST -> yaw = -202.5f;
+            case NORTH_EAST -> yaw = -225;
+            case EAST_NORTH_EAST -> yaw = -247.5f;
             case EAST -> yaw = -90;
-            case SOUTHEAST -> yaw = -45;
+            case EAST_SOUTH_EAST -> yaw = -67.5f;
+            case SOUTH_EAST -> yaw = -45;
+            case SOUTH_SOUTH_EAST -> yaw = -22.5f;
             case SOUTH -> yaw = 0;
-            case SOUTHWEST -> yaw = 45;
+            case SOUTH_SOUTH_WEST -> yaw = 22.5f;
+            case SOUTH_WEST -> yaw = 45;
+            case WEST_SOUTH_WEST -> yaw = 67.5f;
             case WEST -> yaw = 90;
-            case NORTHWEST -> yaw = 135;
+            case UP -> pitch = -90;
+            case DOWN -> pitch = 90;
             default -> {
                 return;
             }
         }
-        self.setRotation(yaw, self.getPitch());
+        self.setRotation(yaw, pitch);
     }
 
     private static void orientTowards(@NotNull Entity self, @NotNull Location targetLocation) {
