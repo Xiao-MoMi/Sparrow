@@ -26,19 +26,29 @@ public final class EntityUtils {
     public static void look(@NotNull Entity self, @NotNull Entity target) {
         if (self == target) return;
 
-        Location targetLocation = (target instanceof LivingEntity) ?
+        Location location = (target instanceof LivingEntity) ?
                 ((LivingEntity) target).getEyeLocation() :
                 target.getLocation();
-        orientTowards(self, targetLocation);
+        look(self, location);
     }
 
     /**
-     * Set rotation to look at certain location
-     * @param self the entity to set rotation
+     * Set entity rotation to look at certain location
+     * @param entity the entity to set rotation
      * @param location the target location
      */
-    public static void look(@NotNull Entity self, @NotNull Location location) {
-        orientTowards(self, location);
+    public static void look(@NotNull Entity entity, @NotNull Location location) {
+        Location selfLocation = entity.getLocation();
+        double eyeHeight = entity instanceof LivingEntity ? ((LivingEntity) entity).getEyeHeight() : 0;
+        double deltaX = location.getX() - selfLocation.getX();
+        double deltaY = location.getY() - (selfLocation.getY() + eyeHeight);
+        double deltaZ = location.getZ() - selfLocation.getZ();
+
+        double yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90;
+        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
+        double pitch = -Math.toDegrees(Math.atan(deltaY / distanceXZ));
+
+        entity.setRotation((float) yaw, (float) pitch);
     }
 
     /**
@@ -73,20 +83,6 @@ public final class EntityUtils {
             }
         }
         self.setRotation(yaw, pitch);
-    }
-
-    private static void orientTowards(@NotNull Entity self, @NotNull Location targetLocation) {
-        Location selfLocation = self.getLocation();
-        double eyeHeight = self instanceof LivingEntity ? ((LivingEntity) self).getEyeHeight() : 0;
-        double deltaX = targetLocation.getX() - selfLocation.getX();
-        double deltaY = targetLocation.getY() - (selfLocation.getY() + eyeHeight);
-        double deltaZ = targetLocation.getZ() - selfLocation.getZ();
-
-        double yaw = Math.toDegrees(Math.atan2(deltaZ, deltaX)) - 90;
-        double distanceXZ = Math.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-        double pitch = -Math.toDegrees(Math.atan(deltaY / distanceXZ));
-
-        self.setRotation((float) yaw, (float) pitch);
     }
 
     /**

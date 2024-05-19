@@ -49,7 +49,6 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 					boolean hasUUID = commandContext.flags().getValue("entity_uuid").isPresent();
 					boolean hasPlayer = commandContext.flags().getValue("player").isPresent();
 					boolean hasLocation = commandContext.flags().getValue("location").isPresent();
-					boolean silent = commandContext.flags().hasFlag("silent");
 
 					BlockFace face = null;
 					if (commandContext.flags().getValue("face").isPresent()) {
@@ -78,11 +77,9 @@ public class LookAdminCommand extends BukkitCommandFeature<CommandSender> {
 						}
 					}
 
-					if (silent) return;
-
 					if (entities.size() == 1) handleFeedback(commandContext,
 							MessageConstants.COMMANDS_ADMIN_LOOK_SUCCESS_SINGLE,
-							Component.text(entities.size()));
+							Component.text(entities.iterator().next().getName()));
 					else handleFeedback(commandContext,
 							MessageConstants.COMMANDS_ADMIN_LOOK_SUCCESS_MULTIPLE,
 							Component.text(entities.size()));
