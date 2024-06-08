@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
+import org.incendo.cloud.bukkit.parser.EnchantmentParser;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
 import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.IntegerParser;

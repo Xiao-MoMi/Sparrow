@@ -7,8 +7,6 @@ import net.momirealms.sparrow.bukkit.feature.item.SparrowBukkitItemFactory;
 import net.momirealms.sparrow.common.feature.item.ComponentKeys;
 import net.momirealms.sparrow.common.feature.skull.SkullData;
 
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -72,7 +70,7 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
                         )
                 )
         );
-        item.setComponent("minecraft:profile", profile);
+        item.setComponent(ComponentKeys.PROFILE, profile);
     }
 
     @SuppressWarnings("unchecked")

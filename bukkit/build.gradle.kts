@@ -23,9 +23,9 @@ dependencies {
     compileOnly(project(":loader"))
     compileOnly("org.incendo:cloud-core:${rootProject.properties["cloud_core_version"]}")
     compileOnly("org.incendo:cloud-minecraft-extras:${rootProject.properties["cloud_minecraft_extras_version"]}")
+    compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
     compileOnly("dev.dejvokep:boosted-yaml:${rootProject.properties["boosted_yaml_version"]}")
     compileOnly("dev.folia:folia-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
-    compileOnly("org.incendo:cloud-paper:${rootProject.properties["cloud_paper_version"]}")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
 }
@@ -36,7 +36,6 @@ tasks {
         relocate("net.kyori", "net.momirealms.sparrow.libraries")
         relocate("org.incendo", "net.momirealms.sparrow.libraries")
         relocate("dev.dejvokep", "net.momirealms.sparrow.libraries")
-        relocate("de.tr7zw.changeme", "net.momirealms.sparrow.libraries")
         relocate("net.bytebuddy", "net.momirealms.sparrow.libraries.bytebuddy")
         relocate ("org.apache.commons.pool2", "net.momirealms.sparrow.libraries.commonspool2")
         relocate ("com.mysql", "net.momirealms.sparrow.libraries.mysql")

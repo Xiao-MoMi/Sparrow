@@ -37,7 +37,7 @@ import org.incendo.cloud.bukkit.internal.BukkitBrigadierMapper;
 import org.incendo.cloud.bukkit.internal.CraftBukkitReflection;
 import org.incendo.cloud.bukkit.internal.RegistryReflection;
 import org.incendo.cloud.execution.ExecutionCoordinator;
-import org.incendo.cloud.paper.PaperCommandManager;
+import org.incendo.cloud.paper.LegacyPaperCommandManager;
 import org.incendo.cloud.paper.parser.KeyedWorldParser;
 import org.incendo.cloud.setting.ManagerSetting;
 
@@ -128,7 +128,7 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
     }
 
     public SparrowBukkitCommandManager(SparrowBukkitPlugin plugin) {
-        super(plugin, new PaperCommandManager<>(
+        super(plugin, new LegacyPaperCommandManager<>(
                 plugin.getLoader(),
                 ExecutionCoordinator.simpleCoordinator(),
                 SenderMapper.identity()
@@ -151,13 +151,13 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
     }
 
     private void registerMappings() {
-        final PaperCommandManager<CommandSender> manager = (PaperCommandManager<CommandSender>) getCommandManager();
+        final LegacyPaperCommandManager<CommandSender> manager = (LegacyPaperCommandManager<CommandSender>) getCommandManager();
         manager.settings().set(ManagerSetting.ALLOW_UNSAFE_REGISTRATION, true);
         manager.parserRegistry().registerParser(CustomEnchantmentParser.enchantmentParser());
         if (manager.hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
             manager.registerBrigadier();
             manager.brigadierManager().setNativeNumberSuggestions(true);
-            BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(manager, manager.brigadierManager());
+            BukkitBrigadierMapper<CommandSender> mapper = new BukkitBrigadierMapper<>(((SparrowBukkitPlugin) plugin).getLoader().getLogger(), manager.brigadierManager());
             switch (plugin.getBootstrap().getServerVersion()) {
                 case "1.17", "1.17.1",
                      "1.18", "1.18.1", "1.18.2",
