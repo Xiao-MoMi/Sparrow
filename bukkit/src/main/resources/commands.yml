@@ -473,3 +473,16 @@ itemlore_player:
   permission: sparrow.command.player.itemlore
   usage:
     - /itemlore
+
+look_admin:
+  enable: true
+  permission: sparrow.command.admin.look
+  usage:
+    - /sparrow look
+    - /spa look
+
+look_player:
+  enable: true
+  permission: sparrow.command.player.look
+  usage:
+    - /look

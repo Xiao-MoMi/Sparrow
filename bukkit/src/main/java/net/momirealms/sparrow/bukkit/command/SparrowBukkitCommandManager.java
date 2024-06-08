@@ -4,6 +4,8 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import io.leangen.geantyref.TypeToken;
 import net.kyori.adventure.util.Index;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.command.feature.player.LookAdminCommand;
+import net.momirealms.sparrow.bukkit.command.feature.player.LookPlayerCommand;
 import net.momirealms.sparrow.bukkit.command.feature.container.*;
 import net.momirealms.sparrow.bukkit.command.feature.entity.BurnAdminCommand;
 import net.momirealms.sparrow.bukkit.command.feature.entity.ExtinguishAdminCommand;
@@ -112,7 +114,9 @@ public final class SparrowBukkitCommandManager extends AbstractSparrowCommandMan
             new ItemDataPlayerCommand(this),
             new ItemCustomModelDataPlayerCommand(this),
             new ItemDisplayNamePlayerCommand(this),
-            new ItemLorePlayerCommand(this)
+            new ItemLorePlayerCommand(this),
+            new LookAdminCommand(this),
+            new LookPlayerCommand(this)
     );
 
     private final Index<String, CommandFeature<CommandSender>> INDEX = Index.create(CommandFeature::getFeatureID, FEATURES);

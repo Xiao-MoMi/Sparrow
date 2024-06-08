@@ -5,6 +5,25 @@ import net.kyori.adventure.text.TranslatableComponent;
 
 public interface MessageConstants {
 
+    TranslatableComponent.Builder NORTH = Component.translatable().key("commands.argument.blockface.north");
+    TranslatableComponent.Builder NORTH_NORTH_WEST = Component.translatable().key("commands.argument.blockface.north_north_west");
+    TranslatableComponent.Builder NORTH_WEST = Component.translatable().key("commands.argument.blockface.north_west");
+    TranslatableComponent.Builder WEST_NORTH_WEST = Component.translatable().key("commands.argument.blockface.west_north_west");
+    TranslatableComponent.Builder NORTH_NORTH_EAST = Component.translatable().key("commands.argument.blockface.north_north_east");
+    TranslatableComponent.Builder NORTH_EAST = Component.translatable().key("commands.argument.blockface.north_east");
+    TranslatableComponent.Builder EAST_NORTH_EAST = Component.translatable().key("commands.argument.blockface.east_north_east");
+    TranslatableComponent.Builder EAST = Component.translatable().key("commands.argument.blockface.east");
+    TranslatableComponent.Builder EAST_SOUTH_EAST = Component.translatable().key("commands.argument.blockface.east_south_east");
+    TranslatableComponent.Builder SOUTH_EAST = Component.translatable().key("commands.argument.blockface.south_east");
+    TranslatableComponent.Builder SOUTH_SOUTH_EAST = Component.translatable().key("commands.argument.blockface.south_south_east");
+    TranslatableComponent.Builder SOUTH = Component.translatable().key("commands.argument.blockface.south");
+    TranslatableComponent.Builder SOUTH_SOUTH_WEST = Component.translatable().key("commands.argument.blockface.south_south_west");
+    TranslatableComponent.Builder SOUTH_WEST = Component.translatable().key("commands.argument.blockface.south_west");
+    TranslatableComponent.Builder WEST_SOUTH_WEST = Component.translatable().key("commands.argument.blockface.west_south_west");
+    TranslatableComponent.Builder WEST = Component.translatable().key("commands.argument.blockface.west");
+    TranslatableComponent.Builder UP = Component.translatable().key("commands.argument.blockface.up");
+    TranslatableComponent.Builder DOWN = Component.translatable().key("commands.argument.blockface.down");
+    TranslatableComponent.Builder SELF = Component.translatable().key("commands.argument.blockface.self");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_ENTITY = Component.translatable().key("argument.entity.notfound.entity");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");
@@ -157,4 +176,9 @@ public interface MessageConstants {
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_BOUND = Component.translatable().key("commands.player.item.edit.lore.failure.bound");
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_EDIT_LORE_FAILURE_INVALID = Component.translatable().key("commands.player.item.edit.lore.failure.invalid");
     TranslatableComponent.Builder COMMANDS_PLAYER_ITEM_FAILURE_ITEMLESS = Component.translatable().key("commands.player.item.failure.itemless");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_FAILURE_FLAG = Component.translatable().key("commands.admin.look.failure.flag");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_FAILURE_UUID = Component.translatable().key("commands.admin.look.failure.uuid");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_SUCCESS_SINGLE = Component.translatable().key("commands.admin.look.success.single");
+    TranslatableComponent.Builder COMMANDS_ADMIN_LOOK_SUCCESS_MULTIPLE = Component.translatable().key("commands.admin.look.success.multiple");
+    TranslatableComponent.Builder COMMANDS_PLAYER_LOOK_SUCCESS = Component.translatable().key("commands.player.look.success");
 }
