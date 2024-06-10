@@ -70,8 +70,13 @@ public class ItemDataPlayerCommand extends BukkitCommandFeature<CommandSender> {
                     if (value instanceof Map<?,?> innerDataMap) {
                         mapToList((Map<String, Object>) innerDataMap, readableList, loopTimes + 2, true);
                     } else {
-                        readableList.add("  ".repeat(loopTimes + 1)
-                                + "<#F5F5F5>- <hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value + "'>" + value + "</click></hover></#F5F5F5>");
+                        if (value instanceof String string) {
+                            readableList.add("  ".repeat(loopTimes + 1)
+                                    + "<#F5F5F5>- <hover:show_text:'<yellow>Copy'><click:suggest_command:'" + string.replace("'", "\\'") + "'>" + value + "</click></hover></#F5F5F5>");
+                        } else {
+                            readableList.add("  ".repeat(loopTimes + 1)
+                                    + "<#F5F5F5>- <hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value + "'>" + value + "</click></hover></#F5F5F5>");
+                        }
                     }
                 }
             } else if (nbt instanceof Map<?,?> innerMap) {
@@ -117,12 +122,12 @@ public class ItemDataPlayerCommand extends BukkitCommandFeature<CommandSender> {
                     readableList.add("  ".repeat(loopTimes - 1) +
                             "<#F5F5F5>- <gradient:#FFD700:#FFFACD><hover:show_text:'<yellow>" + nbt.getClass().getSimpleName() + "'>" + entry.getKey() + "</hover></gradient>" +
                             ": " +
-                            "<#F5F5F5><hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value + "'>" + value + "</click></hover></#F5F5F5>");
+                            "<#F5F5F5><hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value.replace("'", "\\'") + "'>" + value + "</click></hover></#F5F5F5>");
                 } else {
                     readableList.add("  ".repeat(loopTimes) +
                             "<#F5F5F5><gradient:#FFD700:#FFFACD><hover:show_text:'<yellow>" + nbt.getClass().getSimpleName() + "'>" + entry.getKey() + "</hover></gradient>" +
                             ": " +
-                            "<hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value + "'>" + value + "</click></hover></#F5F5F5>");
+                            "<hover:show_text:'<yellow>Copy'><click:suggest_command:'" + value.replace("'", "\\'") + "'>" + value + "</click></hover></#F5F5F5>");
                 }
             }
         }
