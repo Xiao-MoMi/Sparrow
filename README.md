@@ -1,0 +1,1 @@
+This project is temporarily suspended due to the addition of remap for reobf code since paper 1.20.6, which caused the loading mode of jarinjar to be unable to use nms code properly and requires a restructuring of the project structure
