@@ -11,7 +11,6 @@ import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.command.parser.NamedTextColorParser;
 import net.momirealms.sparrow.common.locale.MessageConstants;
 import net.momirealms.sparrow.common.util.ArrayUtils;
-import net.momirealms.sparrow.heart.argument.NamedTextColor;
 import net.momirealms.sparrow.heart.feature.highlight.HighlightBlocks;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -61,7 +60,7 @@ public class HighlightAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .handler(commandContext -> {
                     int duration = commandContext.flags().hasFlag("highlight-duration") ? (int) commandContext.flags().getValue("highlight-duration").get() : 30;
                     net.kyori.adventure.text.format.NamedTextColor color = commandContext.flags().hasFlag("highlight-color") ? (net.kyori.adventure.text.format.NamedTextColor) commandContext.flags().getValue("highlight-color").get() : net.kyori.adventure.text.format.NamedTextColor.GREEN;
-                    NamedTextColor namedTextColor = NamedTextColor.namedColor(color.value());
+                    net.momirealms.sparrow.heart.feature.color.NamedTextColor namedTextColor = net.momirealms.sparrow.heart.feature.color.NamedTextColor.namedColor(color.value());
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     Collection<Player> players = selector.values();
                     Location location1 = commandContext.get("location1");

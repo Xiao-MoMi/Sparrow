@@ -157,7 +157,7 @@ public class DependencyManagerImpl implements DependencyManager {
         DependencyDownloadException lastError = null;
         String forceRepo = dependency.getRepo();
         List<DependencyRepository> repository = DependencyRepository.getByID(forceRepo);
-        if (repository.size() != 0) {
+        if (!repository.isEmpty()) {
             int i = 0;
             while (i < repository.size()) {
                 try {

@@ -30,6 +30,7 @@ import net.momirealms.sparrow.common.plugin.bootstrap.BootstrappedWithLoader;
 import net.momirealms.sparrow.common.plugin.bootstrap.SparrowBootstrap;
 import net.momirealms.sparrow.common.plugin.classpath.ClassPathAppender;
 import net.momirealms.sparrow.common.plugin.classpath.JarInJarClassPathAppender;
+import net.momirealms.sparrow.common.plugin.classpath.ReflectionClassPathAppender;
 import net.momirealms.sparrow.common.plugin.logging.JavaPluginLogger;
 import net.momirealms.sparrow.common.plugin.logging.PluginLogger;
 import net.momirealms.sparrow.common.plugin.scheduler.SchedulerAdapter;
@@ -88,7 +89,7 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
     public SparrowBukkitBootstrap(JavaPlugin loader) {
         this.loader = loader;
         this.logger = new JavaPluginLogger(loader.getLogger());
-        this.classPathAppender = new JarInJarClassPathAppender(getClass().getClassLoader());
+        this.classPathAppender = new ReflectionClassPathAppender(getClass().getClassLoader());
         this.plugin = new SparrowBukkitPlugin(this);
         boolean folia = false;
         try {

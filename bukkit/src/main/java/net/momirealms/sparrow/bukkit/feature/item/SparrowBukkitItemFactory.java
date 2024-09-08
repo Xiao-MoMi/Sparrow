@@ -25,7 +25,8 @@ public abstract class SparrowBukkitItemFactory extends ItemFactory<SparrowBukkit
                  "1.20", "1.20.1", "1.20.2", "1.20.3", "1.20.4" -> {
                 return new UniversalItemFactory(plugin);
             }
-            case "1.20.5", "1.20.6" -> {
+            case "1.20.5", "1.20.6",
+                 "1.21", "1.21.1", "1.21.2" -> {
                 return new ComponentItemFactory(plugin);
             }
             default -> throw new IllegalStateException("Unsupported server version: " + plugin.getBootstrap().getServerVersion());
