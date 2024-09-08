@@ -26,6 +26,7 @@ public interface MessageConstants {
     TranslatableComponent.Builder SELF = Component.translatable().key("commands.argument.blockface.self");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_PLAYER = Component.translatable().key("argument.entity.notfound.player");
     TranslatableComponent.Builder ARGUMENT_ENTITY_NOTFOUND_ENTITY = Component.translatable().key("argument.entity.notfound.entity");
+    TranslatableComponent.Builder ARGUMENT_PARSE_FAILURE_ENCHANTMENT = Component.translatable().key("argument.parse.failure.enchantment");
     TranslatableComponent.Builder COMMANDS_ADMIN_RELOAD_SUCCESS = Component.translatable().key("commands.admin.reload.success");
     TranslatableComponent.Builder COMMANDS_PLAYER_CARTOGRAPHY_TABLE_SUCCESS = Component.translatable().key("commands.player.cartography_table.success");
     TranslatableComponent.Builder COMMANDS_ADMIN_CARTOGRAPHY_TABLE_SUCCESS_SINGLE = Component.translatable().key("commands.admin.cartography_table.success.single");

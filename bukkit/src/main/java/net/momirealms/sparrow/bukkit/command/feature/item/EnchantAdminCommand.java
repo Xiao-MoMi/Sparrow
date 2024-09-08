@@ -4,11 +4,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
-import net.momirealms.sparrow.bukkit.command.parser.CustomEnchantmentParser;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
 import net.momirealms.sparrow.common.locale.MessageConstants;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Registry;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
@@ -16,15 +17,21 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
-import org.incendo.cloud.bukkit.parser.EnchantmentParser;
+import org.incendo.cloud.bukkit.parser.NamespacedKeyParser;
 import org.incendo.cloud.bukkit.parser.selector.MultipleEntitySelectorParser;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.context.CommandInput;
 import org.incendo.cloud.parser.standard.EnumParser;
 import org.incendo.cloud.parser.standard.IntegerParser;
+import org.incendo.cloud.suggestion.Suggestion;
+import org.incendo.cloud.suggestion.SuggestionProvider;
 
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 
 public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
 
@@ -42,7 +49,12 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
         return builder
                 .required(SparrowBukkitArgumentKeys.ENTITY_SELECTOR, MultipleEntitySelectorParser.multipleEntitySelectorParser(false))
                 .meta(SparrowMetaKeys.ALLOW_EMPTY_ENTITY_SELECTOR, false)
-                .required("enchantment", CustomEnchantmentParser.enchantmentParser())
+                .required("enchantment", NamespacedKeyParser.namespacedKeyComponent().suggestionProvider(new SuggestionProvider<>() {
+                    @Override
+                    public @NonNull CompletableFuture<? extends @NonNull Iterable<? extends @NonNull Suggestion>> suggestionsFuture(@NonNull CommandContext<Object> context, @NonNull CommandInput input) {
+                        return CompletableFuture.completedFuture(Registry.ENCHANTMENT.stream().map(en -> Suggestion.suggestion(en.getKey().asString())).toList());
+                    }
+                }))
                 .optional("level", IntegerParser.integerParser(1))
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(manager.flagBuilder("ignore-level"))
@@ -50,7 +62,12 @@ public class EnchantAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .flag(manager.flagBuilder("ignore-incompatible"))
                 .flag(manager.flagBuilder("slot").withComponent(EnumParser.enumParser(EquipmentSlot.class)))
                 .handler(commandContext -> {
-                    Enchantment enchantment = commandContext.get("enchantment");
+                    NamespacedKey enchantmentKey = commandContext.get("enchantment");
+                    Enchantment enchantment = Registry.ENCHANTMENT.get(enchantmentKey);
+                    if (enchantment == null) {
+                        handleFeedback(commandContext, MessageConstants.ARGUMENT_PARSE_FAILURE_ENCHANTMENT, Component.text(enchantmentKey.asString()));
+                        return;
+                    }
                     int level = commandContext.getOrDefault("level", 1);
                     EquipmentSlot slot = commandContext.flags().hasFlag("slot") ? (EquipmentSlot) commandContext.flags().getValue("slot").get() : EquipmentSlot.HAND;
                     if (!commandContext.flags().hasFlag("ignore-level") && enchantment.getMaxLevel() < level) {
