@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.PlaceholderUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
@@ -35,15 +36,20 @@ public class EnderChestAdminCommand extends BukkitCommandFeature<CommandSender> 
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.TITLE_FLAG)
                 .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
+                .flag(SparrowFlagKeys.PARSE_FLAG)
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
                     boolean customTitle = commandContext.flags().hasFlag(SparrowFlagKeys.TITLE_FLAG);
+                    boolean parse = commandContext.flags().hasFlag(SparrowFlagKeys.PARSE_FLAG);
                     var players = selector.values();
                     for (Player player : players) {
                         SparrowNMSProxy.getInstance().openCustomInventory(player, player.getEnderChest(), AdventureHelper.componentToJson(Component.translatable("container.enderchest")));
                         if (customTitle) {
                             String containerTitle = commandContext.flags().getValue(SparrowFlagKeys.TITLE_FLAG).get();
+                            if (parse) {
+                                containerTitle = PlaceholderUtils.parse(player, containerTitle);
+                            }
                             String json = AdventureHelper.componentToJson(AdventureHelper.getMiniMessage().deserialize(
                                     legacy ? AdventureHelper.legacyToMiniMessage(containerTitle) : containerTitle
                             ));

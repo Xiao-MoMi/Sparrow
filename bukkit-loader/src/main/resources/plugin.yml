@@ -5,5 +5,7 @@ author: XiaoMoMi
 contributors:
   - g2213swo
   - jhqwqmc
+softdepend:
+  - PlaceholderAPI
 api-version: 1.18
 folia-supported: true

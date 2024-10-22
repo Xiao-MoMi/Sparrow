@@ -10,6 +10,7 @@ repositories {
     maven("https://libraries.minecraft.net/")
     maven("https://repo.codemc.io/repository/maven-public/")
     maven("https://jitpack.io/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
     compileOnly("dev.folia:folia-api:${rootProject.properties["paper_version"]}-R0.1-SNAPSHOT")
     compileOnly("com.mojang:brigadier:${rootProject.properties["mojang_brigadier_version"]}")
     compileOnly("org.bstats:bstats-bukkit:${rootProject.properties["bstats_version"]}")
+    compileOnly("me.clip:placeholderapi:${rootProject.properties["placeholder_api_version"]}")
 }
 
 artifacts {

@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature.message;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.PlaceholderUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.feature.toast.AdvancementType;
@@ -40,6 +41,7 @@ public class ToastAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .required("message", StringParser.greedyFlagYieldingStringParser())
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
+                .flag(SparrowFlagKeys.PARSE_FLAG)
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
@@ -47,13 +49,17 @@ public class ToastAdminCommand extends BukkitCommandFeature<CommandSender> {
                     ProtoItemStack itemStack = commandContext.get("item");
                     ItemStack bukkitStack = itemStack.createItemStack(1, true);
                     String message = commandContext.get("message");
+                    boolean parse = commandContext.flags().hasFlag(SparrowFlagKeys.PARSE_FLAG);
                     AdvancementType type = commandContext.get("type");
                     for (Player player : players) {
+                        String temp;
+                        if (parse) temp = PlaceholderUtils.parse(player, message);
+                        else temp = message;
                         SparrowNMSProxy.getInstance().sendToast(
                                 player,
                                 bukkitStack,
                                 AdventureHelper.componentToJson(
-                                        AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(message) : message)
+                                        AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(temp) : temp)
                                 ),
                                 type
                         );

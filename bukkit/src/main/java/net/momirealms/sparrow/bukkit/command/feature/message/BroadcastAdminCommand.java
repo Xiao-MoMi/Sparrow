@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature.message;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.PlaceholderUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
@@ -35,14 +36,19 @@ public class BroadcastAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .required("message", StringParser.greedyFlagYieldingStringParser())
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
+                .flag(SparrowFlagKeys.PARSE_FLAG)
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
                     String message = commandContext.get("message");
                     boolean legacy = commandContext.flags().hasFlag(SparrowFlagKeys.LEGACY_COLOR_FLAG);
+                    boolean parse = commandContext.flags().hasFlag(SparrowFlagKeys.PARSE_FLAG);
                     for (Player player : players) {
+                        String temp;
+                        if (parse) temp = PlaceholderUtils.parse(player, message);
+                        else temp = message;
                         SparrowBukkitPlugin.getInstance().getSenderFactory().wrap(player).sendMessage(AdventureHelper.getMiniMessage().deserialize(
-                                legacy ? AdventureHelper.legacyToMiniMessage(message) : message
+                                legacy ? AdventureHelper.legacyToMiniMessage(temp) : temp
                         ));
                     }
                     var pair = resolveSelector(selector, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_SINGLE, MessageConstants.COMMANDS_ADMIN_BROADCAST_SUCCESS_MULTIPLE);

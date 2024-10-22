@@ -3,6 +3,7 @@ package net.momirealms.sparrow.bukkit.command.feature.message;
 import net.momirealms.sparrow.bukkit.SparrowNMSProxy;
 import net.momirealms.sparrow.bukkit.command.BukkitCommandFeature;
 import net.momirealms.sparrow.bukkit.command.key.SparrowBukkitArgumentKeys;
+import net.momirealms.sparrow.bukkit.util.PlaceholderUtils;
 import net.momirealms.sparrow.common.command.SparrowCommandManager;
 import net.momirealms.sparrow.common.command.key.SparrowFlagKeys;
 import net.momirealms.sparrow.common.command.key.SparrowMetaKeys;
@@ -41,6 +42,7 @@ public class TitleAdminCommand extends BukkitCommandFeature<CommandSender> {
                 .required("title", StringParser.greedyFlagYieldingStringParser())
                 .flag(SparrowFlagKeys.SILENT_FLAG)
                 .flag(SparrowFlagKeys.LEGACY_COLOR_FLAG)
+                .flag(SparrowFlagKeys.PARSE_FLAG)
                 .handler(commandContext -> {
                     MultiplePlayerSelector selector = commandContext.get(SparrowBukkitArgumentKeys.PLAYER_SELECTOR);
                     var players = selector.values();
@@ -48,6 +50,7 @@ public class TitleAdminCommand extends BukkitCommandFeature<CommandSender> {
                     int fadeIn = commandContext.get("fadeIn");
                     int stay = commandContext.get("stay");
                     int fadeOut = commandContext.get("fadeIn");
+                    boolean parse = commandContext.flags().hasFlag(SparrowFlagKeys.PARSE_FLAG);
                     String titleContent = commandContext.get("title");
                     String title;
                     String subTitle;
@@ -62,14 +65,22 @@ public class TitleAdminCommand extends BukkitCommandFeature<CommandSender> {
                         SparrowNMSProxy.getInstance().sendTitle(
                                 player,
                                 Optional.ofNullable(title)
-                                        .map(t -> AdventureHelper.componentToJson(
-                                                AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(t) : t))
-                                        )
+                                        .map(t -> {
+                                            if (parse) {
+                                                t = PlaceholderUtils.parse(player, t);
+                                            }
+                                            return AdventureHelper.componentToJson(
+                                                    AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(t) : t));
+                                        })
                                         .orElse(null),
                                 Optional.ofNullable(subTitle)
-                                        .map(t -> AdventureHelper.componentToJson(
-                                                AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(t) : t))
-                                        )
+                                        .map(t -> {
+                                            if (parse) {
+                                                t = PlaceholderUtils.parse(player, t);
+                                            }
+                                            return AdventureHelper.componentToJson(
+                                                    AdventureHelper.getMiniMessage().deserialize(legacy ? AdventureHelper.legacyToMiniMessage(t) : t));
+                                        })
                                         .orElse(null),
                                 fadeIn,
                                 stay,
