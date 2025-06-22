@@ -16,6 +16,7 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ColorableArmorMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.bukkit.data.MultipleEntitySelector;
@@ -61,7 +62,7 @@ public class DyeAdminCommand extends BukkitCommandFeature<CommandSender> {
                             }
                             ItemStack itemStack = entityEquipment.getItem(slot);
                             if (!itemStack.isEmpty()) {
-                                if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                                if (!(itemStack.getItemMeta() instanceof LeatherArmorMeta meta)) {
                                     if (entities.size() != 1) continue;
                                     handleFeedback(commandContext, MessageConstants.COMMANDS_ADMIN_DYE_FAILED_INCOMPATIBLE, Component.translatable(itemStack.translationKey()));
                                     return;

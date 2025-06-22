@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ColorableArmorMeta;
+import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.CommandManager;
 import org.incendo.cloud.minecraft.extras.parser.TextColorParser;
@@ -38,7 +39,7 @@ public class DyePlayerCommand extends BukkitCommandFeature<CommandSender> {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_DYE_FAILED_ITEMLESS);
                         return;
                     }
-                    if (!(itemStack.getItemMeta() instanceof ColorableArmorMeta meta)) {
+                    if (!(itemStack.getItemMeta() instanceof LeatherArmorMeta meta)) {
                         handleFeedback(commandContext, MessageConstants.COMMANDS_PLAYER_DYE_FAILED_INCOMPATIBLE, Component.translatable(itemStack.translationKey()));
                         return;
                     }

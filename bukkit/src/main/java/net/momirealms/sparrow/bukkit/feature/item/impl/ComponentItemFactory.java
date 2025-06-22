@@ -111,6 +111,5 @@ public class ComponentItemFactory extends SparrowBukkitItemFactory {
 
     @Override
     protected void glint(RtagItem item, Boolean glint) {
-
     }
 }

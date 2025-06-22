@@ -11,15 +11,17 @@ repositories {
     maven("https://repo.codemc.io/repository/maven-public/")
     maven("https://jitpack.io/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.momirealms.net/releases/")
 }
 
 dependencies {
     implementation(project(":common"))
     compileOnly(project(":loader"))
 
-    implementation("com.github.Xiao-MoMi:Sparrow-Heart:${rootProject.properties["sparrow_heart_version"]}")
+    implementation("net.momirealms:sparrow-heart:${rootProject.properties["sparrow_heart_version"]}")
     implementation("net.kyori:adventure-platform-bukkit:${rootProject.properties["adventure_platform_version"]}")
     implementation("net.kyori:adventure-text-minimessage:${rootProject.properties["adventure_bundle_version"]}")
+    implementation("net.kyori:adventure-text-serializer-json-legacy-impl:${rootProject.properties["adventure_bundle_version"]}")
     implementation("com.saicone.rtag:rtag:${rootProject.properties["rtag_version"]}")
     implementation("com.saicone.rtag:rtag-item:${rootProject.properties["rtag_version"]}")
 

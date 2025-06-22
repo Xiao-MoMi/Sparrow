@@ -2,6 +2,8 @@ package net.momirealms.sparrow.bukkit.feature.item;
 
 import com.saicone.rtag.RtagItem;
 import net.momirealms.sparrow.bukkit.SparrowBukkitPlugin;
+import net.momirealms.sparrow.bukkit.feature.item.impl.ComponentItemFactory1_21_4;
+import net.momirealms.sparrow.bukkit.feature.item.impl.ComponentItemFactory1_21_5;
 import net.momirealms.sparrow.bukkit.feature.item.impl.ComponentItemFactory;
 import net.momirealms.sparrow.bukkit.feature.item.impl.UniversalItemFactory;
 import net.momirealms.sparrow.common.feature.item.ItemFactory;
@@ -26,8 +28,14 @@ public abstract class SparrowBukkitItemFactory extends ItemFactory<SparrowBukkit
                 return new UniversalItemFactory(plugin);
             }
             case "1.20.5", "1.20.6",
-                 "1.21", "1.21.1", "1.21.2", "1.21.3", "1.21.4" -> {
+                 "1.21", "1.21.1", "1.21.2", "1.21.3" -> {
                 return new ComponentItemFactory(plugin);
+            }
+            case "1.21.4" -> {
+                return new ComponentItemFactory1_21_4(plugin);
+            }
+            case "1.21.5", "1.21.6" -> {
+                return new ComponentItemFactory1_21_5(plugin);
             }
             default -> throw new IllegalStateException("Unsupported server version: " + plugin.getBootstrap().getServerVersion());
         }
