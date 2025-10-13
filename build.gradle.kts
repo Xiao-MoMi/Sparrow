@@ -1,5 +1,3 @@
-import java.io.ByteArrayOutputStream
-
 plugins {
     id("java")
 }
@@ -26,18 +24,13 @@ subprojects {
         filesMatching(arrayListOf("plugin.yml", "*.yml", "*/*.yml")) {
             expand(
                 Pair("git_version", commitID),
-                Pair("project_version", rootProject.properties["project_version"]),
-                Pair("config_version", rootProject.properties["config_version"])
+                Pair("project_version", rootProject.properties["project_version"]!!),
+                Pair("config_version", rootProject.properties["config_version"]!!)
             )
         }
     }
 }
 
-fun versionBanner(): String {
-    val os = ByteArrayOutputStream()
-    project.exec {
-        commandLine = "git rev-parse --short=8 HEAD".split(" ")
-        standardOutput = os
-    }
-    return String(os.toByteArray()).trim()
-}
+fun versionBanner(): String = project.providers.exec {
+    commandLine("git", "rev-parse", "--short=8", "HEAD")
+}.standardOutput.asText.map { it.trim() }.getOrElse("Unknown")

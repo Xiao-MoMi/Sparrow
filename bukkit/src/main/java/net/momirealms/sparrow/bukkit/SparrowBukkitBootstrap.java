@@ -144,7 +144,6 @@ public class SparrowBukkitBootstrap implements SparrowBootstrap, LoaderBootstrap
         try {
             this.plugin.enable();
             this.plugin.reload();
-            getServer().getScheduler().runTask(this.loader, () -> this.serverStarting = false);
         } finally {
             this.enableLatch.countDown();
         }

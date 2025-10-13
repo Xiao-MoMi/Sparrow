@@ -28,6 +28,10 @@ public class VersionHelper {
     private static final boolean v1_21_4;
     private static final boolean v1_21_5;
     private static final boolean v1_21_6;
+    private static final boolean v1_21_7;
+    private static final boolean v1_21_8;
+    private static final boolean v1_21_9;
+    private static final boolean v1_21_10;
 
     static {
         try (InputStream inputStream = Class.forName("net.minecraft.obfuscate.DontObfuscate").getResourceAsStream("/version.json")) {
@@ -58,6 +62,10 @@ public class VersionHelper {
             v1_21_4 = version >= 12104;
             v1_21_5 = version >= 12105;
             v1_21_6 = version >= 12106;
+            v1_21_7 = version >= 12107;
+            v1_21_8 = version >= 12108;
+            v1_21_9 = version >= 12109;
+            v1_21_10 = version >= 12110;
 
             majorVersion = major;
             minorVersion = minor;
@@ -204,5 +212,21 @@ public class VersionHelper {
 
     public static boolean isOrAbove1_21_6() {
         return v1_21_6;
+    }
+
+    public static boolean isOrAbove1_21_7() {
+        return v1_21_7;
+    }
+
+    public static boolean isOrAbove1_21_8() {
+        return v1_21_8;
+    }
+
+    public static boolean isOrAbove1_21_9() {
+        return v1_21_9;
+    }
+
+    public static boolean isOrAbove1_21_10() {
+        return v1_21_10;
     }
 }
